@@ -1,0 +1,1165 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula Taller · RA3 Sistemas Auxiliares · Electricidad del Vehículo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;--surface3:#f0ece6;
+      --border:#d4d1ca;--text:#28251d;--muted:#6f6d67;--inv:#faf8f5;
+      --primary:#01696f;--success:#437a22;--danger:#b13b82;--gold:#d19900;
+      --radius:18px;--shadow:0 18px 40px rgba(35,28,18,.09);
+      --font-display:'Instrument Serif',Georgia,serif;
+      --font-body:'Inter',system-ui,sans-serif
+    }
+    [data-theme="dark"]{
+      --bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--surface3:#262422;
+      --border:#393836;--text:#e2dfd9;--muted:#a5a19b;--inv:#191816;
+      --primary:#4f98a3;--success:#76b14c;--danger:#db77b2;--gold:#e4b843;
+      --shadow:0 18px 40px rgba(0,0,0,.35)
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+    header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .topbar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .logo svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .brand small{display:block;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;line-height:1}
+    .brand strong{font-size:15px;font-weight:700}
+    .nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+    .nav a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;transition:background .2s,color .2s}
+    .nav a:hover{background:var(--surface3);color:var(--text)}
+    .theme-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:15px;transition:background .2s}
+    .theme-btn:hover{background:var(--surface3)}
+    .hero{padding:64px 0 48px;background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border-bottom:1px solid var(--border)}
+    .hero-grid{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+    @media(max-width:780px){.hero-grid{grid-template-columns:1fr}.hero-side{display:none}}
+    .eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:12px}
+    h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:400;line-height:1.1;margin-bottom:16px}
+    .lead{font-size:16px;color:var(--muted);max-width:520px;margin-bottom:24px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+    .chip{font-size:12px;font-weight:600;background:var(--surface3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--muted)}
+    .student-form{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+    .student-form input{flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border .2s}
+    .student-form input:focus{border-color:var(--primary)}
+    .save-box{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .save-status{font-size:13px;color:var(--muted);flex:1;min-width:160px}
+    .btn{font-family:var(--font-body);font-size:13px;font-weight:600;padding:9px 18px;border-radius:10px;border:none;cursor:pointer;transition:all .2s}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{filter:brightness(1.1)}
+    .btn-secondary{background:var(--surface3);color:var(--text);border:1px solid var(--border)}
+    .btn-secondary:hover{background:var(--border)}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+    .hero-side h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .stat{text-align:center;padding:12px 8px;background:var(--surface2);border-radius:12px;border:1px solid var(--border)}
+    .stat strong{display:block;font-size:22px;font-weight:800;color:var(--primary)}
+    .stat span{font-size:11px;color:var(--muted);font-weight:600}
+    .muted{color:var(--muted)}
+    .section{padding:48px 0}
+    .section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:32px}
+    .section-head h2{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400}
+    .section-head p{margin-top:4px;font-size:14px;color:var(--muted)}
+    .cards4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+    .badgebox{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:all .3s}
+    .badgebox h3{font-size:22px;margin-bottom:8px}
+    .badgebox p{font-size:13px;color:var(--muted)}
+    .badgebox.badge-lock{opacity:.5;filter:grayscale(1)}
+    .badgebox.badge-unlock{border-color:var(--success);background:linear-gradient(135deg,var(--surface),var(--surface2));opacity:1;filter:none}
+    .quiz-layout{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+    @media(max-width:700px){.quiz-layout{grid-template-columns:1fr}}
+    .status-box{position:sticky;top:80px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+    .status-box h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+    .prog-bar{height:8px;background:var(--surface3);border-radius:4px;margin-bottom:16px;overflow:hidden}
+    .prog-fill{height:100%;background:var(--primary);border-radius:4px;transition:width .4s}
+    .status-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
+    .status-row span{color:var(--muted)}
+    .status-row strong{color:var(--text)}
+    .streak-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gold);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+    .quiz-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+    .level-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:20px;margin-bottom:14px}
+    .level-tag.basico{background:#e8f5e9;color:#2e7d32}
+    .level-tag.medio{background:#fff8e1;color:#f57f17}
+    .level-tag.alto{background:#fce4ec;color:#880e4f}
+    [data-theme="dark"] .level-tag.basico{background:#1b3a1f;color:#76b14c}
+    [data-theme="dark"] .level-tag.medio{background:#3a2e00;color:#e4b843}
+    [data-theme="dark"] .level-tag.alto{background:#3a0a20;color:#db77b2}
+    .question-text{font-size:17px;font-weight:600;line-height:1.5;margin-bottom:22px}
+    .options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+    .opt-btn{text-align:left;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface2);color:var(--text);font-family:var(--font-body);font-size:14px;cursor:pointer;transition:all .2s;line-height:1.4}
+    .opt-btn:hover:not(:disabled){border-color:var(--primary);background:var(--surface3)}
+    .opt-btn.correct{border-color:var(--success);background:#f0fce8;color:#2e5c10}
+    .opt-btn.wrong{border-color:var(--danger);background:#fce8f3;color:#7a1045}
+    [data-theme="dark"] .opt-btn.correct{background:#1a2e10;color:#76b14c}
+    [data-theme="dark"] .opt-btn.wrong{background:#2e0a1a;color:#db77b2}
+    .opt-btn:disabled{cursor:default}
+    .feedback{padding:12px 16px;border-radius:12px;font-size:14px;margin-bottom:16px;display:none}
+    .feedback.show{display:block}
+    .feedback.ok{background:#f0fce8;border:1px solid var(--success);color:#2e5c10}
+    .feedback.fail{background:#fce8f3;border:1px solid var(--danger);color:#7a1045}
+    [data-theme="dark"] .feedback.ok{background:#1a2e10;color:#76b14c}
+    [data-theme="dark"] .feedback.fail{background:#2e0a1a;color:#db77b2}
+    .reward{font-size:28px;text-align:center;margin-bottom:8px;display:none}
+    .reward.show{display:block}
+    .gate-msg{padding:16px;border-radius:12px;font-size:14px;background:var(--surface3);border:1px solid var(--border);margin-bottom:16px;display:none}
+    .gate-msg.show{display:block}
+    .review-box{padding:16px;border-radius:12px;font-size:13px;background:var(--surface3);border:1px solid var(--border);color:var(--muted);margin-top:12px;display:none}
+    .review-box.show{display:block}
+    .nav-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .locked-notice{text-align:center;padding:40px 24px;color:var(--muted);font-size:15px}
+    .locked-notice .lock-icon{font-size:40px;margin-bottom:12px}
+    .table{width:100%;border-collapse:collapse;font-size:14px}
+    .table th{text-align:left;padding:10px 14px;border-bottom:2px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+    .table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+    .report-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+    .report-box p{margin-bottom:16px;font-size:15px}
+    footer{padding:32px 0;border-top:1px solid var(--border);text-align:center;font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap topbar">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+      </div>
+      <div>
+        <small>RA3 · Electricidad del Vehículo</small>
+        <strong>Aula Taller</strong>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#ud2">UD2</a>
+      <a href="#ud3">UD3</a>
+      <a href="#ud4">UD4</a>
+      <a href="#final">Final RA3</a>
+      <a href="#informe">Informe</a>
+      <button class="theme-btn" data-theme-toggle>◐</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">RA3 · Electricidad del Vehículo</span>
+      <h1>Aula Taller</h1>
+      <p class="lead">Realiza el mantenimiento básico de los sistemas auxiliares del vehículo, analizando los elementos que componen cada circuito y relacionando sus parámetros de funcionamiento con las especificaciones del fabricante.</p>
+      <div class="chips">
+        <span class="chip">3 unidades didácticas</span>
+        <span class="chip">40 preguntas por unidad</span>
+        <span class="chip">Se extraen 20 por intento</span>
+        <span class="chip">Guardado local</span>
+      </div>
+      <div class="student-form">
+        <input id="student-name" type="text" placeholder="Escribe el nombre del alumno">
+        <button class="btn btn-primary" id="save-student">Guardar nombre</button>
+      </div>
+      <div class="save-box">
+        <div class="save-status" id="save-status">Sin perfil cargado</div>
+        <button class="btn btn-secondary" id="resume-student">Cargar progreso</button>
+        <button class="btn btn-secondary" id="clear-student">Reiniciar perfil</button>
+      </div>
+    </div>
+    <aside class="panel hero-side">
+      <h3>Panel del alumno</h3>
+      <div class="hero-stats">
+        <div class="stat"><strong id="global-points">0</strong><br><span class="muted">Puntos</span></div>
+        <div class="stat"><strong id="global-stars">0</strong><br><span class="muted">Estrellas</span></div>
+        <div class="stat"><strong id="global-streak">0</strong><br><span class="muted">Mejor racha</span></div>
+        <div class="stat"><strong id="global-units">0/3</strong><br><span class="muted">UD completadas</span></div>
+        <div class="stat"><strong id="global-saves">0</strong><br><span class="muted">Guardados</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Insignias del recorrido</h2>
+        <p class="muted">Supera cada unidad en orden para desbloquear la siguiente y acceder a la prueba final.</p>
+      </div>
+    </div>
+    <div class="cards4">
+      <div class="badgebox badge-lock" id="badge-ud2">
+        <h3>🔌 UD2</h3>
+        <p>Elementos de los circuitos eléctricos</p>
+      </div>
+      <div class="badgebox badge-lock" id="badge-ud3">
+        <h3>💡 UD3</h3>
+        <p>Circuito de alumbrado y maniobras</p>
+      </div>
+      <div class="badgebox badge-lock" id="badge-ud4">
+        <h3>🪟 UD4</h3>
+        <p>Otros circuitos eléctricos</p>
+      </div>
+      <div class="badgebox badge-lock" id="badge-final">
+        <h3>🏆 Final RA3</h3>
+        <p>Prueba final integradora</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="quizzes"></div>
+
+<section class="section" id="informe">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Informe de resultados</h2>
+        <p class="muted">Resumen de tu progreso en este resultado de aprendizaje.</p>
+      </div>
+    </div>
+    <div class="report-box" id="report-box">
+      <p><strong>Alumno:</strong> <span id="report-name">Sin nombre</span></p>
+      <table class="table">
+        <thead><tr><th>Bloque</th><th>Mejor resultado</th><th>Intentos</th><th>Último</th><th>Nivel</th></tr></thead>
+        <tbody id="report-table"></tbody>
+      </table>
+      <div class="review-box" id="global-diagnosis" style="display:block;margin-top:16px">
+        <strong>Diagnóstico global:</strong> Completa al menos una prueba para ver el diagnóstico.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Aula Taller · Electricidad del Vehículo · RA3 · Ciclo Formativo Grado Básico</div>
+</footer>
+
+<script>
+(function(){
+  const root=document.documentElement,btn=document.querySelector('[data-theme-toggle]');
+  let theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  root.setAttribute('data-theme',theme);
+  btn.addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';root.setAttribute('data-theme',theme);});
+})();
+
+const storagePrefix='aula-taller-elec-ra3-v1';
+const maxAttemptsPerBlock=3;
+const student={name:'Sin nombre'};
+const globalState={points:0,stars:0,bestStreak:0,completedUnits:new Set(),results:{},saveCount:0};
+
+const unitIds=['ud2','ud3','ud4'];
+const unlockOrder=[...unitIds,'final'];
+
+const unlockRules={
+  ud2:null,
+  ud3:{prev:'ud2',score:7,label:'Necesitas al menos 70% en UD2 o acertar todas las básicas para desbloquear UD3.'},
+  ud4:{prev:'ud3',score:7,label:'Necesitas al menos 70% en UD3 o acertar todas las básicas para desbloquear UD4.'},
+  final:{prev:'ud4',score:7,label:'Necesitas superar las tres unidades para acceder a la prueba final.'}
+};
+
+const unitMeta={
+  ud2:['Evaluación UD2 · Elementos de los Circuitos Eléctricos','Batería, interruptores, relés, fusibles, lámparas, motores, cableado y normas de seguridad. 40 preguntas, se extraen 20.'],
+  ud3:['Evaluación UD3 · Circuito de Alumbrado y Maniobras','Iluminación, faros, pilotos, lámparas, regloscopio y circuitos de maniobra. 40 preguntas, se extraen 20.'],
+  ud4:['Evaluación UD4 · Otros Circuitos Eléctricos','Limpialuneta, elevalunas, cierre centralizado, luneta térmica y espejos eléctricos. 40 preguntas, se extraen 20.'],
+  final:['Evaluación Final RA3 · Sistemas Auxiliares','10 preguntas progresivas que integran los contenidos de las tres unidades.']
+};
+
+const reviewMessages={
+  ud2:{
+    bateria_elem:'Repasa la batería como elemento del circuito: bornes, conexión y función en el sistema.',
+    interruptores:'Repasa los interruptores y conmutadores: tipos, función y verificación de continuidad.',
+    reles:'Repasa los relés: estructura, principio de funcionamiento y aplicaciones en el automóvil.',
+    fusibles:'Repasa los fusibles: tipos, calibres, verificación y sustitución según especificaciones.',
+    lamparas_elem:'Repasa los tipos de lámparas utilizadas en el automóvil y sus características eléctricas.',
+    cableado:'Repasa el cableado y las conexiones: códigos de color, sección y técnicas de empalme.',
+    seguridad_elem:'Repasa las normas de seguridad en intervenciones eléctricas y gestión de residuos.'
+  },
+  ud3:{
+    alumbrado:'Repasa el circuito de alumbrado: componentes, mandos y funcionamiento del sistema de luces.',
+    faros:'Repasa los faros: tipos, lámparas utilizadas (halógenas, xenón, LED) y ajuste con regloscopio.',
+    pilotos:'Repasa los pilotos traseros y laterales: tipos de lámparas, nomenclatura y sustitución.',
+    maniobra:'Repasa los circuitos de maniobra: bocinas, limpiaparabrisas y otros accionamientos.',
+    reglaje:'Repasa el reglaje de faros con regloscopio: procedimiento, distancias y ángulos reglamentarios.'
+  },
+  ud4:{
+    limpialuneta:'Repasa el circuito de limpialuneta y lavaluneta: componentes y funcionamiento.',
+    elevalunas:'Repasa el circuito de elevalunas eléctrico: motor, interruptores y protección antipinzamiento.',
+    cierre:'Repasa el circuito de cierre centralizado: actuadores, mando y verificación.',
+    luneta_termica:'Repasa la luneta térmica: filamentos, funcionamiento y comprobación de continuidad.',
+    espejos:'Repasa los espejos exteriores eléctricos: motor de ajuste, calefacción y mandos.'
+  },
+  final:{
+    integracion:'Repasa la relación entre los distintos sistemas auxiliares y sus elementos comunes.',
+    procedimiento:'Repasa los procedimientos de sustitución y verificación de elementos auxiliares.',
+    seguridad:'Refuerza las normas de seguridad y los EPI necesarios en trabajos de sistemas auxiliares.'
+  }
+};
+
+const questionPools={
+
+  // ══════════════════════════════════════════════════════════════════
+  // UD2 — ELEMENTOS DE LOS CIRCUITOS ELÉCTRICOS EN EL AUTOMÓVIL
+  // ══════════════════════════════════════════════════════════════════
+  ud2:[
+    // ── BÁSICO (8)
+    {band:'b',tag:'fusibles',level:'Básico',points:10,
+      q:'¿Cuál es la función de un fusible en un circuito eléctrico del automóvil?',
+      options:['Proteger el circuito cortando la corriente cuando esta supera un valor máximo','Amplificar la corriente para que llegue más potencia al receptor','Almacenar energía eléctrica para picos de demanda','Regular la tensión de la batería a 12 V constantes'],
+      correct:0,explanation:'El fusible es un elemento de protección: su hilo conductor funde cuando la intensidad supera su calibre, abriendo el circuito y evitando daños en el cableado o los componentes.'},
+
+    {band:'b',tag:'reles',level:'Básico',points:10,
+      q:'¿Para qué sirve un relé en un circuito eléctrico del automóvil?',
+      options:['Controlar un circuito de alta corriente mediante una señal de baja corriente','Proteger el circuito frente a cortocircuitos','Convertir corriente alterna en corriente continua','Medir la resistencia de los componentes del circuito'],
+      correct:0,explanation:'El relé es un interruptor electromagnético: una bobina de baja corriente activa un contacto que puede conmutar circuitos de mucha mayor corriente, protegiendo los mandos del conductor.'},
+
+    {band:'b',tag:'interruptores',level:'Básico',points:10,
+      q:'¿Qué diferencia existe entre un interruptor y un conmutador?',
+      options:['El interruptor abre o cierra un único circuito; el conmutador desvía la corriente entre dos o más circuitos','El interruptor trabaja con alta tensión y el conmutador con baja tensión','El interruptor es eléctrico y el conmutador es mecánico','No existe diferencia funcional; son sinónimos en automoción'],
+      correct:0,explanation:'El interruptor tiene dos posiciones: circuito abierto o cerrado. El conmutador tiene al menos dos circuitos de salida y puede desviar la corriente de uno a otro (p. ej., luces de cruce/carretera).'},
+
+    {band:'b',tag:'lamparas_elem',level:'Básico',points:10,
+      q:'¿Qué tipo de lámpara de automóvil contiene gas halógeno en su interior para mejorar su eficiencia?',
+      options:['Lámpara halógena','Lámpara incandescente convencional','Lámpara de descarga de xenón','Lámpara LED'],
+      correct:0,explanation:'Las lámparas halógenas contienen un gas halógeno (yodo o bromo) que permite regenerar el filamento de wolframio, aumentando su vida útil y luminosidad respecto a las incandescentes convencionales.'},
+
+    {band:'b',tag:'fusibles',level:'Básico',points:10,
+      q:'¿Cómo se verifica si un fusible está fundido?',
+      options:['Visualmente (el hilo interno está roto) o con el polímetro en posición de continuidad','Midiendo la tensión en sus bornes con el motor en marcha','Comprobando que huele a quemado','Con el densímetro de batería'],
+      correct:0,explanation:'Un fusible fundido se puede detectar visualmente (el hilo metálico interno está interrumpido) o mediante el polímetro: en continuidad debe marcar 0 Ω; si marca infinito, está fundido.'},
+
+    {band:'b',tag:'cableado',level:'Básico',points:10,
+      q:'¿Qué indica el color del aislante de un cable en el cableado del automóvil?',
+      options:['El circuito al que pertenece y su función, según el código de colores del fabricante','La sección del conductor en mm²','La temperatura máxima de trabajo','El fabricante del mazo de cables'],
+      correct:0,explanation:'En automoción los colores del aislante identifican el circuito: por ejemplo, el negro o marrón suele ser masa, el rojo positivo de batería, etc. Cada fabricante tiene su propio código de colores recogido en el manual eléctrico.'},
+
+    {band:'b',tag:'bateria_elem',level:'Básico',points:10,
+      q:'¿Qué borne de la batería debe identificarse correctamente antes de cualquier intervención eléctrica?',
+      options:['El borne negativo (masa), que debe desconectarse primero para seguridad','El borne positivo, que es siempre de mayor diámetro','Ambos bornes son idénticos en las baterías modernas','Solo el borne de mayor corriente de arranque'],
+      correct:0,explanation:'El borne negativo (masa) debe identificarse y desconectarse primero en cualquier intervención eléctrica para evitar cortocircuitos accidentales al trabajar con herramientas metálicas cerca de la carrocería.'},
+
+    {band:'b',tag:'seguridad_elem',level:'Básico',points:10,
+      q:'¿Dónde deben depositarse los fusibles fundidos y los cables eléctricos deteriorados retirados del vehículo?',
+      options:['En el contenedor de residuos eléctricos y electrónicos (RAEE) del taller','En la basura general del taller','En el contenedor de metales junto con los recambios metálicos','En el desagüe del taller junto con otros líquidos residuales'],
+      correct:0,explanation:'Los fusibles y cables son residuos eléctricos y electrónicos (RAEE) y deben depositarse en los contenedores específicos del taller para su recogida y gestión por gestores autorizados.'},
+
+    // ── MEDIO (16)
+    {band:'m',tag:'fusibles',level:'Medio',points:15,
+      q:'Al sustituir un fusible fundido de 15 A por uno de 25 A "porque no había del mismo calibre", ¿qué riesgo se genera?',
+      options:['El cable puede sobrecalentarse y provocar un incendio, porque el fusible de mayor calibre no protege ese circuito','No hay ningún riesgo si el fusible nuevo es de la misma forma física','El receptor funcionará con más potencia de la diseñada','El alternador compensará la mayor demanda sin consecuencias'],
+      correct:0,explanation:'El fusible protege el cable, no el receptor. Si se pone uno de mayor calibre, el cable puede soportar más corriente de la que aguanta su sección, calentándose hasta fundir el aislante y provocar un incendio eléctrico.'},
+
+    {band:'m',tag:'reles',level:'Medio',points:15,
+      q:'¿Qué ocurre cuando la bobina del relé recibe tensión?',
+      options:['Genera un campo magnético que atrae el núcleo móvil y cierra (o abre) los contactos de potencia','Convierte la corriente continua en alterna para accionar el receptor','Eleva la tensión de 12 V a 220 V para los circuitos de alta potencia','Corta automáticamente el circuito si la corriente supera el calibre del relé'],
+      correct:0,explanation:'Al energizar la bobina del relé, el campo magnético generado atrae la armadura metálica móvil que cierra (relé normalmente abierto) o abre (relé normalmente cerrado) los contactos de potencia del circuito controlado.'},
+
+    {band:'m',tag:'reles',level:'Medio',points:15,
+      q:'¿Cómo se puede verificar el funcionamiento de un relé con el polímetro?',
+      options:['Midiendo continuidad entre los contactos de potencia antes y después de energizar la bobina (12 V en los terminales de bobina)','Midiendo la tensión en sus bornes con el motor al ralentí','Comprobando que tiene la misma resistencia que el fusible correspondiente','Solo puede verificarse en un banco de pruebas especializado'],
+      correct:0,explanation:'Con el polímetro en continuidad: sin tensión en la bobina, los contactos NA deben estar abiertos (infinito). Al aplicar 12 V a la bobina, deben cerrarse (0 Ω). Si no cambian, el relé está defectuoso.'},
+
+    {band:'m',tag:'interruptores',level:'Medio',points:15,
+      q:'¿Cómo se verifica la continuidad de un interruptor con el polímetro?',
+      options:['Desconectado del circuito, en posición abierta debe marcar infinito y en posición cerrada debe marcar 0 Ω','Midiendo la tensión en los bornes con el circuito conectado y el motor en marcha','Comprobando que la resistencia interna es superior a 10 kΩ','Con el circuito bajo tensión, midiendo la caída de tensión en sus bornes'],
+      correct:0,explanation:'Para verificar un interruptor se usa el ohmímetro o función de continuidad: circuito abierto = resistencia infinita; circuito cerrado = resistencia casi nula (0 Ω). Siempre se hace sin tensión en el circuito.'},
+
+    {band:'m',tag:'lamparas_elem',level:'Medio',points:15,
+      q:'¿Qué información proporciona la nomenclatura serigrafiada en una lámpara de automóvil (p. ej. "W5W")?',
+      options:['El tipo de casquillo (W = cuña), la potencia (5 W) y la tensión (W = 12 V según código UNECE)','Solo la potencia máxima que puede consumir la lámpara','La temperatura de color en grados Kelvin','El fabricante y el año de fabricación de la lámpara'],
+      correct:0,explanation:'La nomenclatura UNECE de lámparas indica: primer carácter = tipo de casquillo (W = cuña, B = bayoneta, H = halógena...), número = potencia en vatios, último carácter = tensión nominal según código. W5W = casquillo cuña, 5 W, 12 V.'},
+
+    {band:'m',tag:'cableado',level:'Medio',points:15,
+      q:'¿Qué consecuencia tiene utilizar un cable de sección insuficiente en un circuito de alta demanda?',
+      options:['Sobrecalentamiento del cable, caída de tensión excesiva y posible incendio','El receptor funcionará igual pero el fusible se fundirá más rápido','El alternador aumentará su tensión para compensar la pérdida','No hay consecuencias si el fusible tiene el calibre correcto'],
+      correct:0,explanation:'Un cable con sección insuficiente tiene mayor resistencia: disipa más calor (P=I²R), genera mayor caída de tensión y puede fundir el aislante. El fusible protege el cable, pero si la sección es incorrecta, el cable puede calentarse antes de que el fusible actúe.'},
+
+    {band:'m',tag:'cableado',level:'Medio',points:15,
+      q:'¿Qué es la caja de interconexiones (caja de fusibles/relés) en el automóvil?',
+      options:['Un módulo centralizado que agrupa los fusibles, relés y conexiones de los principales circuitos del vehículo','Una batería de reserva para los sistemas de seguridad','El módulo de control del motor (ECU)','El soporte del mazo de cables del cuadro de instrumentos'],
+      correct:0,explanation:'La caja de interconexiones (habitualmente ubicada en el habitáculo y en el compartimento motor) centraliza los fusibles y relés de protección y conmutación de todos los principales sistemas eléctricos del vehículo.'},
+
+    {band:'m',tag:'seguridad_elem',level:'Medio',points:15,
+      q:'¿Qué tipo de residuo genera la sustitución de una batería de plomo-ácido?',
+      options:['Residuo peligroso: la batería usada contiene plomo y ácido sulfúrico y debe entregarse a un punto de recogida autorizado','Residuo no peligroso asimilable a urbano','Chatarra metálica ordinaria que puede ir al contenedor de metal','Residuo inerte que puede depositarse en vertedero convencional'],
+      correct:0,explanation:'Las baterías de plomo-ácido son residuos peligrosos (plomo y ácido). Deben entregarse al proveedor del recambio (obligado a recogerlas) o a un punto limpio/gestor autorizado. Está prohibido tirarlas a la basura.'},
+
+    {band:'m',tag:'bateria_elem',level:'Medio',points:15,
+      q:'¿Cuántos elementos (celdas) tiene una batería de plomo-ácido de 12 V y qué tensión aporta cada uno?',
+      options:['6 celdas de 2 V cada una','12 celdas de 1 V cada una','3 celdas de 4 V cada una','4 celdas de 3 V cada una'],
+      correct:0,explanation:'Cada celda de plomo-ácido genera aproximadamente 2 V. Una batería de 12 V tiene 6 celdas conectadas en serie: 6 × 2 V = 12 V nominales.'},
+
+    {band:'m',tag:'lamparas_elem',level:'Medio',points:15,
+      q:'¿Por qué no se debe tocar con los dedos el bulbo de cristal de una lámpara halógena al sustituirla?',
+      options:['La grasa de los dedos deja depósitos que crean puntos calientes al calentar la lámpara, pudiendo hacerla estallar','Porque la lámpara tiene alta tensión y puede producir una descarga','Porque el cristal es frágil y el calor de la mano puede romperlo directamente','Porque la grasa contamina el gas halógeno y apaga la lámpara inmediatamente'],
+      correct:0,explanation:'La grasa o sudor de los dedos deja residuos orgánicos en el bulbo de cuarzo. Al alcanzar temperaturas de trabajo (>300°C), estos residuos se carbonifican, crean puntos de calor no uniformes y pueden provocar la rotura del bulbo por estrés térmico.'},
+
+    {band:'m',tag:'reles',level:'Medio',points:15,
+      q:'Un relé de bocina está defectuoso y la bocina suena constantemente sin accionar el mando. ¿Cuál es la causa probable?',
+      options:['Los contactos de potencia del relé están soldados (pegados) en posición cerrada','La bobina del relé no recibe tensión del mando','El fusible del circuito de bocina está fundido','El conmutador de bocina tiene exceso de resistencia interna'],
+      correct:0,explanation:'Si los contactos de potencia quedan soldados (pegados) por una chispa o sobreintensidad, el relé cierra el circuito permanentemente aunque la bobina no esté energizada. La bocina suena aunque no se accione el mando.'},
+
+    {band:'m',tag:'interruptores',level:'Medio',points:15,
+      q:'¿Qué tipo de interruptor se utiliza normalmente para la luz de cortesía del interior del vehículo al abrir la puerta?',
+      options:['Interruptor de puerta (tipo pulsador normalmente cerrado que se abre al cerrar la puerta)','Relé temporizado activado por el cierre centralizado','Sensor de efecto Hall en el marco de la puerta','Conmutador de palanca manual en el cuadro de instrumentos'],
+      correct:0,explanation:'La luz de cortesía usa un interruptor de puerta: un pulsador normalmente cerrado (NC) que al cerrar la puerta se abre (corta la corriente) y al abrir la puerta se cierra (enciende la luz). Es un diseño simple y fiable.'},
+
+    {band:'m',tag:'fusibles',level:'Medio',points:15,
+      q:'Un circuito funde repetidamente el fusible recién instalado. ¿Cuál es el diagnóstico correcto?',
+      options:['Existe un cortocircuito o una sobrecarga en el circuito que debe localizarse antes de sustituir el fusible de nuevo','El fusible instalado tiene el calibre incorrecto y hay que poner uno de mayor amperaje','La batería tiene exceso de tensión y hay que sustituirla','El relé del circuito necesita lubricación para reducir su consumo'],
+      correct:0,explanation:'El fusible es el síntoma, no la causa. Si funde repetidamente, hay un fallo en el circuito (cortocircuito, sobrecarga, consumidor averiado) que debe diagnosticarse. Instalar un fusible de mayor calibre es peligroso.'},
+
+    {band:'m',tag:'seguridad_elem',level:'Medio',points:15,
+      q:'¿Qué precaución debe tomarse antes de intervenir en el circuito eléctrico de cualquier sistema auxiliar?',
+      options:['Desconectar el borne negativo de la batería y verificar con el voltímetro que no hay tensión residual en el circuito','Solo apagar el motor y esperar 30 segundos','Es suficiente con poner el interruptor del sistema en posición OFF','Solo es necesario desconectar si el sistema tiene más de 24 V'],
+      correct:0,explanation:'Antes de cualquier intervención eléctrica hay que desconectar el negativo de la batería (elimina la fuente de energía) y verificar con el voltímetro que no hay tensión residual en condensadores u otros elementos del circuito.'},
+
+    {band:'m',tag:'cableado',level:'Medio',points:15,
+      q:'¿Qué es un sensor en el contexto de los circuitos eléctricos del automóvil?',
+      options:['Un dispositivo que convierte una magnitud física (temperatura, presión, posición) en una señal eléctrica para la centralita','Un componente que protege los circuitos frente a inversiones de polaridad','Un tipo de relé de estado sólido sin partes móviles','Un conector estanco para circuitos expuestos a la intemperie'],
+      correct:0,explanation:'Los sensores son transductores: convierten magnitudes físicas (temperatura del refrigerante, posición del cigüeñal, presión del aceite, etc.) en señales eléctricas (tensión o resistencia variable) que la ECU puede interpretar.'},
+
+    // ── ALTO (16)
+    {band:'a',tag:'fusibles',level:'Alto',points:20,
+      q:'Al diagnosticar un circuito con el fusible fundido, el técnico encuentra que el cable entre el fusible y el receptor tiene el aislante derretido en un tramo. ¿Cuál es la causa raíz y la actuación correcta?',
+      options:['Cortocircuito a masa en ese tramo del cable; hay que localizar y reparar el punto de rozamiento o daño en el aislante antes de restaurar el circuito','Sustituir el cable por uno de mayor sección para que soporte más corriente','Instalar un fusible de mayor calibre para que no funda más','El aislante fundido es normal en cables de alta potencia; solo hay que reponer el fusible'],
+      correct:0,explanation:'El aislante fundido indica que el cable ha conducido más corriente de la que soporta, probablemente por un cortocircuito (contacto del conductor con la masa en ese punto). Reparar el cable dañado y localizar la causa del cortocircuito es imprescindible antes de restaurar el fusible.'},
+
+    {band:'a',tag:'reles',level:'Alto',points:20,
+      q:'¿Por qué se utiliza un relé para controlar el circuito de los faros en lugar de hacer pasar toda la corriente directamente por el interruptor del conductor?',
+      options:['Para que el interruptor del conductor solo maneje la pequeña corriente de la bobina del relé, protegiendo el mando y el mazo de cables del habitáculo de corrientes altas','Porque los relés reducen el consumo de los faros al limitar la tensión','Para poder controlar los faros desde varios puntos del vehículo a la vez','Porque el interruptor de los faros no soporta corriente continua'],
+      correct:0,explanation:'Los faros consumen varios amperios. Hacer pasar esa corriente por el interruptor del salpicadero requeriría cables gruesos en el habitáculo y un interruptor robusto. El relé resuelve esto: el mando activa la bobina (baja corriente) y el relé conmuta el circuito de alta corriente cerca de los propios faros.'},
+
+    {band:'a',tag:'interruptores',level:'Alto',points:20,
+      q:'Un interruptor de elevalunas presenta resistencia de contacto elevada (2 Ω medidos con el ohmetro). ¿Qué consecuencia tiene y cómo afecta al motor del elevalunas?',
+      options:['El motor recibirá menor tensión (caída de tensión en el interruptor = I×R), funcionando más lento y calentándose; puede reducir la vida útil del motor','No hay consecuencia; los motores de elevalunas toleran variaciones de hasta 5 Ω','El fusible del circuito fundirá inmediatamente','El motor girará más rápido por efecto de la resistencia adicional'],
+      correct:0,explanation:'Una resistencia de 2 Ω con una corriente de, por ejemplo, 5 A produce una caída de 10 V (V=I×R). El motor solo recibe 2 V en lugar de 12 V, funcionando muy lento o no funcionando. Además el interruptor disipa calor (P=I²R = 50 W) y puede dañarse.'},
+
+    {band:'a',tag:'lamparas_elem',level:'Alto',points:20,
+      q:'¿Cuál es la ventaja principal de las lámparas LED frente a las halógenas en los sistemas auxiliares del vehículo?',
+      options:['Mayor eficiencia luminosa (más lúmenes por vatio), mayor vida útil y menor consumo eléctrico, aunque requieren electrónica de control específica','Mayor potencia luminosa absoluta con el mismo consumo eléctrico y compatible con cualquier instalación sin modificaciones','Menor coste de adquisición y sustitución directa sin adaptación del circuito','Mayor temperatura de color (más blancas) como única ventaja real frente a las halógenas'],
+      correct:0,explanation:'Los LEDs son mucho más eficientes (80-100 lm/W frente a 15-25 lm/W de las halógenas) y duran decenas de miles de horas. Como contrapartida necesitan un controlador de corriente específico y disipación térmica adecuada, por lo que no siempre son sustitución directa.'},
+
+    {band:'a',tag:'cableado',level:'Alto',points:20,
+      q:'Al realizar un empalme en el mazo de cables del vehículo, ¿qué técnica garantiza la mayor fiabilidad a largo plazo?',
+      options:['Soldadura con estaño y aislamiento con termorretráctil, o conector de crimpado específico para automoción; nunca cinta aislante sobre un empalme sin soldar','Entorchar los hilos y cubrirlos con cinta aislante estándar','Usar un conector de empalme de tipo Wago (palanca)','Cualquier técnica es válida si se protege de la humedad con silicona'],
+      correct:0,explanation:'Los empalmes sin soldar ni crimpado se aflojan con las vibraciones. La cinta aislante ordinaria se degrada con el calor y el tiempo. La soldadura+termorretráctil o el crimpado con conector de automoción garantizan continuidad eléctrica y estanqueidad a largo plazo.'},
+
+    {band:'a',tag:'seguridad_elem',level:'Alto',points:20,
+      q:'Durante el desmontaje del cuadro de instrumentos para acceder al mazo de cables, el técnico nota que varios conectores están corroídos. ¿Cuál es el procedimiento correcto?',
+      options:['Limpiar los contactos con spray limpia contactos eléctricos y verificar continuidad tras la limpieza; si el conector está muy deteriorado, sustituirlo','Aplicar grasa de silicona directamente sobre los contactos para protegerlos','Lijar los contactos con papel de lija fino para eliminar la corrosión mecánicamente','La corrosión leve es normal y no afecta al funcionamiento; continuar el montaje'],
+      correct:0,explanation:'Los contactos corroídos aumentan la resistencia de contacto, generando caídas de tensión, fallos intermitentes y calor. El limpiador de contactos eléctricos disuelve la oxidación. Si el daño es estructural, hay que sustituir el conector para garantizar la fiabilidad.'},
+
+    {band:'a',tag:'bateria_elem',level:'Alto',points:20,
+      q:'¿Por qué algunos vehículos modernos disponen de dos baterías: una de 12 V para los sistemas convencionales y otra de alta tensión (HV)?',
+      options:['La batería HV alimenta el motor eléctrico de tracción (híbridos/eléctricos), mientras la de 12 V alimenta los sistemas auxiliares convencionales; ambas son necesarias por razones de seguridad y eficiencia','Para aumentar la autonomía eléctrica duplicando la capacidad de almacenamiento','Porque la normativa exige dos baterías independientes en todos los vehículos de nueva fabricación desde 2020','Para que si una falla, la otra pueda arrancar el motor de combustión de emergencia'],
+      correct:0,explanation:'En vehículos híbridos y eléctricos, la batería HV (100-800 V) alimenta el motor de tracción. La batería de 12 V convencional sigue siendo necesaria para arranque de la electrónica, sistemas auxiliares y seguridad. Mezclar ambas tensiones sería inviable e inseguro.'},
+
+    {band:'a',tag:'reles',level:'Alto',points:20,
+      q:'Un relé de intermitencias produce destellos a velocidad incorrecta (muy rápida) en el cuadro de instrumentos. ¿Cuál es la causa más probable en un vehículo con lámparas convencionales?',
+      options:['Una de las bombillas del circuito de intermitencias está fundida, reduciendo la resistencia total del circuito y acelerando el ciclo del relé térmico','El relé está defectuoso y hay que sustituirlo sin más diagnóstico','La batería está descargada y no suministra suficiente tensión','El interruptor de intermitencias tiene exceso de resistencia interna'],
+      correct:0,explanation:'Los relés de intermitencias térmicos (aún presentes en muchos vehículos) funcionan por la carga del circuito: al fundirse una bombilla, la resistencia total disminuye, la corriente aumenta y el bimetal oscila más rápido. Es el método tradicional de detección de bombilla fundida.'},
+
+    {band:'a',tag:'fusibles',level:'Alto',points:20,
+      q:'¿Qué es un fusible de cartucho cerámico y en qué circuitos del automóvil se utiliza típicamente?',
+      options:['Un fusible de alta capacidad (60-200 A) alojado en un cartucho cerámico, usado en el circuito principal de batería, alternador y arranque por su mayor robustez térmica','Un fusible de baja potencia para circuitos de señal de la ECU','Un fusible de diseño europeo equivalente al fusible de cuchilla americano','Un fusible autoreparable (PTC) que se recupera tras enfriarse'],
+      correct:0,explanation:'Los fusibles cerámicos de alta capacidad protegen los circuitos de gran demanda (cable principal de batería, cable del alternador, circuito de arranque). La cerámica soporta el arco eléctrico al fundir altas corrientes sin riesgo de rotura.'},
+
+    {band:'a',tag:'interruptores',level:'Alto',points:20,
+      q:'Al comprobar un conmutador de luces con el polímetro, se obtiene una resistencia de 0,8 Ω en posición de luces largas. El manual especifica 0 Ω. ¿Qué indica y qué consecuencia tiene?',
+      options:['El conmutador tiene resistencia de contacto elevada por oxidación o desgaste; provoca caída de tensión y calentamiento, debiendo sustituirse','Es un valor dentro de tolerancia normal para contactos de cobre','Indica que el conmutador está en buen estado y la resistencia es la nominal del circuito','Hay que recalibrar el polímetro, que está descalibrado'],
+      correct:0,explanation:'Un contacto en buen estado debe tener <0,1 Ω. Con 0,8 Ω y una corriente de 8 A (faros), la caída de tensión sería 6,4 V y la potencia disipada 51 W. Los faros recibirían menos tensión y el conmutador se calentaría. Hay que sustituirlo.'},
+
+    {band:'a',tag:'cableado',level:'Alto',points:20,
+      q:'¿Qué es un mazo de cables y qué ventajas aporta su diseño modular con conectores específicos?',
+      options:['Conjunto de cables agrupados y protegidos que interconectan todos los sistemas; los conectores específicos facilitan el diagnóstico, el montaje/desmontaje y previenen conexiones erróneas','Un único cable de gran sección que alimenta todos los sistemas del vehículo desde la batería','El cable de masa principal que conecta la batería con la carrocería','Los cables de alta tensión del sistema de encendido del motor de gasolina'],
+      correct:0,explanation:'El mazo de cables agrupa y protege el cableado de cada zona del vehículo. Los conectores codificados por forma y color impiden conexiones erróneas, facilitan el diagnóstico por módulos y permiten sustituir tramos sin afectar al resto.'},
+
+    {band:'a',tag:'seguridad_elem',level:'Alto',points:20,
+      q:'¿Qué medidas deben tomarse al trabajar con componentes electrónicos sensibles a descargas electrostáticas (ESD) en el sistema eléctrico del vehículo?',
+      options:['Usar pulsera antiestática conectada a masa, trabajar sobre superficie antiestática y manipular los componentes por sus bordes sin tocar los contactos','Solo es necesario descargar la estática tocando la carrocería del vehículo antes de empezar','Los componentes de automoción están protegidos y no requieren precauciones ESD','Solo aplicable en talleres de electrónica; en mecánica de vehículos no es relevante'],
+      correct:0,explanation:'Los módulos electrónicos del vehículo (ECU, módulos de ABS, airbag...) son sensibles a ESD. Una descarga electrostática de pocos miles de voltios (imperceptible para el técnico) puede dañar circuitos integrados irreparablemente. La pulsera antiestática y la superficie ESD son imprescindibles.'},
+
+    {band:'a',tag:'lamparas_elem',level:'Alto',points:20,
+      q:'¿Qué precaución adicional debe tomarse al sustituir una lámpara de descarga de xenón (HID) respecto a una halógena convencional?',
+      options:['Las lámparas HID trabajan con tensiones de hasta 25.000 V en el encendido; el circuito debe estar completamente sin tensión y descargado antes de manipularlo','Solo hay que esperar a que la lámpara se enfríe antes de manipularla','Usar guantes de nitrilo para no contaminar el bulbo con grasa, igual que las halógenas','No requieren precauciones adicionales; trabajan a 12 V como las halógenas'],
+      correct:0,explanation:'Los sistemas xenón HID incluyen un balasto que genera pulsos de hasta 25.000 V para el encendido y trabaja a varios kilovoltios en régimen. Un contacto accidental con el circuito energizado puede ser mortal. El circuito debe desconectarse y descargarse antes de cualquier manipulación.'},
+
+    {band:'a',tag:'bateria_elem',level:'Alto',points:20,
+      q:'Un vehículo con sistema de gestión de energía inteligente muestra en el cuadro el aviso "Sistema de carga con problemas". La batería marca 13,1 V con motor en marcha. El técnico conecta la herramienta de diagnóstico y obtiene el código B1001 (batería degradada). ¿Cuál es el diagnóstico y la acción?',
+      options:['La batería ha perdido capacidad (sulfatación o envejecimiento); la tensión de 13,1 V indica carga insuficiente del alternador o alta resistencia interna. Hay que realizar una prueba de carga completa y probablemente sustituir la batería y registrar la nueva en la ECU','Sustituir el alternador sin más pruebas','Limpiar los bornes de la batería y borrar el código de fallo','Aumentar la corriente de carga del alternador ajustando el regulador de tensión'],
+      correct:0,explanation:'13,1 V con motor en marcha está por debajo del rango normal (13,8-14,5 V), pero el código indica degradación de batería. La prueba de carga confirmará si la batería tiene alta resistencia interna. La batería envejecida con sulfatación puede mostrar tensión aparentemente normal pero colapsar bajo carga. Sustitución y registro son los pasos correctos.'},
+
+    {band:'a',tag:'reles',level:'Alto',points:20,
+      q:'¿Por qué en los circuitos de bobinas (solenoides, relés, motores) se instala un diodo de protección en paralelo con la bobina?',
+      options:['Para absorber la tensión inversa (fuerza contraelectromotriz) generada al cortar la corriente de la bobina, protegiendo el transistor o interruptor de mando','Para rectificar la corriente alterna que genera la bobina durante su funcionamiento','Para limitar la corriente que circula por la bobina y evitar sobrecalentamiento','Para indicar visualmente (LED) cuándo la bobina está energizada'],
+      correct:0,explanation:'Al cortar la corriente de una bobina, el campo magnético se colapsa generando un pico de tensión inversa (cientos de voltios). El diodo de free-wheeling conduce en ese instante, cortocircuitando el pico y protegiendo el transistor de mando o el interruptor del sistema de control.'}
+  ],
+
+  // ══════════════════════════════════════════════════════════════════
+  // UD3 — CIRCUITO DE ALUMBRADO Y MANIOBRAS
+  // ══════════════════════════════════════════════════════════════════
+  ud3:[
+    // ── BÁSICO (8)
+    {band:'b',tag:'alumbrado',level:'Básico',points:10,
+      q:'¿Qué función tienen las luces de posición (o de estacionamiento) del vehículo?',
+      options:['Señalizar la presencia y anchura del vehículo en condiciones de baja visibilidad','Iluminar la calzada para facilitar la conducción nocturna','Indicar la intención de girar o cambiar de carril','Avisar a los demás conductores de una frenada de emergencia'],
+      correct:0,explanation:'Las luces de posición son de baja potencia y señalan la presencia, anchura y longitud del vehículo en condiciones de visibilidad reducida (niebla, lluvia, anochecer). No están diseñadas para iluminar la calzada.'},
+
+    {band:'b',tag:'faros',level:'Básico',points:10,
+      q:'¿Qué diferencia existe entre las luces de cruce (cortas) y las luces de carretera (largas)?',
+      options:['Las de cruce tienen un haz corto y asimétrico para no deslumbrar; las de carretera proyectan un haz largo y simétrico de mayor alcance','Las de cruce son más potentes que las de carretera','Las de carretera se usan en ciudad y las de cruce en carretera','No existe diferencia; son el mismo faro con distinta denominación según el país'],
+      correct:0,explanation:'Las luces de cruce tienen un haz truncado y asimétrico (más iluminación en el lado derecho) para no deslumbrar a vehículos que vienen en sentido contrario. Las luces de carretera proyectan un haz largo y simétrico sin restricción de altura.'},
+
+    {band:'b',tag:'pilotos',level:'Básico',points:10,
+      q:'¿Qué color deben tener los pilotos traseros de freno según la normativa?',
+      options:['Rojo','Ámbar','Blanco','Verde'],
+      correct:0,explanation:'La normativa de alumbrado exige que las luces de freno sean de color rojo. Las luces de marcha atrás son blancas y los intermitentes traseros son de color ámbar.'},
+
+    {band:'b',tag:'alumbrado',level:'Básico',points:10,
+      q:'¿Qué circuito de maniobra activa el movimiento de las escobillas del parabrisas?',
+      options:['El circuito de limpiaparabrisas, accionado por un motor eléctrico de corriente continua','El circuito de alumbrado trasero, compartiendo el mismo relé','El circuito de bocina, mediante un conmutador combinado','El circuito de intermitencias, que sincroniza el movimiento con los destellos'],
+      correct:0,explanation:'Las escobillas del limpiaparabrisas son accionadas por un motor eléctrico de CC con reductor, controlado por un interruptor de varias velocidades. Es un circuito independiente del alumbrado.'},
+
+    {band:'b',tag:'faros',level:'Básico',points:10,
+      q:'¿Qué es el regloscopio y para qué se utiliza en el taller?',
+      options:['Un aparato óptico que permite verificar y ajustar la dirección del haz de los faros según las especificaciones del fabricante','Un instrumento para medir la intensidad luminosa de las bombillas','Un dispositivo para comprobar la tensión de alimentación de los faros','Un calibre para medir el espesor del cristal de los faros'],
+      correct:0,explanation:'El regloscopio o alineador de faros es un equipo óptico que se coloca frente a cada faro para proyectar el haz sobre una pantalla graduada, permitiendo comprobar y ajustar la altura e inclinación según las especificaciones reglamentarias.'},
+
+    {band:'b',tag:'maniobra',level:'Básico',points:10,
+      q:'¿Qué función tiene la bocina en el vehículo y a qué circuito pertenece?',
+      options:['Emitir una señal acústica de aviso; es un circuito auxiliar alimentado desde la batería con protección por fusible','Avisar al conductor de fallos mecánicos del motor','Señalizar la activación del sistema de freno de estacionamiento','Indicar el nivel bajo de combustible mediante señal sonora'],
+      correct:0,explanation:'La bocina es un dispositivo de aviso acústico obligatorio. Pertenece al circuito auxiliar de señalización acústica, alimentado desde la batería con su propio fusible y controlado habitualmente a través de un relé.'},
+
+    {band:'b',tag:'pilotos',level:'Básico',points:10,
+      q:'¿Qué color tienen los intermitentes delanteros según la normativa europea vigente?',
+      options:['Ámbar (naranja)','Rojo','Blanco','Verde'],
+      correct:0,explanation:'Los intermitentes (direccionales) deben ser de color ámbar en la parte delantera y trasera según la normativa ECE. En Estados Unidos los intermitentes delanteros pueden ser blancos o rojos, pero en Europa deben ser ámbar.'},
+
+    {band:'b',tag:'alumbrado',level:'Básico',points:10,
+      q:'¿Qué hace el circuito de intermitencias de emergencia (hazard)?',
+      options:['Hace destellar simultáneamente todos los intermitentes del vehículo para señalizar una situación de peligro','Activa solo los intermitentes traseros para avisar a los vehículos de detrás','Desconecta el circuito de alumbrado para reducir el consumo en emergencias','Activa las luces largas de forma intermitente para alertar a otros conductores'],
+      correct:0,explanation:'El circuito de emergencia (hazard o señalización de avería) hace destellar simultáneamente los cuatro intermitentes del vehículo, indicando una situación de peligro o que el vehículo está detenido de forma imprevista.'},
+
+    // ── MEDIO (16)
+    {band:'m',tag:'faros',level:'Medio',points:15,
+      q:'¿Cómo se realiza el reglaje de faros con el regloscopio según el procedimiento estándar?',
+      options:['Con el vehículo en superficie plana, neumáticos a presión correcta, depósito a media carga y el técnico sentado; se centra el regloscopio ante cada faro y se ajustan los tornillos hasta alcanzar los valores especificados','Con el motor en marcha y los faros encendidos durante 5 minutos para estabilizar la temperatura de las bombillas','El reglaje se realiza midiendo la distancia desde el suelo al centro del faro con una cinta métrica','Con el vehículo cargado al máximo para replicar las condiciones más habituales de uso'],
+      correct:0,explanation:'El reglaje normalizado requiere vehículo en vacío (o con carga específica del fabricante), superficie plana, presiones de neumáticos correctas y el conductor o un peso equivalente en el asiento. El regloscopio se alinea con el eje del faro para leer el haz en la pantalla graduada.'},
+
+    {band:'m',tag:'alumbrado',level:'Medio',points:15,
+      q:'¿Qué ocurre en el circuito de alumbrado si el relé de los faros falla en posición abierta?',
+      options:['Los faros no se encienden aunque el mando esté activado, porque el circuito de potencia no puede cerrarse','Los faros permanecen encendidos aunque se apague el interruptor','El fusible del circuito funde inmediatamente','Los faros parpadean de forma intermitente al ritmo de las vibraciones del motor'],
+      correct:0,explanation:'Si el relé falla en circuito abierto (contactos que no cierran), la corriente no puede llegar a los faros aunque el interruptor esté activado. Es un fallo silencioso que deja el vehículo sin iluminación.'},
+
+    {band:'m',tag:'pilotos',level:'Medio',points:15,
+      q:'¿Qué significa la nomenclatura "P21W" en una bombilla de automóvil?',
+      options:['Casquillo de bayoneta con 1 contacto (P = prefocal-bayoneta), 21 W de potencia y 12 V','Lámpara de posición de 21 mm de diámetro y tensión W (12 V)','Lámpara de xenón de 21 watios con prefoco estándar','Lámpara LED de reemplazo de 21 vatios equivalentes'],
+      correct:0,explanation:'La nomenclatura UNECE P21W indica: P = casquillo bayoneta con prefoco (BA15s), 21 = potencia en vatios, W = tensión 12 V. Se usa habitualmente en luces de freno, marcha atrás y direccionales de alta potencia.'},
+
+    {band:'m',tag:'maniobra',level:'Medio',points:15,
+      q:'El limpiaparabrisas funciona solo a una velocidad aunque el interruptor tiene tres posiciones. ¿Cuál es la causa probable?',
+      options:['El motor del limpiaparabrisas tiene resistencias internas para crear diferentes velocidades; una de ellas está en circuito abierto, eliminando una velocidad','El relé del limpiaparabrisas está fundido','El fusible del circuito de limpiaparabrisas está parcialmente fundido','La bomba del lavaparabrisas está averiada y reduce la velocidad de las escobillas'],
+      correct:0,explanation:'Los motores de limpiaparabrisas convencionales usan resistencias en serie para reducir la tensión y la velocidad. Si una resistencia falla (circuito abierto), esa velocidad desaparece. La velocidad rápida suele conectarse directamente al motor sin resistencia.'},
+
+    {band:'m',tag:'faros',level:'Medio',points:15,
+      q:'¿Por qué los faros de xenón (HID) proporcionan mayor luminosidad que los halógenos con menor consumo eléctrico?',
+      options:['Porque la descarga de gas produce más luz por vatio que el filamento incandescente de tungsteno, con una temperatura de color más próxima a la luz diurna','Porque trabajan a mayor tensión (220 V) lo que aumenta la potencia emitida','Porque contienen más gas en el interior que las bombillas halógenas convencionales','Porque el reflector parabólico de los faros xenón está más pulido que el de los faros halógenos'],
+      correct:0,explanation:'La descarga de arco en gas xenón es mucho más eficiente que el filamento incandescente: produce entre 3.000-3.500 lm con 35 W (HID) frente a ~1.500 lm con 55 W (halógena). Además la temperatura de color (~4.200 K) se acerca más a la luz diurna, mejorando la visibilidad nocturna.'},
+
+    {band:'m',tag:'alumbrado',level:'Medio',points:15,
+      q:'¿Qué circuito activa la luz de marcha atrás y cuándo se enciende?',
+      options:['Se activa mediante un interruptor de contacto accionado por la palanca de cambios al seleccionar la marcha atrás','Se activa mediante el sensor de distancia del aparcamiento','Se controla por la ECU cuando detecta que el vehículo circula a menos de 5 km/h','Se enciende cuando el conductor activa el sistema de cámara trasera'],
+      correct:0,explanation:'La luz de marcha atrás (blanca) se activa por un interruptor mecánico accionado por el selector de marcha atrás en la caja de cambios. En vehículos con cambio automático, lo activa la posición "R" del selector.'},
+
+    {band:'m',tag:'pilotos',level:'Medio',points:15,
+      q:'Al sustituir una lámpara de intermitente trasero, el técnico comprueba que la nueva (21 W) destella más rápido de lo normal. ¿Cuál es la causa?',
+      options:['Se ha instalado una lámpara de menor potencia que la especificada; el relé térmico detecta menos carga y destella más rápido','La nueva lámpara tiene mayor potencia y calienta el relé más rápido','El fusible del circuito de intermitentes está parcialmente fundido','La batería tiene tensión baja y el relé no puede regular correctamente'],
+      correct:0,explanation:'En vehículos con relé térmico de intermitencias, la velocidad de destello depende de la corriente del circuito. Si se instala una lámpara de menor potencia (menos corriente), el bimetal oscila más rápido. El enunciado dice que SE instaló 21 W pero es posible que la especificación sea mayor. Revisar el manual.'},
+
+    {band:'m',tag:'reglaje',level:'Medio',points:15,
+      q:'¿Con qué frecuencia debe verificarse el reglaje de faros en el taller?',
+      options:['Siempre que se sustituya un faro, se modifique la suspensión o se detecte que el haz deslumbra o ilumina mal; también en revisiones periódicas','Solo cuando el vehículo pasa la ITV','Solo si el propietario se queja de que los faros no iluminan bien','Cada 100.000 km o cada 10 años, lo que ocurra antes'],
+      correct:0,explanation:'El reglaje de faros se verifica en cualquier intervención que pueda afectarlo: sustitución de faro, trabajos en suspensión, choque frontal, sustitución de neumáticos de diferente perfil, o cuando el conductor refiere que el haz no ilumina correctamente o deslumbra.'},
+
+    {band:'m',tag:'maniobra',level:'Medio',points:15,
+      q:'¿Qué tipo de motor se utiliza habitualmente en el mecanismo del limpiaparabrisas y por qué?',
+      options:['Motor de corriente continua con reductor de velocidad integrado, por su par elevado a bajas velocidades y fácil control de velocidad por variación de tensión','Motor de corriente alterna, porque permite sincronizarse con la frecuencia de red','Motor paso a paso, para garantizar la posición exacta de las escobillas en todo momento','Motor de inducción trifásico, por su mayor durabilidad en aplicaciones continuas'],
+      correct:0,explanation:'Los motores de CC con reductor son ideales para el limpiaparabrisas: ofrecen alto par a bajas velocidades (necesario para mover las escobillas contra el viento), permiten variar la velocidad cambiando la tensión de alimentación, y tienen tamaño compacto.'},
+
+    {band:'m',tag:'faros',level:'Medio',points:15,
+      q:'¿Qué son los dispositivos limpiafaros y en qué tipo de vehículos son obligatorios?',
+      options:['Sistemas de limpieza (agua a presión o escobilla) para la superficie exterior del faro; son obligatorios en vehículos con faros de xenón HID según la normativa europea','Son obligatorios en todos los vehículos matriculados desde 2010','Solo se instalan en vehículos todo terreno por normativa de circulación en campo','Son opcionales en todos los vehículos y solo se instalan a petición del cliente'],
+      correct:0,explanation:'Los limpiafaros son obligatorios en Europa cuando el vehículo lleva faros xenón HID (por su mayor intensidad luminosa). La suciedad en el faro xenón puede deslumbrar peligrosamente. Los vehículos con halógenas no tienen esta obligación aunque pueden llevarlos como equipamiento opcional.'},
+
+    {band:'m',tag:'alumbrado',level:'Medio',points:15,
+      q:'¿Cómo funciona el corrector de inclinación de faros eléctrico (nivelador)?',
+      options:['Un motor eléctrico mueve el conjunto óptico del faro hacia arriba o abajo según la posición del selector del salpicadero, compensando la inclinación del vehículo por la carga','Un sensor de nivel en la suspensión ajusta automáticamente los faros sin intervención del conductor','El nivelador compensa automáticamente la inclinación leyendo la señal del GPS','Eleva la tensión de los faros para compensar la distancia reducida del haz cuando el vehículo está cargado'],
+      correct:0,explanation:'El nivelador manual permite al conductor ajustar manualmente la inclinación vertical del haz según la carga del vehículo (cuanto más cargado, más inclinado hacia arriba queda el haz y más deslumbra). Los sistemas AFS (Adaptive Front-lighting) lo hacen automáticamente.'},
+
+    {band:'m',tag:'pilotos',level:'Medio',points:15,
+      q:'¿Qué función cumple el piloto de luz de niebla trasera y cuándo debe usarse?',
+      options:['Señalizar la parte trasera del vehículo con mayor intensidad que los pilotos traseros normales en condiciones de niebla densa, lluvia intensa o nevada','Se usa siempre que llueva aunque la visibilidad sea buena','Sustituye a los pilotos de posición traseros cuando la batería está baja','Solo se activa automáticamente cuando el sensor de lluvia detecta precipitación'],
+      correct:0,explanation:'La luz de niebla trasera (color rojo, potencia mínima 21 W) se usa cuando la visibilidad es inferior a 50 m. Fuera de esas condiciones su uso está prohibido porque deslumbra a los vehículos de detrás.'},
+
+    {band:'m',tag:'maniobra',level:'Medio',points:15,
+      q:'¿Qué ocurre en el circuito si la bocina no suena al accionar el mando pero el fusible está en buen estado?',
+      options:['Posibles causas: relé defectuoso, interruptor del mando de bocina con falta de continuidad, masa de la bocina en mal estado, o la propia bocina averiada','La batería está descargada y no tiene energía suficiente para la bocina','El alternador no carga correctamente y reduce la tensión disponible','El fusible de mayor amperaje del circuito principal está fundido'],
+      correct:0,explanation:'Con fusible correcto pero sin sonido, el diagnóstico debe seguir el circuito: verificar tensión en el borne de la bocina al accionar el mando, comprobar el relé, verificar la masa de la bocina y finalmente medir la resistencia de la bocina. Se sigue el árbol de diagnosis paso a paso.'},
+
+    {band:'m',tag:'reglaje',level:'Medio',points:15,
+      q:'¿Qué distancia entre el regloscopio y el faro es la estándar para el reglaje según la normativa?',
+      options:['El regloscopio se coloca directamente adosado al faro (distancia 0); el equipo proyecta el haz sobre su pantalla interna','A 5 metros del faro con el vehículo aparcado frente a una pared','A 10 metros del faro, midiendo el haz en una pared marcada','A 1 metro del faro, siguiendo la normativa ITV española'],
+      correct:0,explanation:'El regloscopio moderno se coloca directamente adosado a la superficie del faro (contacto). La pantalla graduada y el espejo interno del aparato permiten leer la dirección e inclinación del haz sin necesidad de distancia libre. Los métodos de pared antigua usaban 5 o 10 m pero son menos precisos.'},
+
+    // ── ALTO (16)
+    {band:'a',tag:'faros',level:'Alto',points:20,
+      q:'Un vehículo con faros de xenón HID presenta encendido lento (varios segundos hasta alcanzar plena luminosidad) y color azulado al arrancar. ¿Es esto normal y por qué?',
+      options:['Sí, es normal: las lámparas HID necesitan varios segundos para que el arco de plasma alcance su temperatura de trabajo y la temperatura de color estabilice hacia los 4.200 K','No, indica que el balasto está fallando y debe sustituirse inmediatamente','Indica que la lámpara tiene el gas agotado y está al final de su vida útil','Indica un fallo en el regulador de tensión del alternador que afecta al sistema HID'],
+      correct:0,explanation:'En las lámparas HID, el arco de descarga parte de una tensión de ignición muy alta y necesita calentarse para alcanzar plena luminosidad. Durante el calentamiento emiten más luz azulada (temperatura de color alta) que se estabiliza en ~4.200 K. Es comportamiento normal.'},
+
+    {band:'a',tag:'alumbrado',level:'Alto',points:20,
+      q:'Al comprobar el circuito de alumbrado, se detecta que los faros derechos no se encienden pero los izquierdos sí. El fusible y el relé están en buen estado. ¿Cuál es el procedimiento de diagnóstico?',
+      options:['Medir tensión en el conector del faro derecho con el mando activado; si hay tensión, la lámpara está fundida o hay mala masa; si no hay tensión, hay un problema en el cableado entre el relé y el faro derecho','Sustituir el relé por uno nuevo ya que el fallo es intermitente','Cambiar ambas lámparas del lado derecho simultáneamente','Comprobar la tensión de la batería, que puede estar baja en ese lado del vehículo'],
+      correct:0,explanation:'El diagnóstico por tensión permite localizar el fallo: si hay 12 V en el conector del faro pero no se enciende → fallo en la lámpara o su masa. Si no hay tensión → fallo en el cable entre relé y faro (rotura, conector oxidado). Metodología sistemática: de la fuente al receptor.'},
+
+    {band:'a',tag:'pilotos',level:'Alto',points:20,
+      q:'Un vehículo con luces LED integradas en los pilotos traseros tiene el piloto derecho apagado. El fabricante indica que el conjunto LED es una unidad sellada no reparable. ¿Cuál es la actuación correcta?',
+      options:['Verificar primero la tensión de alimentación y la masa del conjunto LED; si son correctas (12 V y masa OK), el conjunto LED está averiado y debe sustituirse la unidad completa','Intentar soldar nuevos LEDs de sustitución en el circuito impreso del piloto','Instalar una bombilla convencional en paralelo con el LED para restaurar la función','Puente el circuito del piloto con un cable temporal hasta que el cliente decida si repara'],
+      correct:0,explanation:'El diagnóstico previo (tensión y masa) es imprescindible para confirmar que el fallo es del conjunto LED y no del circuito de alimentación. Confirmado el fallo interno, al ser unidad no reparable, se sustituye el conjunto completo según indica el fabricante.'},
+
+    {band:'a',tag:'maniobra',level:'Alto',points:20,
+      q:'El limpiaparabrisas no regresa a la posición de reposo al apagar el interruptor. ¿Cuál es la causa probable y cómo funciona el mecanismo de autoestacionamiento?',
+      options:['El sistema de autoestacionamiento usa un contacto de leva en el motor que mantiene el circuito cerrado hasta que las escobillas alcanzan la posición de reposo; si este contacto falla, las escobillas quedan en la posición donde se apagó el interruptor','El motor del limpiaparabrisas está fundido y no puede girar en sentido inverso','El relé del limpiaparabrisas está pegado en posición cerrada','La resistencia de velocidad lenta está en cortocircuito y bloquea el movimiento'],
+      correct:0,explanation:'El mecanismo de autoestacionamiento usa una leva en el eje del motor que mantiene un contacto eléctrico cerrado hasta que las escobillas llegan a la posición de reposo, aunque el interruptor ya esté apagado. Si ese contacto de leva falla, el sistema no puede completar el ciclo de vuelta.'},
+
+    {band:'a',tag:'reglaje',level:'Alto',points:20,
+      q:'Tras el reglaje de faros con regloscopio, el faro izquierdo queda correctamente reglado pero el derecho no puede ajustarse porque el tornillo de reglaje está roto. ¿Cuál es la actuación?',
+      options:['El faro debe desmontarse para reparar o sustituir el mecanismo de reglaje; un faro con reglaje incorrecto puede deslumbrar a otros conductores y supone un fallo en la ITV','Reglaje el faro izquierdo en la posición contraria para compensar el desequilibrio','Instalar calzos en la zona de montaje del faro para variar su ángulo mecánicamente','Dejar el faro en la posición actual e informar al cliente sin más intervención'],
+      correct:0,explanation:'Un faro con reglaje fuera de especificación es peligroso (puede deslumbrar) e ilegal (fallo de ITV). El tornillo roto requiere desmontar el faro para reparar el mecanismo de ajuste o sustituir el conjunto. No es aceptable dejar el vehículo con el haz desviado.'},
+
+    {band:'a',tag:'alumbrado',level:'Alto',points:20,
+      q:'¿Qué es el sistema AFS (Adaptive Front-lighting System) y qué ventajas aporta respecto al alumbrado convencional?',
+      options:['Sistema que gira el haz del faro en la dirección del volante para iluminar las curvas; reduce los accidentes nocturnos al iluminar la trayectoria real del vehículo en lugar de solo la dirección de marcha','Sistema que aumenta automáticamente la potencia de los faros cuando detecta poca luz en el entorno','Sistema que desconecta un faro para ahorrar energía en vías bien iluminadas','Sistema que cambia el color del haz según las condiciones meteorológicas'],
+      correct:0,explanation:'El AFS gira los proyectores siguiendo el ángulo de dirección (y en sistemas avanzados, la velocidad y la curvatura de la vía). Ilumina la curva antes de entrar en ella, aumentando la distancia de visibilidad en condiciones nocturnas y reduciendo significativamente el riesgo de accidente.'},
+
+    {band:'a',tag:'faros',level:'Alto',points:20,
+      q:'¿Qué precauciones debe tomar el técnico al desmontar un faro de xenón HID para sustituir la lámpara?',
+      options:['Desconectar el borne negativo de la batería, esperar al menos 3 minutos para que el balasto se descargue, no tocar los terminales eléctricos del balasto, manipular la lámpara con guantes y sin tocar el bulbo','Solo esperar a que la lámpara se enfríe; el riesgo es exclusivamente térmico','No hay precauciones especiales; los faros xenón trabajan a 12 V como los halógenos','Usar guantes de goma de cocina como protección suficiente frente a la tensión del balasto'],
+      correct:0,explanation:'Los balastos HID acumulan carga alta tensión incluso con la batería desconectada. Los 3 minutos de espera permiten que los condensadores internos se descarguen. Los guantes de electricista con categoría de tensión adecuada son imprescindibles si hay cualquier duda sobre la descarga completa.'},
+
+    {band:'a',tag:'pilotos',level:'Alto',points:20,
+      q:'Un vehículo presenta el piloto trasero izquierdo con la función de freno operativa pero el intermitente izquierdo no funciona. Ambas funciones usan lámparas diferentes. ¿Cuál es el árbol de diagnóstico?',
+      options:['1. Verificar la lámpara del intermitente izquierdo (puede estar fundida). 2. Si la lámpara está bien, comprobar tensión en su conector al activar el intermitente. 3. Si no hay tensión, seguir el cableado hasta el relé de intermitencias o el interruptor','Sustituir directamente el relé de intermitencias porque el problema es intermitente','El problema es el conmutador de luces que ha fallado en la posición de freno','Sustituir el piloto completo del lado izquierdo sin más diagnóstico'],
+      correct:0,explanation:'El diagnóstico sistemático evita sustituciones innecesarias: 1) La lámpara es el elemento más probable (y más barato). 2) Si está bien, hay que verificar si llega señal del relé de intermitencias al circuito. 3) Si no llega señal, el fallo está aguas arriba: relé, interruptor o cableado.'},
+
+    {band:'a',tag:'maniobra',level:'Alto',points:20,
+      q:'La bocina del vehículo solo funciona si se pulsa con fuerza y en posiciones muy concretas del volante. ¿Cuál es la causa y el procedimiento de reparación?',
+      options:['El contacto deslizante (anillo de contacto) del volante o el propio interruptor de bocina tienen resistencia de contacto elevada por desgaste u oxidación; reparación: limpiar o sustituir el contacto deslizante o el interruptor','La bocina tiene potencia insuficiente y debe sustituirse por una de mayor amperaje','El relé de bocina tiene los contactos oxidados y hay que sustituirlo','La batería tiene baja tensión y no suministra suficiente corriente para la bocina'],
+      correct:0,explanation:'Un funcionamiento intermitente dependiente de la posición o presión indica un problema de contacto mecánico. El anillo de contacto (slip ring) del volante o la lámina de contacto del airbag/botonera se deterioran con el uso. La limpieza con limpiador de contactos puede recuperarlo; si el desgaste es severo, hay que sustituirlo.'},
+
+    {band:'a',tag:'alumbrado',level:'Alto',points:20,
+      q:'¿Qué ventajas e inconvenientes presenta la tecnología LED matricial (Matrix LED) en faros de automóvil respecto a los sistemas de haz único?',
+      options:['Ventaja: permite desactivar individualmente píxeles del haz para no deslumbrar a vehículos detectados por cámara, manteniendo máxima iluminación en el resto. Inconveniente: mayor complejidad y coste de reparación al ser módulos integrados no reparables individualmente','Ventaja: menor consumo que cualquier otra tecnología. Inconveniente: vida útil muy reducida (menos de 500 horas)','Ventaja: sustitución de lámparas más sencilla que los sistemas convencionales. Inconveniente: incompatible con vehículos fabricados antes de 2015','Solo ventajas: mayor luminosidad, menor consumo y reparación igual de sencilla que los halógenos convencionales'],
+      correct:0,explanation:'Los faros Matrix LED tienen una matriz de LEDs que una ECU específica apaga individualmente al detectar vehículos con la cámara frontal, evitando deslumbramiento con máximo rendimiento. El inconveniente es el coste y la complejidad: los módulos LED son unidades selladas cuya avería implica sustituir el faro completo.'},
+
+    {band:'a',tag:'reglaje',level:'Alto',points:20,
+      q:'¿Cómo afecta una suspensión desgastada (con amortiguadores en mal estado) al reglaje de faros y a la seguridad vial nocturna?',
+      options:['La suspensión desgastada hace que el vehículo oscile más en aceleración y frenada, variando continuamente el ángulo del haz y pudiendo deslumbrar intermitentemente a vehículos que vienen de frente','No hay relación entre el estado de la suspensión y el reglaje de faros','Los sistemas modernos de nivelación automática compensan totalmente cualquier defecto de suspensión','Solo afecta si los amortiguadores están completamente rotos; el desgaste moderado no tiene efecto apreciable'],
+      correct:0,explanation:'Los amortiguadores en mal estado permiten que el vehículo cabeceé más al acelerar y frenar. Esta cabeceo modifica el ángulo vertical del haz: en aceleración apunta más alto (deslumbra al tráfico contrario) y en frenada baja (pérdida de alcance). Los sistemas ALS solo compensan la carga estática, no el movimiento dinámico excesivo.'},
+
+    {band:'a',tag:'pilotos',level:'Alto',points:20,
+      q:'¿Qué es el CANBUS aplicado al sistema de iluminación y qué cambia en el diagnóstico respecto a circuitos convencionales?',
+      options:['Bus de comunicación serial que permite a la ECU de carrocería controlar y diagnosticar individualmente cada función de iluminación; los fallos generan códigos de error diagnosticables con herramienta OBD en lugar de comprobarse solo con voltímetro','Un tipo de cableado de alta resistencia que reduce el consumo de las luces LED','Un protocolo para actualizar el firmware de los faros Matrix mediante WiFi','Un sistema de seguridad que desconecta el alumbrado en caso de choque para evitar incendios'],
+      correct:0,explanation:'En vehículos con CAN bus de carrocería, las ECUs de iluminación monitorizan cada función y almacenan códigos de fallo (DTC) accesibles con herramienta de diagnosis. El diagnóstico ya no es solo "mido tensión"; incluye leer la red CAN para ver qué módulo reporta el fallo y qué función específica está afectada.'},
+
+    {band:'a',tag:'maniobra',level:'Alto',points:20,
+      q:'¿Cómo funciona el control de velocidad intermitente (intervalo variable) del limpiaparabrisas y qué componente lo hace posible?',
+      options:['Un relé electrónico temporizador (o una ECU) regula el tiempo de pausa entre pasadas variando el ciclo de encendido-apagado del motor del limpiaparabrisas según la posición del mando rotativo','El motor del limpiaparabrisas tiene velocidades variables mediante una caja de cambios mecánica de varios tramos','El sistema usa un sensor de lluvia que activa el limpiaparabrisas solo cuando detecta gotas en el cristal','La velocidad intermitente se logra variando la tensión de alimentación del motor mediante un reóstato manual'],
+      correct:0,explanation:'La velocidad intermitente (intervalo) usa un temporizador electrónico que interrumpe periódicamente la alimentación del motor. En sistemas modernos con sensor de lluvia, la ECU ajusta automáticamente el intervalo según la intensidad de la precipitación detectada por el sensor óptico del parabrisas.'},
+
+    {band:'a',tag:'faros',level:'Alto',points:20,
+      q:'¿Qué es la temperatura de color de una fuente de luz y cómo influye en la percepción visual del conductor?',
+      options:['Medida en Kelvin (K) que describe el tono de la luz: valores bajos (~3.000 K) dan luz cálida amarillenta; valores altos (~6.000 K) dan luz fría azulada. La luz de ~4.000-5.000 K se acerca a la luz diurna y mejora el reconocimiento de contrastes y colores','Es la temperatura a la que trabaja la bombilla; a mayor temperatura, mejor visibilidad','Es sinónimo de intensidad luminosa; más Kelvin equivale a más lúmenes','Es la temperatura exterior a la que la bombilla deja de funcionar correctamente'],
+      correct:0,explanation:'La temperatura de color describe el tono cromático. Las halógenas son ~3.200 K (cálido), los xenón ~4.200 K (neutro-frío) y algunos LEDs 6.000 K (azulado). La luz de ~4.000-5.000 K mejora el contraste y la percepción de colores en conducción nocturna; por encima de 6.000 K la luz azulada reduce el contraste.'}
+  ],
+
+  // ══════════════════════════════════════════════════════════════════
+  // UD4 — OTROS CIRCUITOS ELÉCTRICOS
+  // ══════════════════════════════════════════════════════════════════
+  ud4:[
+    // ── BÁSICO (8)
+    {band:'b',tag:'limpialuneta',level:'Básico',points:10,
+      q:'¿Cuál es la función del circuito de limpialuneta trasero?',
+      options:['Mantener la luneta trasera libre de agua y suciedad para garantizar la visibilidad trasera del conductor','Desempañar la luneta trasera mediante resistencias calefactoras','Limpiar los sensores de aparcamiento ubicados en la luneta','Regular la inclinación eléctrica de la luneta trasera en vehículos deportivos'],
+      correct:0,explanation:'El circuito de limpialuneta trasero acciona una escobilla y, habitualmente, un sistema de lavado con agua para limpiar la superficie exterior de la luneta, mejorando la visibilidad trasera en condiciones de lluvia o suciedad.'},
+
+    {band:'b',tag:'elevalunas',level:'Básico',points:10,
+      q:'¿Qué componente es el encargado de mover el cristal en un sistema de elevalunas eléctrico?',
+      options:['Un motor eléctrico de corriente continua con reductor acoplado al mecanismo de elevación','Un cilindro neumático alimentado por el compresor de aire del vehículo','Un actuador piezoeléctrico de alta frecuencia','Un solenoide lineal de carrera variable'],
+      correct:0,explanation:'Los elevalunas eléctricos utilizan un motor de CC con reductor que convierte el movimiento rotatorio en lineal mediante un mecanismo de tijera o cable-polea para subir y bajar el cristal.'},
+
+    {band:'b',tag:'cierre',level:'Básico',points:10,
+      q:'¿Qué tipo de actuador mueve los pestillos de las puertas en el sistema de cierre centralizado?',
+      options:['Un motor eléctrico de CC o un actuador solenoide que desplaza la biela del pestillo','Un cilindro hidráulico presurizado por la dirección asistida','Un actuador de memoria de forma (aleación con memoria de forma)','Un motor paso a paso sincronizado con el sistema de alarma'],
+      correct:0,explanation:'El cierre centralizado usa actuadores eléctricos (pequeños motores de CC o solenoides) en cada puerta que desplazan mecánicamente la biela del pestillo para bloquear o desbloquear la puerta cuando reciben la señal del módulo de cierre centralizado.'},
+
+    {band:'b',tag:'luneta_termica',level:'Básico',points:10,
+      q:'¿Cómo elimina el vaho la luneta térmica trasera?',
+      options:['Mediante filamentos conductores de resistencia impresa sobre el vidrio que generan calor al circular corriente eléctrica por ellos','Mediante un ventilador que sopla aire caliente sobre la luneta desde el interior','Mediante un recubrimiento hidrófobo que hace resbalar el agua sin necesidad de calor','Mediante un sensor que activa el climatizador cuando detecta humedad en la luneta'],
+      correct:0,explanation:'La luneta térmica tiene filamentos de material resistivo (óxido de indio-estaño o tiras de plata) serigrafiados sobre el vidrio. Al pasar corriente eléctrica generan calor por efecto Joule, elevando la temperatura del vidrio por encima del punto de rocío y eliminando el vaho.'},
+
+    {band:'b',tag:'espejos',level:'Básico',points:10,
+      q:'¿Qué función tiene el motor de ajuste en los espejos retrovisores exteriores eléctricos?',
+      options:['Orientar el espejo en dos ejes (vertical y horizontal) para adaptar el ángulo de visión sin necesidad de acceder al espejo manualmente','Plegar el espejo hacia la carrocería para facilitar el aparcamiento','Calentar la superficie del espejo para eliminar el hielo y el vaho','Regular la intensidad del cristal anticegamiento del espejo interior'],
+      correct:0,explanation:'Los espejos eléctricos llevan un pequeño motor de CC (o dos) que permite ajustar el ángulo del espejo en los ejes horizontal y vertical desde el mando del salpicadero, sin necesidad de acceder manualmente al espejo exterior.'},
+
+    {band:'b',tag:'elevalunas',level:'Básico',points:10,
+      q:'¿Qué es la función antipinzamiento en un sistema de elevalunas eléctrico moderno?',
+      options:['Un sistema que detecta un obstáculo en el recorrido del cristal y lo detiene o invierte la dirección para evitar lesiones o daños','Un dispositivo mecánico que impide que el cristal baje más de lo necesario','Un sistema que limita la corriente del motor para evitar su sobrecalentamiento','Una función que bloquea el elevalunas trasero desde el puesto del conductor'],
+      correct:0,explanation:'El sistema antipinzamiento usa sensores (de corriente, de efecto Hall o de par motor) para detectar un aumento brusco de resistencia al subir el cristal, indicando que algo u alguien está en el camino. Al detectarlo, para o invierte el movimiento para evitar lesiones.'},
+
+    {band:'b',tag:'cierre',level:'Básico',points:10,
+      q:'¿Qué señal recibe el módulo de cierre centralizado para activar el bloqueo o desbloqueo de todas las puertas simultáneamente?',
+      options:['La señal del mando a distancia (RF) o la señal del interruptor de la cerradura del conductor, según el sistema','La señal del sensor de velocidad cuando el vehículo supera 20 km/h','La señal del sensor de lluvia integrado en el parabrisas','La señal del alternador cuando el motor arranca'],
+      correct:0,explanation:'El módulo de cierre centralizado recibe la orden de bloqueo/desbloqueo del mando a distancia por radiofrecuencia (llave RF o tarjeta sin llave) o del interruptor de cerradura del conductor, y activa simultáneamente todos los actuadores de las puertas.'},
+
+    {band:'b',tag:'limpialuneta',level:'Básico',points:10,
+      q:'¿Cuándo se activa normalmente el circuito de lavaluneta trasero?',
+      options:['Al accionar el mando del limpialuneta trasero por más de un segundo, que activa simultáneamente la bomba de agua y la escobilla','Se activa automáticamente cada vez que se pone la marcha atrás','Se activa solo con el limpiaparabrisas delantero en funcionamiento','Se activa desde la centralita de climatización cuando detecta humedad interior'],
+      correct:0,explanation:'El lavaluneta trasero se activa manualmente desde el mando del limpialuneta trasero en el salpicadero: al mantenerlo pulsado, se activa la bomba del depósito de agua y la escobilla limpia simultáneamente. Al soltar, continúan unas pasadas de escobilla y se para.'},
+
+    // ── MEDIO (16)
+    {band:'m',tag:'limpialuneta',level:'Medio',points:15,
+      q:'El limpialuneta trasero no funciona pero el lavaluneta sí rocía agua. ¿Cuál es el diagnóstico probable?',
+      options:['El motor del limpialuneta trasero está averiado o no recibe alimentación; la bomba del lavaluneta tiene circuito independiente por eso funciona','El fusible del circuito de limpialuneta-lavaluneta está fundido parcialmente','El depósito de agua está vacío y la bomba coge aire','El conmutador del mando de limpialuneta está averiado en la posición de lavado'],
+      correct:0,explanation:'Si el lavaluneta funciona (su bomba tiene corriente) pero la escobilla no se mueve, el fallo está en el circuito específico del motor de la escobilla: el motor puede estar averiado, sin masa, o sin tensión de alimentación. Son circuitos separados aunque comparten mando.'},
+
+    {band:'m',tag:'elevalunas',level:'Medio',points:15,
+      q:'¿Cómo funciona el sistema antipinzamiento en un elevalunas con sensor de corriente?',
+      options:['La ECU monitoriza la corriente del motor: cuando detecta un aumento brusco (mayor resistencia mecánica = obstáculo), corta la alimentación e invierte el giro para bajar el cristal','Usa un sensor de presión en el goma del marco de la ventana que envía señal a la ECU','Monitoriza la velocidad del motor por efecto Hall: si se detiene bruscamente, invierte el giro','Usa un sensor ultrasónico que detecta objetos en el recorrido del cristal antes del contacto'],
+      correct:0,explanation:'El método más común es la medida de corriente: cuando el cristal topa con un obstáculo, el motor frena y su corriente aumenta (consumo extra de par). La ECU detecta ese pico de corriente, corta la alimentación y la invierte para bajar el cristal, liberando el obstáculo.'},
+
+    {band:'m',tag:'cierre',level:'Medio',points:15,
+      q:'El cierre centralizado bloquea todas las puertas excepto la trasera izquierda. ¿Cuál es la secuencia de diagnóstico?',
+      options:['1. Verificar que el actuador de esa puerta recibe la señal del módulo (medir tensión en los terminales del actuador). 2. Si recibe señal pero no actúa, sustituir el actuador. 3. Si no recibe señal, revisar el cableado entre el módulo y esa puerta','Sustituir el módulo de cierre centralizado completo','Cambiar la cerradura de la puerta trasera izquierda por una nueva con actuador integrado','Resetear el módulo de cierre centralizado borrando su memoria con la herramienta de diagnóstico'],
+      correct:0,explanation:'La diagnosis secuencial localiza el fallo: si el módulo envía señal pero el actuador no responde → actuador averiado o cableado roto entre módulo y puerta. Si el módulo no envía señal a esa puerta → fallo en el módulo o en el bus de comunicación. Siempre se verifica primero la señal antes de sustituir componentes.'},
+
+    {band:'m',tag:'luneta_termica',level:'Medio',points:15,
+      q:'¿Cómo se verifica que un filamento de la luneta térmica está roto?',
+      options:['Con el sistema activo, medir la tensión a lo largo de cada filamento con el voltímetro: en la zona rota la tensión pasará de 12 V a 0 V bruscamente, localizando el punto de rotura','Con el ohmímetro midiendo la resistencia total de la luneta con el circuito desconectado','Visualmente con una lupa observando la serigrafia sobre el vidrio','Con el densímetro de batería verificando la caída de tensión en la batería al activar la luneta'],
+      correct:0,explanation:'El método del voltímetro es el estándar: con la luneta activa (12 V aplicados), se desliza la punta del voltímetro (con masa a negativo de batería) a lo largo del filamento. Donde el filamento está íntegro la tensión decrece gradualmente; en el punto de rotura la tensión cae a 0 V bruscamente.'},
+
+    {band:'m',tag:'espejos',level:'Medio',points:15,
+      q:'¿Qué función adicional incorporan muchos espejos eléctricos exteriores para mejorar la visibilidad en condiciones adversas?',
+      options:['Resistencia calefactora integrada en el espejo para desempañar y deshelar la superficie reflectante','Sensor de proximidad para detectar vehículos en el ángulo muerto','Cámara de visión trasera integrada en el alojamiento del espejo','Motor de ajuste automático según la posición del asiento del conductor'],
+      correct:0,explanation:'Los espejos calefactados incorporan una resistencia eléctrica bajo la superficie reflectante que se activa junto con la luneta térmica trasera (o independientemente) para eliminar el vaho y el hielo de la superficie del espejo, mejorando la visibilidad en condiciones frías y húmedas.'},
+
+    {band:'m',tag:'elevalunas',level:'Medio',points:15,
+      q:'¿Qué ocurre si el elevalunas del conductor tiene función "one-touch" (un toque sube/baja completamente) pero el del acompañante solo sube/baja mientras se mantiene el pulsador?',
+      options:['Es diseño normal: la función one-touch solo está disponible en la ventana del conductor por decisión del fabricante, o las ventanas de los pasajeros tienen lógica de seguridad diferente','Indica que el motor del acompañante está averiado parcialmente','Indica un fallo en el módulo de elevalunas del pasajero','Es una avería que debe corregirse sustituyendo el interruptor del acompañante'],
+      correct:0,explanation:'En muchos vehículos, el one-touch solo está disponible en la ventana del conductor (o en todas las del conductor y copiloto en modelos superiores). Es una decisión de diseño. Si el manual confirma que el acompañante debería tener one-touch, entonces sí es un fallo del módulo de elevalunas o del interruptor.'},
+
+    {band:'m',tag:'limpialuneta',level:'Medio',points:15,
+      q:'¿Dónde se ubica normalmente el motor del limpialuneta trasero y qué dificultad presenta su sustitución?',
+      options:['En el interior del portón trasero, accesible tras retirar el panel de revestimiento interior; la dificultad es el desmontaje del revestimiento sin dañarlo','En el exterior del techo, junto al alerón trasero','Integrado en la luneta trasera junto con la resistencia calefactora','En el maletero, conectado al limpialuneta por un eje flexible'],
+      correct:0,explanation:'El motor del limpialuneta trasero se aloja en el interior del portón trasero. Para acceder hay que desmontar el revestimiento interior del portón, teniendo cuidado de no romper los clips de plástico ni dañar el aislante térmico-acústico. Algunos vehículos requieren también desconectar el mazo de cables del portón.'},
+
+    {band:'m',tag:'cierre',level:'Medio',points:15,
+      q:'El mando a distancia del cierre centralizado no funciona aunque la batería del mando es nueva. ¿Cuáles son las causas posibles?',
+      options:['Pérdida de sincronización entre el mando y el módulo receptor (necesita recodificación), o el módulo receptor está averiado, o hay interferencias de RF en esa zona','La batería del mando es incompatible con el sistema del vehículo','El fusible del alternador está fundido y no alimenta el módulo de cierre','El mando solo funciona con el vehículo parado; en marcha se desactiva por seguridad'],
+      correct:0,explanation:'Un mando nuevo con batería buena que no funciona apunta a pérdida de código de emparejamiento (recodificar siguiendo el procedimiento del fabricante) o fallo en el módulo receptor del vehículo. Las interferencias de RF son posibles pero poco frecuentes.'},
+
+    {band:'m',tag:'luneta_termica',level:'Medio',points:15,
+      q:'¿Cuánto tiempo debe activarse normalmente la luneta térmica para desempañar completamente el vidrio?',
+      options:['Entre 5 y 15 minutos en condiciones normales; muchos sistemas tienen un temporizador automático de 10-15 minutos para proteger el circuito','Debe mantenerse activa durante todo el trayecto en condiciones de frío','Solo 30 segundos, ya que los filamentos alcanzan muy alta temperatura','El sistema es continuo y no tiene temporizador; el conductor decide cuándo apagarlo'],
+      correct:0,explanation:'La luneta térmica alcanza su eficiencia máxima en pocos minutos. Para proteger el circuito y la batería, la mayoría de sistemas incorporan un temporizador de 10-15 minutos que la apaga automáticamente. Mantenerla más tiempo no mejora el resultado y consume energía innecesariamente.'},
+
+    {band:'m',tag:'espejos',level:'Medio',points:15,
+      q:'¿Cómo se accede a las conexiones eléctricas del espejo exterior para diagnosticar un fallo en el ajuste eléctrico?',
+      options:['Desmontando el panel de revestimiento interior de la puerta para acceder al conector del mazo de cables del espejo, o accediendo al conector del espejo en la base del alojamiento','El espejo exterior es completamente estanco y no se puede acceder a sus conexiones sin sustituirlo','Cortando el mazo de cables del exterior de la puerta y añadiendo un conector provisional','Accediendo desde el exterior del vehículo retirando el embellecedor cromado del espejo'],
+      correct:0,explanation:'El mazo de cables del espejo entra en la puerta a través del marco. Para diagnosticar, se desmonta el panel interior para localizar el conector del espejo y medir tensiones. En algunos diseños el conector está en la base del espejo, accesible retirando una pequeña tapa de plástico.'},
+
+    {band:'m',tag:'elevalunas',level:'Medio',points:15,
+      q:'¿Qué es la función de bloqueo de elevalunas para pasajeros (seguro infantil eléctrico) y cómo funciona?',
+      options:['Un interruptor en el panel del conductor que desconecta la alimentación de los pulsadores de elevalunas de las plazas traseras, evitando que los niños operen las ventanillas','Un seguro mecánico que bloquea físicamente el mecanismo de elevación de las ventanas traseras','Una función que invierte el sentido del pulsador de los pasajeros traseros para confundir a los niños','Un sistema que solo permite subir las ventanas traseras, no bajarlas, cuando está activo'],
+      correct:0,explanation:'El bloqueo eléctrico de elevalunas (window lock) desconecta o ignora las señales de los interruptores de las plazas traseras mediante el módulo de elevalunas, mientras mantiene operativo el control desde el panel del conductor. Aumenta la seguridad con niños a bordo.'},
+
+    {band:'m',tag:'limpialuneta',level:'Medio',points:15,
+      q:'La escobilla del limpialuneta trasero limpia mal aunque es nueva. ¿Cuáles pueden ser las causas?',
+      options:['Hoja de escobilla mal ajustada al brazo, presión de contacto del brazo insuficiente, o la luna trasera tiene cristal hidrófobo incompatible con algunas escobillas convencionales','El motor del limpialuneta tiene la velocidad incorrecta','El fusible del circuito de limpialuneta es de calibre incorrecto','La bomba del lavaluneta está averiada y no puede prehumectar la luna'],
+      correct:0,explanation:'Una escobilla nueva que no limpia bien suele tener un problema de montaje (hoja no bien encajada en el adaptador del brazo) o de presión (el brazo está deformado y no presiona correctamente el vidrio). Los vidrios con tratamiento hidrófobo (Rain-X, etc.) a veces son incompatibles con escobillas de goma estándar.'},
+
+    {band:'m',tag:'cierre',level:'Medio',points:15,
+      q:'¿Por qué los actuadores de cierre centralizado de las puertas traseras a veces tienen dos motores en lugar de uno?',
+      options:['Uno controla el bloqueo/desbloqueo y otro controla el seguro infantil mecánico de la puerta trasera','Para redundancia: si uno falla, el otro mantiene la función de cierre','Uno es para el cierre centralizado y otro para el bloqueo antirrobo de segunda vuelta','Porque las puertas traseras son más pesadas y necesitan más par de bloqueo'],
+      correct:0,explanation:'Muchas puertas traseras tienen dos actuadores: uno para el cierre centralizado convencional (bloqueo/desbloqueo del pestillo) y otro para el seguro infantil mecánico que impide abrir la puerta desde el interior. Ambos pueden controlarse eléctricamente desde el módulo de cierre.'},
+
+    {band:'m',tag:'luneta_termica',level:'Medio',points:15,
+      q:'¿Cuál es el consumo eléctrico aproximado de la luneta térmica de un turismo y qué consecuencia tiene en la batería?',
+      options:['Entre 15 y 30 A (180-360 W), lo que puede descargar la batería en parada prolongada si no se apaga manualmente','Entre 1 y 2 A, sin impacto apreciable en la batería','Más de 50 A, lo que requiere desconectar otros sistemas cuando está activa','Exactamente 12 A; está diseñada para no afectar al circuito de carga del alternador'],
+      correct:0,explanation:'La luneta térmica consume 15-30 A según el vehículo y la temperatura exterior. Con el motor parado (sin alternador) puede descargar la batería en 30-60 minutos. Es un circuito de alta demanda que solo debe usarse con el motor en marcha o durante períodos muy cortos con el motor parado.'},
+
+    // ── ALTO (16)
+    {band:'a',tag:'elevalunas',level:'Alto',points:20,
+      q:'Tras sustituir el motor del elevalunas de la puerta delantera izquierda, el sistema antipinzamiento no funciona correctamente. ¿Cuál es la causa probable y la solución?',
+      options:['El módulo de elevalunas necesita ser inicializado/calibrado con la nueva posición de referencia del motor; se realiza subiendo y bajando la ventana al tope y manteniendo el pulsador unos segundos según el procedimiento del fabricante','El nuevo motor tiene impedancia diferente y hay que ajustar el módulo de control','El fusible de antipinzamiento está calibrado para el motor original y debe sustituirse','El antipinzamiento no puede funcionar con motores de sustitución; hay que usar original del fabricante'],
+      correct:0,explanation:'El módulo de elevalunas aprende los topes mecánicos (posición completamente arriba y abajo) para calibrar el umbral de corriente del antipinzamiento. Tras cambiar el motor, hay que realizar el procedimiento de inicialización del fabricante para que el módulo aprenda los nuevos topes.'},
+
+    {band:'a',tag:'cierre',level:'Alto',points:20,
+      q:'¿Qué es la función "keyless entry" (entrada sin llave) y qué componentes adicionales requiere respecto al cierre centralizado convencional?',
+      options:['Sistema que desbloquea el vehículo al detectar la proximidad de la llave RF sin necesidad de pulsarla; requiere antenas de radiofrecuencia de largo alcance repartidas por la carrocería y una ECU de gestión de acceso','Es otro nombre para el cierre centralizado convencional con mando a distancia RF','Requiere solo sustituir el módulo de cierre por uno con mayor alcance de RF','Solo necesita una batería de mayor capacidad en el mando para aumentar el alcance'],
+      correct:0,explanation:'El keyless entry (o passive entry) usa antenas LF (baja frecuencia, ~125 kHz) en la carrocería para detectar la llave en un radio de ~1 m. Cuando detecta la llave autorizada, desbloquea automáticamente al tocar el tirador. Requiere la ECU de gestión de acceso, las antenas de proximidad y la llave con chip pasivo.'},
+
+    {band:'a',tag:'limpialuneta',level:'Alto',points:20,
+      q:'El motor del limpialuneta trasero funciona pero el movimiento es irregular (se para en posiciones aleatorias). ¿Cuál es el diagnóstico más probable?',
+      options:['El mecanismo de transmisión (engranajes o palanca) tiene desgaste o un diente roto que provoca bloqueos intermitentes bajo carga; puede también ser el contacto de leva de autoestacionamiento deteriorado','El fusible del circuito es de calibre ligeramente inferior al recomendado','La bomba del lavaluneta consume demasiada corriente y afecta al motor de la escobilla','La tensión de la batería fluctúa por un alternador deficiente'],
+      correct:0,explanation:'Un motor que gira pero se detiene en posiciones aleatorias bajo carga indica un problema mecánico en la transmisión (engranaje desgastado o diente roto que bloquea el movimiento en ciertas posiciones) o un contacto de leva de autoestacionamiento defectuoso que corta el circuito incorrectamente.'},
+
+    {band:'a',tag:'luneta_termica',level:'Alto',points:20,
+      q:'¿Cómo se repara un filamento roto de la luneta térmica sin sustituir la luna completa?',
+      options:['Con pasta conductora de plata (silver conductive paint) específica para lunetastérmicas: se aplica sobre el punto de rotura con el pincel incluido, se deja secar y se verifica la continuidad con el ohmímetro','Con soldadura de estaño aplicada directamente sobre el cristal con soldador de punta fina','Con cinta de cobre adhesiva conductora pegada sobre el filamento roto','Los filamentos rotos no se pueden reparar; es obligatorio sustituir la luna completa'],
+      correct:0,explanation:'La pasta conductora de plata se formula específicamente para este tipo de reparación: se adhiere al material del filamento, tiene baja resistencia y resiste las temperaturas de trabajo. Una vez curada, restaura la conductividad del filamento. La soldadura de estaño dañaría el vidrio por el calor localizado.'},
+
+    {band:'a',tag:'espejos',level:'Alto',points:20,
+      q:'El espejo retrovisor exterior del conductor no ajusta en el eje vertical pero sí en el horizontal. ¿Cuál es el diagnóstico y el procedimiento de reparación?',
+      options:['El espejo tiene dos motores (uno por eje); el motor vertical está averiado o su circuito de alimentación está interrumpido. Diagnóstico: medir tensión en el terminal del motor vertical al accionar el mando en ese eje. Si hay tensión pero no mueve → motor averiado; si no hay tensión → problema en el cableado o el mando','Sustituir el espejo completo ya que los motores son no reparables','El mando del salpicadero tiene el eje vertical bloqueado mecánicamente por acumulación de suciedad','Es una función de fábrica: el eje vertical se ajusta automáticamente con el retrovisor interior'],
+      correct:0,explanation:'Los espejos eléctricos tienen motores independientes para cada eje. El diagnóstico por tensión en el terminal del motor defectuoso localiza si el fallo es en el motor o en el circuito de alimentación. Verificar también la masa del motor. Si el motor recibe tensión pero no gira, está averiado internamente.'},
+
+    {band:'a',tag:'cierre',level:'Alto',points:20,
+      q:'¿Qué es la función de cierre automático de velocidad y qué módulo la gestiona?',
+      options:['El módulo de cierre centralizado recibe una señal de la ECU o del módulo de carrocería cuando el vehículo supera una velocidad predefinida (generalmente 20 km/h) y bloquea automáticamente todas las puertas','Es una función mecánica que actúa por la fuerza centrífuga al aumentar la velocidad','La activa el módulo ABS cuando detecta que las ruedas giran a más de 15 km/h','Es una función exclusiva de vehículos con transmisión automática que no existe en los de transmisión manual'],
+      correct:0,explanation:'Muchos vehículos bloquean automáticamente las puertas al superar los 15-20 km/h (parámetro programable en algunos modelos). La ECU de carrocería o el módulo de cierre recibe la señal de velocidad del CAN bus y envía la orden de bloqueo al módulo de cierre centralizado.'},
+
+    {band:'a',tag:'elevalunas',level:'Alto',points:20,
+      q:'¿Qué diferencia hay entre un módulo de elevalunas con arquitectura "master-slave" y uno con módulos independientes por puerta?',
+      options:['En master-slave, un módulo central gestiona todos los elevalunas (comunicación CAN bus); en módulos independientes, cada puerta tiene su propia ECU. La arquitectura master-slave facilita el diagnóstico centralizado pero si falla el master, pueden fallar todos','No hay diferencia funcional; solo es una denominación comercial diferente','En master-slave, el módulo slave solo controla la ventana trasera del lado del conductor','La arquitectura con módulos independientes es obsoleta y solo aparece en vehículos anteriores a 2000'],
+      correct:0,explanation:'La arquitectura CAN bus con master-slave centraliza el control: el módulo master recibe todas las señales y gestiona todos los motores a través del bus. Los módulos independientes son más simples pero requieren más cableado. El diagnóstico CAN permite leer el estado de todos los elevalunas desde una única herramienta.'},
+
+    {band:'a',tag:'limpialuneta',level:'Alto',points:20,
+      q:'¿Cómo se ajusta la posición de reposo de la escobilla del limpialuneta trasero si queda en una posición incorrecta tras el montaje del motor?',
+      options:['Aflojando la tuerca de fijación del brazo en el eje del motor (con el sistema en posición de reposo), reposicionando el brazo en el ángulo correcto y apretando la tuerca al par especificado','Reprogramando el módulo de limpialuneta con la herramienta de diagnosis para cambiar el ángulo de reposo','Girando el eje del motor manualmente hasta la posición deseada y fijándolo con cola de contacto','La posición de reposo es fija por diseño y no puede ajustarse sin sustituir el motor'],
+      correct:0,explanation:'La posición de reposo de la escobilla se determina por la posición en que se monta el brazo sobre el eje estriado del motor. Con el sistema en posición de reposo (autoestacionamiento finalizado), se afloja el brazo, se gira a la posición correcta y se aprieta al par especificado. El eje estriado permite ajuste fino.'},
+
+    {band:'a',tag:'luneta_termica',level:'Alto',points:20,
+      q:'La luneta térmica consume más corriente de lo normal (medida con pinza amperimétrica: 35 A en lugar de los 20 A especificados). ¿Qué puede indicar esto?',
+      options:['Un cortocircuito parcial entre filamentos o hacia masa; los filamentos se han deteriorado y en algún punto se han unido, creando un camino de baja resistencia que aumenta el consumo','Los filamentos adicionales del sistema de antena de radio integrada están activos simultáneamente','La temperatura exterior muy baja aumenta la resistividad de los filamentos y por tanto la corriente','El alternador regula a mayor tensión de lo normal y eso aumenta el consumo de todos los circuitos'],
+      correct:0,explanation:'Un consumo mayor al especificado indica menor resistencia total del circuito: la resistencia de los filamentos es fija en diseño. Si baja, es por un cortocircuito entre filamentos adyacentes. Con temperaturas bajas la resistencia de metales aumenta (no disminuye), descartando esa opción.'},
+
+    {band:'a',tag:'espejos',level:'Alto',points:20,
+      q:'¿Qué es el sistema de espejo retrovisor electrocrómico y cómo funciona?',
+      options:['Un espejo que oscurece automáticamente su superficie reflectante al detectar luz intensa detrás del vehículo, reduciendo el deslumbramiento nocturno; usa un material electrocrómico (gel entre dos capas conductoras) que cambia de transparente a opaco al aplicar tensión','Un espejo con pantalla LCD integrada que muestra la imagen de la cámara trasera','Un espejo que cambia de ángulo automáticamente al detectar luces del vehículo de atrás','Un espejo con calefacción que se activa cuando detecta temperaturas bajo cero'],
+      correct:0,explanation:'El material electrocrómico (generalmente viológenos en gel entre electrodos conductores) cambia de transparente a oscuro (azulado) cuando se aplica una pequeña tensión eléctrica. Un fotodetector mide la luz detrás del vehículo y ajusta la tensión para mantener el nivel de oscurecimiento adecuado.'},
+
+    {band:'a',tag:'cierre',level:'Alto',points:20,
+      q:'Tras sustituir el módulo de cierre centralizado de un vehículo moderno, el sistema no funciona aunque está correctamente instalado. ¿Por qué y cuál es el paso siguiente?',
+      options:['Los módulos de cierre modernos necesitan ser programados/inicializados con la VIN del vehículo y el número de llaves mediante la herramienta de diagnóstico del fabricante; sin programación, el módulo no reconoce las llaves ni los mandos','El módulo nuevo debe ser calentado durante 30 minutos antes de funcionar','El módulo nuevo es incompatible; hay que pedir el número de parte exacto del fabricante original','Hay que borrar la memoria de todos los mandos y reprogramarlos manualmente'],
+      correct:0,explanation:'Los módulos de cierre centralizado modernos almacenan los códigos criptográficos de las llaves y mandos, y en muchos casos también el VIN del vehículo (para el sistema de inmovilización). Un módulo nuevo de recambio viene sin programar y debe inicializarse con la herramienta de diagnóstico del fabricante para vincular las llaves existentes.'},
+
+    {band:'a',tag:'elevalunas',level:'Alto',points:20,
+      q:'¿Qué protocolo de comunicación usa el módulo de elevalunas en la arquitectura eléctrica de un vehículo moderno y qué ventajas de diagnóstico aporta?',
+      options:['LIN bus (Local Interconnect Network) o CAN bus según la gama del vehículo; permiten al técnico leer el estado de cada ventana, los errores almacenados y los valores en tiempo real (corriente del motor, posición) con herramienta de diagnóstico OBD','Un protocolo propietario de cada fabricante incompatible con las herramientas genéricas OBD-II','Comunicación analógica de 0-5 V; sin capacidad de diagnóstico digital','Solo CAN bus de alta velocidad (500 kbps) en todos los vehículos fabricados desde 2005'],
+      correct:0,explanation:'Los módulos de elevalunas modernos usan LIN bus (bajo coste, topología lineal) o CAN bus de carrocería. Esto permite al técnico conectar una herramienta de diagnóstico y leer DTC específicos (motor bloqueado, antipinzamiento activado, fallo de alimentación por puerta), valores en tiempo real y forzar actuaciones para verificar el funcionamiento.'},
+
+    {band:'a',tag:'luneta_termica',level:'Alto',points:20,
+      q:'¿Qué precaución debe tomarse al realizar trabajos de carrocería (lijado, masilla) cerca de la luneta térmica trasera para no dañar el sistema?',
+      options:['Cubrir y proteger los colectores (barras de cobre) de los extremos de la luneta y los conectores; nunca lijar sobre los filamentos ni aplicar calor intenso cerca del borde del vidrio con los filamentos serigrafiados','Solo es necesario desconectar el conector eléctrico de la luneta durante los trabajos','No hay precauciones especiales; los filamentos son muy resistentes a los trabajos de carrocería','Desmontar la luneta completa antes de cualquier trabajo de carrocería adyacente'],
+      correct:0,explanation:'Los colectores de cobre en los bordes y los filamentos serigrafiados son frágiles. El lijado sobre ellos los destruye irreparablemente. El calor intenso (antorcha, pistola de calor excesiva) puede dañar el vidrio y los filamentos. Las barras colectoras y los conectores deben protegerse con cinta de carrocero o enmascarar correctamente.'}
+  ],
+
+  // ══════════════════════════════════════════════════════════════════
+  // FINAL RA3
+  // ══════════════════════════════════════════════════════════════════
+  final:[
+    {band:'b',tag:'integracion',level:'Nivel 1',points:10,
+      q:'¿Qué función tiene un fusible en el circuito de un sistema auxiliar del vehículo?',
+      options:['Proteger el circuito interrumpiendo la corriente si supera el valor máximo admisible','Controlar la velocidad del motor auxiliar','Convertir corriente alterna en continua para el receptor','Regular la tensión de alimentación del sistema'],
+      correct:0,explanation:'El fusible protege el cableado y los componentes cortando la corriente cuando supera su calibre, evitando daños por sobrecalentamiento o cortocircuito.'},
+
+    {band:'b',tag:'integracion',level:'Nivel 2',points:10,
+      q:'¿Qué color deben tener las luces de freno según la normativa?',
+      options:['Rojo','Ámbar','Blanco','Verde'],
+      correct:0,explanation:'Las luces de freno son obligatoriamente rojas para señalizar la deceleración del vehículo a los conductores que vienen detrás.'},
+
+    {band:'b',tag:'integracion',level:'Nivel 3',points:10,
+      q:'¿Qué componente del circuito de cierre centralizado actúa físicamente sobre el pestillo de cada puerta?',
+      options:['El actuador eléctrico (motor de CC o solenoide)','El módulo de cierre centralizado','El relé de la puerta','El conmutador del salpicadero'],
+      correct:0,explanation:'El actuador eléctrico de cada puerta convierte la señal eléctrica del módulo en movimiento mecánico sobre el pestillo, bloqueando o desbloqueando la puerta.'},
+
+    {band:'m',tag:'procedimiento',level:'Nivel 4',points:15,
+      q:'Para sustituir una lámpara halógena de faro, ¿qué precaución específica hay que tomar al manipular el bulbo de cuarzo?',
+      options:['No tocar el bulbo con los dedos; usar guantes o paño limpio para evitar depósitos de grasa que causan rotura por estrés térmico','Solo esperar a que el faro esté frío antes de tocar la lámpara','Usar guantes de plástico gruesos para protegerse de la alta tensión','Desconectar la batería completa antes de abrir el compartimento del motor'],
+      correct:0,explanation:'La grasa de los dedos en el bulbo de cuarzo crea puntos calientes que pueden provocar la rotura de la lámpara en servicio. Siempre se manipula con guantes o paño limpio.'},
+
+    {band:'m',tag:'procedimiento',level:'Nivel 5',points:15,
+      q:'¿Cómo se detecta un filamento roto en la luneta térmica trasera con el polímetro?',
+      options:['Con la luneta activa, deslizando la punta del voltímetro a lo largo del filamento: la tensión cae a 0 V bruscamente en el punto de rotura','Midiendo la resistencia total de la luneta con el ohmímetro desde los conectores externos','Comprobando que el fusible de la luneta está fundido','Midiendo la corriente total de la luneta con la pinza amperimétrica'],
+      correct:0,explanation:'El método del voltímetro con la luneta activa localiza exactamente el punto de rotura: la tensión decrece gradualmente a lo largo del filamento íntegro y cae bruscamente a 0 V en el punto roto.'},
+
+    {band:'m',tag:'procedimiento',level:'Nivel 6',points:15,
+      q:'¿Cuál es la consecuencia de instalar un fusible de mayor amperaje del especificado en un circuito auxiliar?',
+      options:['El cable puede sobrecalentarse y provocar un incendio porque el fusible no protege el circuito para el que está diseñado','El circuito funcionará mejor al tener mayor reserva de corriente','El receptor auxiliar recibirá más potencia y funcionará más rápido','No hay consecuencias si el fusible nuevo es del mismo tipo físico (cuchilla, cristal, etc.)'],
+      correct:0,explanation:'El fusible protege el cable, no el receptor. Un calibre mayor no protege adecuadamente el cableado: el cable puede calentarse hasta fundir el aislante antes de que el fusible actúe.'},
+
+    {band:'m',tag:'seguridad',level:'Nivel 7',points:15,
+      q:'¿Qué EPI son obligatorios al realizar el reglaje de faros de xenón HID con el regloscopio?',
+      options:['Gafas de protección frente a radiación UV/azul y guantes aislantes si hay manipulación del sistema eléctrico; no mirar directamente al haz del faro HID','Solo gafas de sol para reducir el deslumbramiento del haz','Casco y guantes de cuero para trabajos de mecánica general','No se requieren EPI específicos para el reglaje de faros'],
+      correct:0,explanation:'Los faros HID emiten radiación UV y luz azul de alta intensidad. Mirar directamente puede dañar la retina. Además, si hay manipulación eléctrica del sistema, los guantes aislantes son necesarios por la alta tensión del balasto.'},
+
+    {band:'a',tag:'procedimiento',level:'Nivel 8',points:20,
+      q:'El elevalunas del copiloto sube pero no baja. El conductor puede subirlo y bajarlo desde su panel. ¿Cuál es el diagnóstico más probable?',
+      options:['El pulsador de bajada del elevalunas del copiloto tiene falta de continuidad en esa posición; verificar con polímetro en continuidad el pulsador en posición de bajada','El módulo de elevalunas del copiloto está averiado completamente','El motor del elevalunas solo puede bajar desde el control del conductor por diseño de seguridad','El fusible del elevalunas del copiloto está fundido parcialmente'],
+      correct:0,explanation:'Si sube desde el propio pulsador pero no baja, el circuito de alimentación y el motor están bien. El fallo es específico de la posición de bajada del pulsador del copiloto. La verificación de continuidad del pulsador en esa posición confirmará si es el elemento averiado.'},
+
+    {band:'a',tag:'integracion',level:'Nivel 9',points:20,
+      q:'¿Por qué el reglaje de faros debe realizarse en condiciones de carga normalizada del vehículo y no con el vehículo completamente vacío?',
+      options:['Porque la altura del vehículo varía con la carga, cambiando el ángulo del haz; el reglaje en vacío no sería válido para las condiciones reales de uso con ocupantes y carga habitual','Porque el sistema de nivelación automática solo funciona con carga mínima','Porque el fabricante solo especifica el reglaje con el depósito de combustible lleno','Porque las bombillas de los faros necesitan temperatura de trabajo para un reglaje preciso'],
+      correct:0,explanation:'Con más carga, la parte trasera del vehículo desciende y la delantera sube, elevando el haz y potencialmente deslumbrando. El reglaje se realiza en las condiciones de carga especificadas por el fabricante (generalmente conductor + copiloto o solo conductor) para que sea válido en el uso habitual.'},
+
+    {band:'a',tag:'procedimiento',level:'Nivel 10',points:25,
+      q:'Un vehículo entra al taller con varios sistemas auxiliares fallando simultáneamente: elevalunas, cierre centralizado y luneta térmica no funcionan, pero las luces y la bocina están bien. ¿Cuál es el diagnóstico probable y el árbol de diagnosis?',
+      options:['Posible fallo en el fusible principal del módulo de carrocería o en la alimentación/masa del módulo de carrocería (BCM) que gestiona esos sistemas; verificar fusibles de la caja de relés/fusibles correspondiente al BCM, medir tensión y masa en el conector del BCM, y leer los DTC con herramienta de diagnóstico antes de sustituir ningún componente','Sustituir el módulo de carrocería (BCM) directamente sin más diagnóstico','El problema es el alternador que no carga correctamente y afecta a los sistemas de mayor consumo','Hay que sustituir simultáneamente los tres actuadores (elevalunas, cierre y luneta) porque fallaron a la vez'],
+      correct:0,explanation:'Cuando varios sistemas gestionados por el mismo módulo fallan simultáneamente, el problema casi siempre está en la alimentación o masa del módulo, no en los sistemas individuales. El árbol de diagnosis correcto es: 1) Verificar fusibles del BCM. 2) Medir tensión y masa en el conector del BCM. 3) Leer DTC. 4) Solo si la alimentación es correcta y hay DTC de fallo interno, sustituir el BCM (que requerirá programación posterior).'}
+  ]
+};
+
+// ── MOTOR ─────────────────────────────────────────────────────────────
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function buildSelection(pool){
+  const b=shuffle(pool.filter(q=>q.band==='b')).slice(0,6);
+  const m=shuffle(pool.filter(q=>q.band==='m')).slice(0,8);
+  const a=shuffle(pool.filter(q=>q.band==='a')).slice(0,6);
+  return shuffle([...b,...m,...a]);
+}
+function defaultResult(){return{best:null,attempts:0,last:null,basicCorrect:0};}
+const profileKey=()=>`${storagePrefix}::${student.name}`;
+function hydrateResults(){
+  unlockOrder.forEach(id=>{if(!globalState.results[id])globalState.results[id]=defaultResult();});
+}
+function serializableState(){
+  return{name:student.name,points:globalState.points,stars:globalState.stars,bestStreak:globalState.bestStreak,completedUnits:[...globalState.completedUnits],results:globalState.results,saveCount:globalState.saveCount};
+}
+function saveProfile(){
+  if(student.name==='Sin nombre')return;
+  globalState.saveCount++;
+  localStorage.setItem(profileKey(),JSON.stringify(serializableState()));
+  document.getElementById('save-status').textContent=`✅ Guardado: ${student.name} · ${new Date().toLocaleTimeString()}`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+}
+function loadProfileByName(name){
+  const raw=localStorage.getItem(`${storagePrefix}::${name}`);
+  if(!raw)return false;
+  const d=JSON.parse(raw);
+  student.name=d.name;globalState.points=d.points||0;globalState.stars=d.stars||0;globalState.bestStreak=d.bestStreak||0;globalState.completedUnits=new Set(d.completedUnits||[]);globalState.results=d.results||{};globalState.saveCount=d.saveCount||0;
+  hydrateResults();return true;
+}
+function resetProfile(){
+  globalState.points=0;globalState.stars=0;globalState.bestStreak=0;globalState.completedUnits=new Set();globalState.results={};globalState.saveCount=0;
+  hydrateResults();localStorage.removeItem(profileKey());
+}
+document.getElementById('save-student').addEventListener('click',()=>{
+  const n=document.getElementById('student-name').value.trim();if(!n)return;
+  student.name=n;hydrateResults();saveProfile();updateGlobalPanel();refreshAll();
+});
+document.getElementById('resume-student').addEventListener('click',()=>{
+  const n=document.getElementById('student-name').value.trim();
+  if(!n){document.getElementById('save-status').textContent='⚠️ Escribe un nombre primero.';return;}
+  if(loadProfileByName(n)){document.getElementById('student-name').value=student.name;document.getElementById('save-status').textContent=`📂 Perfil cargado: ${student.name}`;updateGlobalPanel();refreshAll();updateReport();}
+  else{document.getElementById('save-status').textContent='⚠️ No se encontró perfil con ese nombre.';}
+});
+document.getElementById('clear-student').addEventListener('click',()=>{
+  if(!confirm('¿Reiniciar el perfil? Se perderá todo el progreso.'))return;
+  resetProfile();document.getElementById('save-status').textContent='🗑️ Perfil reiniciado.';updateGlobalPanel();refreshAll();updateReport();
+});
+function passesUnlock(id){
+  const r=globalState.results[id];if(!r||r.best===null)return false;
+  return r.best>=7||(r.basicCorrect||0)>=6;
+}
+function isQuizUnlocked(id){
+  const rule=unlockRules[id];if(!rule)return true;
+  const idx=unlockOrder.indexOf(id);
+  for(let i=0;i<idx;i++){if(!passesUnlock(unlockOrder[i]))return false;}
+  return passesUnlock(rule.prev);
+}
+function attemptsLeft(id){const r=globalState.results[id];if(!r)return maxAttemptsPerBlock;return Math.max(0,maxAttemptsPerBlock-r.attempts);}
+function hasAttemptsLeft(id){return attemptsLeft(id)>0;}
+function updateGlobalPanel(){
+  document.getElementById('global-points').textContent=globalState.points;
+  document.getElementById('global-stars').textContent=globalState.stars;
+  document.getElementById('global-streak').textContent=globalState.bestStreak;
+  document.getElementById('global-units').textContent=`${globalState.completedUnits.size}/3`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+  document.getElementById('report-name').textContent=student.name;
+  unlockOrder.forEach(id=>{
+    const badge=document.getElementById(`badge-${id}`);if(!badge)return;
+    if(passesUnlock(id)){
+      badge.classList.remove('badge-lock');badge.classList.add('badge-unlock');
+      const h3=badge.querySelector('h3');
+      if(h3&&!h3.textContent.includes('🏆')&&!h3.textContent.includes('✅')){
+        const r=globalState.results[id];
+        h3.textContent=(r&&r.best>=8?'🏆 ':'✅ ')+h3.textContent.replace(/^[^\w🔌💡🪟🏆✅]*/,'');
+      }
+    }
+  });
+}
+function levelLabel(score){
+  if(score>=9)return'⭐⭐⭐ Excelente';if(score>=7)return'⭐⭐ Superado';if(score>=5)return'⭐ Mejorable';return'❌ No superado';
+}
+function updateReport(){
+  const tbody=document.getElementById('report-table');
+  const titles={ud2:'UD2 Elementos del Circuito',ud3:'UD3 Alumbrado y Maniobras',ud4:'UD4 Otros Circuitos',final:'Prueba Final RA3'};
+  tbody.innerHTML='';
+  unlockOrder.forEach(id=>{
+    const r=globalState.results[id]||defaultResult();
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${titles[id]||id}</td><td>${r.best!==null?r.best+'/10':'—'}</td><td>${r.attempts}/${maxAttemptsPerBlock}</td><td>${r.last!==null?r.last+'/10':'—'}</td><td>${r.best!==null?levelLabel(r.best):'—'}</td>`;
+    tbody.appendChild(tr);
+  });
+  const scores=unlockOrder.map(id=>globalState.results[id]?.best).filter(s=>s!==null&&s!==undefined);
+  const diag=document.getElementById('global-diagnosis');
+  if(scores.length===0){diag.innerHTML='<strong>Diagnóstico global:</strong> Completa al menos una prueba para ver el diagnóstico.';return;}
+  const avg=scores.reduce((a,b)=>a+b,0)/scores.length;
+  let msg='';
+  if(avg>=9)msg='Rendimiento excelente. Dominas el mantenimiento de todos los sistemas auxiliares del vehículo.';
+  else if(avg>=7)msg='Buen nivel. Has superado los objetivos del RA3. Repasa los puntos señalados para consolidar.';
+  else if(avg>=5)msg='Nivel aceptable. Hay sistemas auxiliares que necesitan más práctica y estudio.';
+  else msg='Necesitas repasar los contenidos de UD2, UD3 y UD4 antes de avanzar. Consulta al profesor.';
+  diag.innerHTML=`<strong>Diagnóstico global (media ${avg.toFixed(1)}/10):</strong> ${msg}`;
+}
+function buildReview(id,tagErrors){
+  if(!tagErrors||Object.keys(tagErrors).length===0)return'';
+  const msgs=reviewMessages[id]||{};
+  const lines=Object.keys(tagErrors).filter(t=>tagErrors[t]>0).map(t=>msgs[t]||`Repasa el apartado: ${t}.`);
+  if(lines.length===0)return'';
+  return'<strong>📚 Puntos para repasar:</strong><ul style="margin:.5em 0 0 1.2em">'+lines.map(l=>`<li>${l}</li>`).join('')+'</ul>';
+}
+function buildGateSummary(id,score,passed,tagErrors){
+  const left=attemptsLeft(id);let html='';
+  if(passed){
+    const stars=score>=9?'⭐⭐⭐':score>=7?'⭐⭐':'⭐';
+    html=`<div style="font-size:13px"><strong>${stars} ¡Bloque superado!</strong> Resultado: ${score}/10.<br>`;
+    if(id!=='final'&&!isQuizUnlocked('final'))html+='Supera todas las UDs para desbloquear la Prueba Final.</div>';
+    else html+='</div>';
+  }else{
+    const reviewHtml=buildReview(id,tagErrors);
+    html=`<div style="font-size:13px"><strong>Resultado: ${score}/10.</strong> ${left>0?`Intentos restantes: ${left}.`:'Sin más intentos.'}<br>${reviewHtml}</div>`;
+  }
+  return html;
+}
+function createQuiz(id){
+  const meta=unitMeta[id];const isFinal=id==='final';
+  let questions=[],qi=0,score=0,streak=0,localBestStreak=0,answered=0,tagErrors={};let sessionActive=false;
+  const section=document.getElementById(`quiz-${id}`);
+  const progFill=section.querySelector('.prog-fill'),progText=section.querySelector('.prog-text'),scoreEl=section.querySelector('.score-el'),streakEl=section.querySelector('.streak-el'),ptsEl=section.querySelector('.pts-el'),levelTag=section.querySelector('.level-tag'),qText=section.querySelector('.question-text'),optsEl=section.querySelector('.options'),feedbackEl=section.querySelector('.feedback'),rewardEl=section.querySelector('.reward'),gateEl=section.querySelector('.gate-msg'),reviewEl=section.querySelector('.review-box'),lockedEl=section.querySelector('.locked-notice'),quizContent=section.querySelector('.quiz-content'),nextBtn=section.querySelector('.btn-next'),restartBtn=section.querySelector('.btn-restart');
+  function render(){
+    const unlocked=isQuizUnlocked(id),hasAttempts=hasAttemptsLeft(id);
+    if(!unlocked){lockedEl.style.display='block';quizContent.style.display='none';const rule=unlockRules[id];lockedEl.querySelector('p').textContent=rule?rule.label:'Completa los bloques anteriores.';return;}
+    lockedEl.style.display='none';quizContent.style.display='block';
+    if(!sessionActive){gateEl.classList.remove('show');reviewEl.classList.remove('show');if(!hasAttempts){qText.textContent='Has alcanzado el máximo de intentos para este bloque.';optsEl.innerHTML='';feedbackEl.classList.remove('show');rewardEl.classList.remove('show');nextBtn.style.display='none';restartBtn.style.display='none';progFill.style.width='100%';return;}startSession();return;}
+    renderQuestion();
+  }
+  function startSession(){
+    questions=isFinal?[...questionPools.final]:buildSelection(questionPools[id]);
+    qi=0;score=0;streak=0;localBestStreak=0;answered=0;tagErrors={};sessionActive=true;
+    gateEl.classList.remove('show');reviewEl.classList.remove('show');renderQuestion();
+  }
+  function renderQuestion(){
+    if(qi>=questions.length){endSession();return;}
+    const q=questions[qi];
+    const pct=Math.round((qi/questions.length)*100);
+    progFill.style.width=pct+'%';progText.textContent=`${qi+1}/${questions.length}`;scoreEl.textContent=`${score}/${questions.length}`;streakEl.textContent=streak>1?`🔥${streak}`:'';ptsEl.textContent=globalState.points;
+    const cls=q.band==='b'?'basico':q.band==='m'?'medio':'alto';
+    levelTag.className=`level-tag ${cls}`;levelTag.textContent=q.level;qText.textContent=q.q;
+    const shuffled=shuffle([0,1,2,3]),correctShuffled=shuffled.indexOf(0);
+    optsEl.innerHTML='';
+    shuffled.forEach((origIdx,dispIdx)=>{const btn=document.createElement('button');btn.className='opt-btn';btn.textContent=q.options[origIdx];btn.addEventListener('click',()=>handleAnswer(dispIdx,correctShuffled,q));optsEl.appendChild(btn);});
+    feedbackEl.classList.remove('show','ok','fail');rewardEl.classList.remove('show');nextBtn.style.display='none';
+  }
+  function handleAnswer(chosen,correct,q){
+    const btns=optsEl.querySelectorAll('.opt-btn');btns.forEach(b=>b.disabled=true);btns[correct].classList.add('correct');answered++;
+    if(!tagErrors[q.tag])tagErrors[q.tag]=0;
+    if(chosen===correct){
+      score++;streak++;if(streak>localBestStreak)localBestStreak=streak;if(streak>globalState.bestStreak)globalState.bestStreak=streak;globalState.points+=q.points;
+      feedbackEl.className='feedback show ok';feedbackEl.innerHTML=`✅ <strong>¡Correcto!</strong> (+${q.points} pts) ${q.explanation}`;
+      rewardEl.textContent=streak>=5?'🔥🔥🔥':streak>=3?'🌟':streak>=2?'✨':'';if(streak>=2)rewardEl.classList.add('show');
+      if(q.band==='b'){const r=globalState.results[id];if(r)r.basicCorrect=(r.basicCorrect||0)+1;}
+    }else{btns[chosen].classList.add('wrong');streak=0;tagErrors[q.tag]++;feedbackEl.className='feedback show fail';feedbackEl.innerHTML=`❌ <strong>Incorrecto.</strong> ${q.explanation}`;}
+    scoreEl.textContent=`${score}/${questions.length}`;streakEl.textContent=streak>1?`🔥${streak}`:'';ptsEl.textContent=globalState.points;nextBtn.style.display='inline-block';
+  }
+  function endSession(){
+    sessionActive=false;const total=questions.length,finalScore=Math.round((score/total)*10);
+    const r=globalState.results[id];r.attempts++;r.last=finalScore;if(r.best===null||finalScore>r.best)r.best=finalScore;
+    const stars=finalScore>=9?3:finalScore>=7?2:finalScore>=5?1:0;globalState.stars+=stars;
+    if(finalScore>=7&&!isFinal)globalState.completedUnits.add(id);
+    progFill.style.width='100%';progText.textContent=`${total}/${total}`;scoreEl.textContent=`${score}/${total}`;
+    qText.textContent=`Resultado final: ${score}/${total} preguntas correctas (${finalScore}/10)`;
+    optsEl.innerHTML='';feedbackEl.classList.remove('show');rewardEl.classList.remove('show');
+    const passed=finalScore>=7;
+    gateEl.innerHTML=buildGateSummary(id,finalScore,passed,tagErrors);gateEl.classList.add('show');
+    const reviewHtml=buildReview(id,tagErrors);if(reviewHtml&&!passed){reviewEl.innerHTML=reviewHtml;reviewEl.classList.add('show');}
+    nextBtn.style.display='none';restartBtn.style.display=hasAttemptsLeft(id)?'inline-block':'none';
+    saveProfile();updateGlobalPanel();updateReport();refreshAll();
+  }
+  nextBtn.addEventListener('click',()=>{qi++;renderQuestion();});
+  restartBtn.addEventListener('click',()=>{startSession();});
+  return{render};
+}
+function renderQuizSections(){
+  const container=document.getElementById('quizzes');container.innerHTML='';
+  ['ud2','ud3','ud4','final'].forEach(id=>{
+    const meta=unitMeta[id],isFinal=id==='final';
+    const sec=document.createElement('section');sec.className='section';sec.id=id;
+    sec.innerHTML=`
+    <div class="wrap">
+      <div class="section-head"><div><h2>${meta[0]}</h2><p class="muted">${meta[1]}</p></div></div>
+      <div class="quiz-layout" id="quiz-${id}">
+        <div class="status-box">
+          <h4>${isFinal?'Prueba Final':'Progreso UD'}</h4>
+          <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
+          <div class="status-row"><span>Pregunta</span><strong class="prog-text">0/20</strong></div>
+          <div class="status-row"><span>Aciertos</span><strong class="score-el">0/20</strong></div>
+          <div class="status-row"><span>Puntos totales</span><strong class="pts-el">0</strong></div>
+          <div style="margin-top:8px"><span class="streak-badge" style="display:inline-flex"><span class="streak-el"></span></span></div>
+          <div style="margin-top:12px;font-size:12px;color:var(--muted)" id="attempts-${id}"></div>
+        </div>
+        <div class="quiz-box">
+          <div class="quiz-content">
+            <span class="level-tag basico">Básico</span>
+            <p class="question-text">Cargando pregunta…</p>
+            <div class="options"></div>
+            <div class="reward"></div>
+            <div class="feedback"></div>
+            <div class="gate-msg"></div>
+            <div class="review-box"></div>
+            <div class="nav-btns">
+              <button class="btn btn-primary btn-next" style="display:none">Siguiente →</button>
+              <button class="btn btn-secondary btn-restart" style="display:none">🔄 Nuevo intento</button>
+            </div>
+          </div>
+          <div class="locked-notice" style="display:none"><div class="lock-icon">🔒</div><p></p></div>
+        </div>
+      </div>
+    </div>`;
+    container.appendChild(sec);
+  });
+}
+let quizInstances={};
+function refreshAll(){
+  Object.values(quizInstances).forEach(q=>q.render());
+  unlockOrder.forEach(id=>{const el=document.getElementById(`attempts-${id}`);if(el)el.textContent=`Intentos: ${(globalState.results[id]?.attempts||0)}/${maxAttemptsPerBlock}`;});
+}
+renderQuizSections();
+hydrateResults();
+['ud2','ud3','ud4','final'].forEach(id=>{quizInstances[id]=createQuiz(id);});
+updateGlobalPanel();
+refreshAll();
+updateReport();
+</script>
+</body>
+</html>

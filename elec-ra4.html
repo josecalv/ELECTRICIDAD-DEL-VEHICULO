@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula Taller · RA4 Seguridad y Medioambiente · Electricidad del Vehículo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;--surface3:#f0ece6;
+      --border:#d4d1ca;--text:#28251d;--muted:#6f6d67;--inv:#faf8f5;
+      --primary:#01696f;--success:#437a22;--danger:#b13b82;--gold:#d19900;
+      --radius:18px;--shadow:0 18px 40px rgba(35,28,18,.09);
+      --font-display:'Instrument Serif',Georgia,serif;
+      --font-body:'Inter',system-ui,sans-serif
+    }
+    [data-theme="dark"]{
+      --bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--surface3:#262422;
+      --border:#393836;--text:#e2dfd9;--muted:#a5a19b;--inv:#191816;
+      --primary:#4f98a3;--success:#76b14c;--danger:#db77b2;--gold:#e4b843;
+      --shadow:0 18px 40px rgba(0,0,0,.35)
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+    header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .topbar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .logo svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .brand small{display:block;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;line-height:1}
+    .brand strong{font-size:15px;font-weight:700}
+    .nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+    .nav a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;transition:background .2s,color .2s}
+    .nav a:hover{background:var(--surface3);color:var(--text)}
+    .theme-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:15px;transition:background .2s}
+    .theme-btn:hover{background:var(--surface3)}
+    .hero{padding:64px 0 48px;background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border-bottom:1px solid var(--border)}
+    .hero-grid{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+    @media(max-width:780px){.hero-grid{grid-template-columns:1fr}.hero-side{display:none}}
+    .eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:12px}
+    h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:400;line-height:1.1;margin-bottom:16px}
+    .lead{font-size:16px;color:var(--muted);max-width:520px;margin-bottom:24px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+    .chip{font-size:12px;font-weight:600;background:var(--surface3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--muted)}
+    .student-form{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+    .student-form input{flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border .2s}
+    .student-form input:focus{border-color:var(--primary)}
+    .save-box{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .save-status{font-size:13px;color:var(--muted);flex:1;min-width:160px}
+    .btn{font-family:var(--font-body);font-size:13px;font-weight:600;padding:9px 18px;border-radius:10px;border:none;cursor:pointer;transition:all .2s}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{filter:brightness(1.1)}
+    .btn-secondary{background:var(--surface3);color:var(--text);border:1px solid var(--border)}
+    .btn-secondary:hover{background:var(--border)}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+    .hero-side h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .stat{text-align:center;padding:12px 8px;background:var(--surface2);border-radius:12px;border:1px solid var(--border)}
+    .stat strong{display:block;font-size:22px;font-weight:800;color:var(--primary)}
+    .stat span{font-size:11px;color:var(--muted);font-weight:600}
+    .muted{color:var(--muted)}
+    .section{padding:48px 0}
+    .section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:32px}
+    .section-head h2{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400}
+    .section-head p{margin-top:4px;font-size:14px;color:var(--muted)}
+    .cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .badgebox{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:all .3s}
+    .badgebox h3{font-size:22px;margin-bottom:8px}
+    .badgebox p{font-size:13px;color:var(--muted)}
+    .badgebox.badge-lock{opacity:.5;filter:grayscale(1)}
+    .badgebox.badge-unlock{border-color:var(--success);background:linear-gradient(135deg,var(--surface),var(--surface2));opacity:1;filter:none}
+    .quiz-layout{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+    @media(max-width:700px){.quiz-layout{grid-template-columns:1fr}}
+    .status-box{position:sticky;top:80px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+    .status-box h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+    .prog-bar{height:8px;background:var(--surface3);border-radius:4px;margin-bottom:16px;overflow:hidden}
+    .prog-fill{height:100%;background:var(--primary);border-radius:4px;transition:width .4s}
+    .status-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
+    .status-row span{color:var(--muted)}
+    .status-row strong{color:var(--text)}
+    .streak-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gold);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+    .quiz-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+    .level-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:20px;margin-bottom:14px}
+    .level-tag.basico{background:#e8f5e9;color:#2e7d32}
+    .level-tag.medio{background:#fff8e1;color:#f57f17}
+    .level-tag.alto{background:#fce4ec;color:#880e4f}
+    [data-theme="dark"] .level-tag.basico{background:#1b3a1f;color:#76b14c}
+    [data-theme="dark"] .level-tag.medio{background:#3a2e00;color:#e4b843}
+    [data-theme="dark"] .level-tag.alto{background:#3a0a20;color:#db77b2}
+    .question-text{font-size:17px;font-weight:600;line-height:1.5;margin-bottom:22px}
+    .options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+    .opt-btn{text-align:left;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface2);color:var(--text);font-family:var(--font-body);font-size:14px;cursor:pointer;transition:all .2s;line-height:1.4}
+    .opt-btn:hover:not(:disabled){border-color:var(--primary);background:var(--surface3)}
+    .opt-btn.correct{border-color:var(--success);background:#f0fce8;color:#2e5c10}
+    .opt-btn.wrong{border-color:var(--danger);background:#fce8f3;color:#7a1045}
+    [data-theme="dark"] .opt-btn.correct{background:#1a2e10;color:#76b14c}
+    [data-theme="dark"] .opt-btn.wrong{background:#2e0a1a;color:#db77b2}
+    .opt-btn:disabled{cursor:default}
+    .feedback{padding:12px 16px;border-radius:12px;font-size:14px;margin-bottom:16px;display:none}
+    .feedback.show{display:block}
+    .feedback.ok{background:#f0fce8;border:1px solid var(--success);color:#2e5c10}
+    .feedback.fail{background:#fce8f3;border:1px solid var(--danger);color:#7a1045}
+    [data-theme="dark"] .feedback.ok{background:#1a2e10;color:#76b14c}
+    [data-theme="dark"] .feedback.fail{background:#2e0a1a;color:#db77b2}
+    .reward{font-size:28px;text-align:center;margin-bottom:8px;display:none}
+    .reward.show{display:block}
+    .gate-msg{padding:16px;border-radius:12px;font-size:14px;background:var(--surface3);border:1px solid var(--border);margin-bottom:16px;display:none}
+    .gate-msg.show{display:block}
+    .review-box{padding:16px;border-radius:12px;font-size:13px;background:var(--surface3);border:1px solid var(--border);color:var(--muted);margin-top:12px;display:none}
+    .review-box.show{display:block}
+    .nav-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .locked-notice{text-align:center;padding:40px 24px;color:var(--muted);font-size:15px}
+    .locked-notice .lock-icon{font-size:40px;margin-bottom:12px}
+    .table{width:100%;border-collapse:collapse;font-size:14px}
+    .table th{text-align:left;padding:10px 14px;border-bottom:2px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+    .table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+    .report-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+    .report-box p{margin-bottom:16px;font-size:15px}
+    footer{padding:32px 0;border-top:1px solid var(--border);text-align:center;font-size:13px;color:var(--muted)}
+    .alert-banner{background:linear-gradient(135deg,#fff3e0,#fce4ec);border:2px solid #f57f17;border-radius:var(--radius);padding:20px 24px;margin-bottom:32px;display:flex;gap:14px;align-items:flex-start}
+    [data-theme="dark"] .alert-banner{background:linear-gradient(135deg,#2a1800,#2e0a1a);border-color:#e4b843}
+    .alert-banner .alert-icon{font-size:28px;flex-shrink:0;line-height:1}
+    .alert-banner p{font-size:14px;margin:0;line-height:1.6}
+    .alert-banner strong{color:var(--danger)}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap topbar">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <small>RA4 · Electricidad del Vehículo</small>
+        <strong>Aula Taller</strong>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#taller">Taller</a>
+      <a href="#hv">Híbridos / EV</a>
+      <a href="#final">Final RA4</a>
+      <a href="#informe">Informe</a>
+      <button class="theme-btn" data-theme-toggle>◐</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">RA4 · Electricidad del Vehículo</span>
+      <h1>Aula Taller</h1>
+      <p class="lead">Realiza las tareas en condiciones de seguridad, identificando los riesgos para la salud y el medioambiente, utilizando los EPI correctos y aplicando los procedimientos de recogida de residuos. Preparación para las prácticas en empresa.</p>
+      <div class="chips">
+        <span class="chip">Orientado a FCT</span>
+        <span class="chip">Escenarios reales de taller</span>
+        <span class="chip">40 preguntas por bloque</span>
+        <span class="chip">Guardado local</span>
+      </div>
+      <div class="student-form">
+        <input id="student-name" type="text" placeholder="Escribe el nombre del alumno">
+        <button class="btn btn-primary" id="save-student">Guardar nombre</button>
+      </div>
+      <div class="save-box">
+        <div class="save-status" id="save-status">Sin perfil cargado</div>
+        <button class="btn btn-secondary" id="resume-student">Cargar progreso</button>
+        <button class="btn btn-secondary" id="clear-student">Reiniciar perfil</button>
+      </div>
+    </div>
+    <aside class="panel hero-side">
+      <h3>Panel del alumno</h3>
+      <div class="hero-stats">
+        <div class="stat"><strong id="global-points">0</strong><br><span class="muted">Puntos</span></div>
+        <div class="stat"><strong id="global-stars">0</strong><br><span class="muted">Estrellas</span></div>
+        <div class="stat"><strong id="global-streak">0</strong><br><span class="muted">Mejor racha</span></div>
+        <div class="stat"><strong id="global-units">0/2</strong><br><span class="muted">Bloques completados</span></div>
+        <div class="stat"><strong id="global-saves">0</strong><br><span class="muted">Guardados</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Insignias del recorrido</h2>
+        <p class="muted">Supera el bloque de taller para desbloquear el de vehículos eléctricos e híbridos.</p>
+      </div>
+    </div>
+    <div class="cards3">
+      <div class="badgebox badge-lock" id="badge-taller">
+        <h3>🛡️ Taller</h3>
+        <p>Seguridad y PRL en el taller eléctrico</p>
+      </div>
+      <div class="badgebox badge-lock" id="badge-hv">
+        <h3>⚠️ Híbridos / EV</h3>
+        <p>Alta tensión y vehículos electrificados</p>
+      </div>
+      <div class="badgebox badge-lock" id="badge-final">
+        <h3>🏆 Final RA4</h3>
+        <p>Prueba final integradora</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="quizzes"></div>
+
+<section class="section" id="informe">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Informe de resultados</h2>
+        <p class="muted">Resumen de tu progreso en este resultado de aprendizaje.</p>
+      </div>
+    </div>
+    <div class="report-box" id="report-box">
+      <p><strong>Alumno:</strong> <span id="report-name">Sin nombre</span></p>
+      <table class="table">
+        <thead><tr><th>Bloque</th><th>Mejor resultado</th><th>Intentos</th><th>Último</th><th>Nivel</th></tr></thead>
+        <tbody id="report-table"></tbody>
+      </table>
+      <div class="review-box" id="global-diagnosis" style="display:block;margin-top:16px">
+        <strong>Diagnóstico global:</strong> Completa al menos una prueba para ver el diagnóstico.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Aula Taller · Electricidad del Vehículo · RA4 · Ciclo Formativo Grado Básico</div>
+</footer>
+
+<script>
+(function(){
+  const root=document.documentElement,btn=document.querySelector('[data-theme-toggle]');
+  let theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  root.setAttribute('data-theme',theme);
+  btn.addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';root.setAttribute('data-theme',theme);});
+})();
+
+const storagePrefix='aula-taller-elec-ra4-v1';
+const maxAttemptsPerBlock=3;
+const student={name:'Sin nombre'};
+const globalState={points:0,stars:0,bestStreak:0,completedUnits:new Set(),results:{},saveCount:0};
+
+const unitIds=['taller','hv'];
+const unlockOrder=[...unitIds,'final'];
+
+const unlockRules={
+  taller:null,
+  hv:{prev:'taller',score:7,label:'Necesitas al menos 70% en el bloque de Taller para acceder al bloque de Híbridos / EV.'},
+  final:{prev:'hv',score:7,label:'Necesitas superar ambos bloques para acceder a la prueba final.'}
+};
+
+const unitMeta={
+  taller:['Bloque 1 · Seguridad y PRL en el Taller Eléctrico','Riesgos eléctricos, EPI, orden y limpieza, residuos y actuación ante emergencias. 40 preguntas, se extraen 20.'],
+  hv:['Bloque 2 · Vehículos Híbridos y Eléctricos','Alta tensión, clasificación de vehículos electrificados, componentes HV y protocolos de seguridad. 40 preguntas, se extraen 20.'],
+  final:['Evaluación Final RA4 · Seguridad y Medioambiente','10 escenarios integrados de toma de decisión en taller y en empresa.']
+};
+
+const reviewMessages={
+  taller:{
+    epi:'Repasa los equipos de protección individual para trabajos eléctricos: guantes aislantes, gafas, calzado y ropa de protección.',
+    riesgo_electrico:'Repasa la identificación de riesgos eléctricos: contacto directo, indirecto, arco eléctrico y medidas preventivas.',
+    residuos:'Repasa la clasificación y gestión de residuos del taller eléctrico: baterías, aceites, líquidos, plásticos y RAEE.',
+    orden_limpieza:'Repasa las normas de orden y limpieza del puesto de trabajo: zona de tránsito libre, herramientas recogidas y suelo sin derrames.',
+    emergencias:'Repasa la actuación ante emergencias en el taller: incendio eléctrico, derrame de electrolito y primeros auxilios por descarga.',
+    riesgo_medioambiental:'Repasa los riesgos medioambientales del taller: derrames de fluidos, emisiones y gestión correcta de cada tipo de residuo.'
+  },
+  hv:{
+    clasificacion:'Repasa la clasificación de vehículos electrificados: micro-hybrid, mild-hybrid, full-hybrid, PHEV y BEV.',
+    componentes_hv:'Repasa los componentes del circuito de alta tensión: batería HV, inversor, motor eléctrico, cargador OBC y sus ubicaciones.',
+    riesgo_hv:'Repasa los riesgos específicos de la alta tensión: tensiones letales, condensadores cargados y tiempos de espera tras desconexión.',
+    protocolo_hv:'Repasa el protocolo de puesta en seguridad del sistema HV: desconexión del servicio, extracción del conector manual de servicio y tiempo de espera.',
+    señalizacion:'Repasa la señalización de alta tensión en el vehículo: color naranja de los cables HV, etiquetas de advertencia y zonas de peligro.'
+  },
+  final:{
+    decision:'Repasa la toma de decisiones ante situaciones de riesgo en el taller y en la empresa de prácticas.',
+    epi_aplicado:'Refuerza la selección correcta del EPI según el trabajo concreto a realizar.',
+    hv_practica:'Repasa el protocolo completo de seguridad antes de cualquier intervención en vehículos electrificados.'
+  }
+};
+
+const questionPools={
+
+  // ══════════════════════════════════════════════════════════════════
+  // BLOQUE TALLER — SEGURIDAD Y PRL EN EL TALLER ELÉCTRICO
+  // ══════════════════════════════════════════════════════════════════
+  taller:[
+    // ── BÁSICO (8)
+    {band:'b',tag:'epi',level:'Básico',points:10,
+      q:'¿Qué guantes son los adecuados para trabajar en circuitos eléctricos del automóvil a 12-48 V?',
+      options:['Guantes aislantes dieléctricos homologados, verificando que no tienen cortes ni agujeros antes de usarlos','Guantes de cuero para mecánica general','Guantes de látex desechables de uso sanitario','Cualquier guante que cubra toda la mano es suficiente'],
+      correct:0,explanation:'Los guantes dieléctricos aislantes están homologados para una tensión de trabajo determinada. Antes de usarlos hay que inspeccionarlos visualmente y con la prueba de inflado para detectar perforaciones, porque un guante dañado no protege.'},
+
+    {band:'b',tag:'riesgo_electrico',level:'Básico',points:10,
+      q:'¿Cuál es la primera acción que debes realizar antes de intervenir en cualquier circuito eléctrico del vehículo?',
+      options:['Desconectar el borne negativo de la batería y verificar con el voltímetro que no hay tensión en el circuito','Poner el vehículo en marcha para comprobar el fallo antes de apagarlo','Avisar al encargado del taller y esperar su autorización','Consultar el precio de los recambios necesarios en el catálogo'],
+      correct:0,explanation:'La desconexión del negativo (masa) elimina la fuente de energía del circuito. Verificar con el voltímetro confirma que no hay tensión residual. Sin estos pasos no se puede garantizar la seguridad al trabajar en el sistema eléctrico.'},
+
+    {band:'b',tag:'residuos',level:'Básico',points:10,
+      q:'¿En qué contenedor se deposita una batería de plomo-ácido usada?',
+      options:['En el contenedor de residuos peligrosos (RP) específico para baterías; el proveedor del recambio está obligado a recogerla','En el contenedor de metales del taller','En el contenedor de basura general','En el desagüe del taller diluida con agua'],
+      correct:0,explanation:'Las baterías de plomo-ácido son residuos peligrosos (contienen plomo y ácido sulfúrico). Existe un sistema de depósito-retorno obligatorio: el proveedor del recambio recoge la batería usada cuando se entrega la nueva.'},
+
+    {band:'b',tag:'orden_limpieza',level:'Básico',points:10,
+      q:'¿Por qué es obligatorio mantener el suelo del taller libre de derrames de aceite o líquidos?',
+      options:['Para evitar caídas al mismo nivel, que son la causa de accidente más frecuente en talleres, y prevenir incendios si los líquidos son inflamables','Solo por motivos estéticos y de imagen del taller','Para que los vehículos no ensucien sus neumáticos al entrar al taller','Únicamente para cumplir la normativa de inspección de trabajo'],
+      correct:0,explanation:'Los derrames de aceite y líquidos en el suelo son una causa directa de caídas y, si son inflamables (aceite, gasolina), también de incendio. Limpiarlos inmediatamente es una obligación de seguridad básica.'},
+
+    {band:'b',tag:'riesgo_electrico',level:'Básico',points:10,
+      q:'¿Qué tipo de extintor se usa ante un incendio eléctrico en el taller?',
+      options:['Extintor de CO₂ (dióxido de carbono) o de polvo seco BC/ABC; nunca agua ni espuma en presencia de tensión','Extintor de agua pulverizada, que es el más efectivo','Extintor de espuma AFFF, recomendado para todo tipo de fuegos','Cualquier extintor sirve siempre que se aplique suficiente cantidad'],
+      correct:0,explanation:'El agua y la espuma conducen la electricidad: usarlos en un incendio eléctrico puede electrocutar al operario. El CO₂ es no conductor y no daña los equipos electrónicos. El polvo seco BC/ABC también es válido aunque deja residuo.'},
+
+    {band:'b',tag:'epi',level:'Básico',points:10,
+      q:'¿Qué protección ocular es necesaria al manipular una batería convencional?',
+      options:['Gafas de protección contra salpicaduras químicas (oculares de montura integral o pantalla facial)','Gafas de sol para reducir el reflejo de los bornes de la batería','Gafas de seguridad de impacto estándar utilizadas en mecánica general','No se necesita protección ocular para trabajar con baterías de 12 V'],
+      correct:0,explanation:'El electrolito de la batería es ácido sulfúrico. Una salpicadura en los ojos puede causar quemaduras graves o ceguera. Las gafas de montura integral (que se sellan al contorno de la cara) son las más adecuadas.'},
+
+    {band:'b',tag:'riesgo_medioambiental',level:'Básico',points:10,
+      q:'¿Qué ocurre si el electrolito de una batería se vierte al desagüe del taller?',
+      options:['Contamina las aguas residuales con ácido sulfúrico y plomo, lo que está prohibido y puede generar una sanción grave al taller','Se neutraliza automáticamente al mezclarse con el agua de la red','Solo afecta a las tuberías del taller, no al medioambiente exterior','Es un vertido permitido si se diluye suficientemente con agua del grifo'],
+      correct:0,explanation:'El vertido de ácido y metales pesados al desagüe está expresamente prohibido por la legislación medioambiental. El taller es responsable de los residuos que genera; los vertidos ilegales pueden suponer sanciones económicas importantes y daños al medioambiente.'},
+
+    {band:'b',tag:'emergencias',level:'Básico',points:10,
+      q:'¿Cuál es la actuación inmediata si recibes una pequeña descarga eléctrica en el taller y no pierdes el conocimiento?',
+      options:['Alejarse del circuito, avisar al encargado y acudir al servicio médico aunque no se noten síntomas graves, porque los efectos de la descarga pueden aparecer después','Continuar el trabajo con más precaución, ya que si no hay lesión visible no es necesario avisar a nadie','Lavarse las manos con agua y jabón y tomar un descanso de 10 minutos','Solo avisar si el dolor es intenso o si hay quemadura visible en la piel'],
+      correct:0,explanation:'Una descarga eléctrica puede causar arritmias cardíacas diferidas, incluso horas después del accidente, aunque en el momento parezca leve. Siempre hay que comunicarlo y pasar revisión médica. El silencio puede ser fatal.'},
+
+    // ── MEDIO (16)
+    {band:'m',tag:'riesgo_electrico',level:'Medio',points:15,
+      q:'Al trabajar en el taller de prácticas, ves que un cable de la instalación eléctrica del edificio tiene el aislante roto. ¿Cuál es la actuación correcta?',
+      options:['No tocarlo, señalizar el riesgo con balizas si es posible y comunicarlo inmediatamente al responsable del taller para que llame a un electricista autorizado','Cubrirlo con cinta aislante estándar para evitar contactos accidentales y seguir trabajando','Cortarlo con unos alicates para que no pueda dar calambre a nadie','Ignorarlo si el cable está por encima de la altura de la cabeza y no está en zona de paso'],
+      correct:0,explanation:'Un cable dañado en la instalación del edificio es un riesgo de electrocución grave (230 V CA). No debes manipularlo: solo un electricista autorizado puede intervenir en instalaciones de red. Señalizar y comunicar es tu responsabilidad como trabajador.'},
+
+    {band:'m',tag:'epi',level:'Medio',points:15,
+      q:'¿Qué calzado es el adecuado para trabajar en el taller de electricidad del automóvil?',
+      options:['Calzado de seguridad con puntera de protección antichoques, suela antideslizante y propiedades antiestáticas; no conductores de electricidad','Zapatillas deportivas con suela de goma gruesa','Botas de agua de goma, que son aislantes totales de la electricidad','Cualquier calzado cerrado con suela de cuero'],
+      correct:0,explanation:'El calzado de seguridad homologado (norma EN ISO 20345) protege de golpes (puntera), de caídas (suela antideslizante) y aporta propiedades antiestáticas. El calzado antiestático disipa cargas estáticas sin ser completamente aislante, lo que es adecuado para talleres eléctricos.'},
+
+    {band:'m',tag:'residuos',level:'Medio',points:15,
+      q:'Al sustituir el alternador de un vehículo, detectas que el cable de conexión al alternador está deteriorado y lo cambias. ¿Dónde depositas el cable viejo?',
+      options:['En el contenedor de RAEE (Residuos de Aparatos Eléctricos y Electrónicos) del taller','En el contenedor de metales junto con los recambios metálicos','En la basura general porque es solo un cable','En el contenedor de aceites usados del taller'],
+      correct:0,explanation:'Los cables eléctricos son residuos eléctricos y electrónicos (RAEE) porque contienen cobre y plástico PVC que requieren gestión específica. No van a la basura general ni al contenedor de metales ordinario.'},
+
+    {band:'m',tag:'orden_limpieza',level:'Medio',points:15,
+      q:'Al terminar de trabajar en el sistema eléctrico del vehículo, ¿cuál es el procedimiento correcto de recogida del puesto de trabajo?',
+      options:['Guardar las herramientas en su lugar, recoger los recambios sobrantes y embalajes, limpiar cualquier derrame, comprobar que no quedan cables desconectados en el vehículo y verificar el funcionamiento antes de entregarlo','Solo recoger las herramientas más grandes y dejar el resto para el siguiente técnico','Barrer el suelo del puesto y dejar los recambios sobrantes encima del capó del vehículo','Es suficiente con apagar la luz del puesto al salir'],
+      correct:0,explanation:'El procedimiento de cierre del puesto incluye: herramientas en su sitio (evita pérdidas y accidentes), verificación del vehículo (no quedan conectores sueltos), limpieza del suelo (previene caídas) y comprobación funcional (garantía de calidad del trabajo).'},
+
+    {band:'m',tag:'riesgo_electrico',level:'Medio',points:15,
+      q:'¿Qué es un contacto eléctrico indirecto y cómo puede producirse en el taller?',
+      options:['El contacto con una masa metálica (carrocería, banco de trabajo) que ha quedado accidentalmente bajo tensión por un fallo de aislamiento; por ejemplo, si el cable de un cargador dañado pone en tensión la carcasa metálica del equipo','El contacto directo con un conductor activo (cable pelado o borne de batería)','El contacto con chispas o arco eléctrico durante una soldadura','El contacto con un cable de alta tensión enterrado bajo el suelo del taller'],
+      correct:0,explanation:'Un contacto indirecto se produce al tocar una masa metálica que ha quedado bajo tensión por un fallo de aislamiento. En el taller puede ocurrir si un equipo eléctrico tiene la carcasa conectada accidentalmente a un conductor activo por un cable dañado.'},
+
+    {band:'m',tag:'riesgo_medioambiental',level:'Medio',points:15,
+      q:'¿Cuál es el procedimiento correcto si se derrama líquido de frenos en el suelo del taller?',
+      options:['Absorber el derrame inmediatamente con material absorbente (serrín o arena), depositar el material contaminado en el contenedor de residuos peligrosos y limpiar la zona','Limpiar con agua a presión y mandar el líquido al desagüe','Dejar que se evapore, ya que el líquido de frenos es inofensivo para el medioambiente','Cubrir el derrame con cartón y señalizar para limpiar al final de la jornada'],
+      correct:0,explanation:'El líquido de frenos (poliglicoles) es un residuo peligroso que no puede verterse al desagüe. El material absorbente contaminado se deposita en el contenedor de RP. La zona debe quedar limpia de inmediato para evitar caídas y contaminación.'},
+
+    {band:'m',tag:'emergencias',level:'Medio',points:15,
+      q:'¿Cuál es la actuación si detectas un principio de incendio en el motor de un vehículo en el taller?',
+      options:['Alejar al personal, activar la alarma, atacar el fuego con el extintor adecuado (CO₂ o polvo) si es pequeño y manejable, y llamar al 112 si el fuego no se controla en 30 segundos','Abrir el capó completamente para que entre más aire y se apague solo','Echar agua del cubo de fregar para apagar el incendio rápidamente','Arrancar el vehículo y sacarlo al exterior para evitar daños en el taller'],
+      correct:0,explanation:'La secuencia ante un incendio es: 1) Evacuar/alejar personas. 2) Activar alarma. 3) Intentar extinguir solo si es seguro (fuego pequeño, extintor a mano, vía de escape libre). 4) Si no se controla, salir y esperar a bomberos. Nunca abrir el capó de par en par (alimenta el fuego con oxígeno).'},
+
+    {band:'m',tag:'epi',level:'Medio',points:15,
+      q:'¿Cuándo es obligatorio ponerse la ropa de protección (mono de trabajo) en el taller de electricidad del automóvil?',
+      options:['Siempre, desde el momento en que se accede al área de trabajo del taller, independientemente de la tarea que se vaya a realizar','Solo cuando se trabaja con productos químicos como ácido de batería','Solo en las prácticas evaluadas, no en las sesiones de demostración','Solo cuando el encargado lo indique expresamente'],
+      correct:0,explanation:'La ropa de trabajo (mono o buzo) es un EPI que protege de manchas de productos químicos, chispas y abrasiones. Se usa desde el inicio hasta el final de la jornada en el taller, no solo en tareas específicas. En las prácticas en empresa es obligatoria desde el primer día.'},
+
+    {band:'m',tag:'riesgo_electrico',level:'Medio',points:15,
+      q:'¿Por qué no se deben llevar anillos, pulseras ni relojes metálicos al trabajar en el sistema eléctrico del vehículo?',
+      options:['Son conductores: pueden provocar un cortocircuito grave si tocan simultáneamente dos puntos de diferente potencial, generando quemaduras severas y un arco eléctrico','Solo es un riesgo estético de que los objetos se rayen o manchen','Solo supone riesgo si se trabaja con tensiones superiores a 48 V','Es una norma de higiene, no de seguridad eléctrica'],
+      correct:0,explanation:'Un anillo o pulsera metálica que toca simultáneamente el positivo de la batería y la masa (carrocería o negativo) provoca un cortocircuito de muy baja impedancia. Circula una corriente altísima que genera calor suficiente para causar quemaduras de tercer grado en décimas de segundo.'},
+
+    {band:'m',tag:'residuos',level:'Medio',points:15,
+      q:'¿Cuál de los siguientes residuos generados en el taller eléctrico NO es un residuo peligroso?',
+      options:['El cartón y el papel de los embalajes de los recambios (van al contenedor de reciclaje de papel/cartón)','El electrolito de la batería (ácido sulfúrico diluido)','Los fluidos de transmisión usados','Los cables con revestimiento de PVC deteriorado'],
+      correct:0,explanation:'El cartón y papel de embalaje son residuos asimilables a urbanos que van al contenedor de reciclaje. El ácido, los fluidos usados y los cables deteriorados contienen sustancias peligrosas y requieren gestión de residuos peligrosos.'},
+
+    {band:'m',tag:'orden_limpieza',level:'Medio',points:15,
+      q:'Mientras realizas prácticas en empresa, el encargado te pide que "barras rápido" el taller antes de salir aunque no te hayas cambiado de ropa ni guardado las herramientas. ¿Cómo actúas?',
+      options:['Guardas primero las herramientas y te cambias la ropa de trabajo antes de barrer, porque el orden del procedimiento de seguridad no depende de las prisas','Obedeces sin cuestionar porque en la empresa hay que seguir las órdenes siempre','Bares sin cambiarte porque es solo un momento','Dices que no es tu responsabilidad y te marchas'],
+      correct:0,explanation:'En las prácticas en empresa, las normas de seguridad son siempre prioritarias aunque haya prisa. Las herramientas sueltas en el suelo son un peligro al barrer. La ropa de trabajo se cambia al salir del área de trabajo. Un buen profesional aplica los procedimientos aunque no esté siendo observado.'},
+
+    {band:'m',tag:'emergencias',level:'Medio',points:15,
+      q:'¿Qué debes hacer si un compañero recibe una descarga eléctrica y está en contacto con el conductor activo?',
+      options:['Cortar la corriente ANTES de tocarle (nunca tocar a una persona en contacto con la corriente); llamar al 112 y aplicar RCP si no respira ni tiene pulso','Sujetarle por los brazos y apartarle del conductor activo inmediatamente','Echarle agua para cortar la corriente que pasa por su cuerpo','Esperar a que el cuerpo libere la corriente antes de actuar'],
+      correct:0,explanation:'Tocar a alguien en contacto con la corriente te electrocutará a ti también. Primero se corta la fuente de energía (interruptor, desconexión de batería). Solo entonces se puede atender a la víctima. El 112 se llama de inmediato.'},
+
+    {band:'m',tag:'riesgo_medioambiental',level:'Medio',points:15,
+      q:'¿Por qué los fluorescentes y lámparas de bajo consumo del taller son residuos peligrosos?',
+      options:['Contienen mercurio en su interior, un metal pesado muy tóxico que no puede verterse al medio ambiente','Solo son peligrosos cuando están rotos y el gas se libera','Son peligrosos solo si contienen argón comprimido a alta presión','No son peligrosos; pueden desecharse en la basura general como cualquier bombilla'],
+      correct:0,explanation:'Los tubos fluorescentes y lámparas de bajo consumo contienen vapores de mercurio, una sustancia muy tóxica y bioacumulable. Son RAEE peligrosos que deben depositarse en puntos de recogida específicos, nunca en la basura general ni en el contenedor de vidrio.'},
+
+    {band:'m',tag:'riesgo_electrico',level:'Medio',points:15,
+      q:'Estás en la empresa de prácticas y el encargado te pide que cambies un fusible sin desconectar la batería "para ir más rápido". ¿Qué haces?',
+      options:['Explicas amablemente que el procedimiento correcto requiere desconectar la batería por seguridad y preguntas si puede hacer una excepción, pero si insiste, comunicas que no te sientes seguro realizando ese trabajo así','Haces lo que te dice sin rechistar porque es el encargado y tiene experiencia','Cambias el fusible muy rápido para que no haya riesgo','Abandonas el puesto de trabajo sin decir nada'],
+      correct:0,explanation:'En las prácticas en empresa, tienes derecho a trabajar en condiciones seguras. Si un procedimiento incumple las normas de seguridad básicas, puedes y debes comunicarlo respetuosamente. No estás obligado a poner en riesgo tu integridad. Esta situación debes comunicarla también a tu tutor del centro educativo.'},
+
+    {band:'m',tag:'residuos',level:'Medio',points:15,
+      q:'Al final de las prácticas en empresa, el tutor de la empresa te entrega una botella de aceite de motor usado y te pide que la lleves a casa. ¿Cuál es la respuesta correcta?',
+      options:['Declinas amablemente y explicas que el aceite usado es un residuo peligroso que debe gestionarse a través del gestor autorizado del taller, no puede sacarse del taller en recipientes domésticos','Aceptas porque el tutor tiene experiencia y sabe lo que hace','Aceptas solo si la botella está bien cerrada y no corre riesgo de derrame','Preguntas si puedes cobrar dinero a cambio del aceite'],
+      correct:0,explanation:'El aceite mineral usado es un residuo peligroso sujeto a control de trazabilidad. No puede sacarse del taller en recipientes informales ni cederse a particulares. El taller tiene la obligación legal de gestionarlo a través de un gestor de residuos autorizado.'},
+
+    // ── ALTO (16)
+    {band:'a',tag:'riesgo_electrico',level:'Alto',points:20,
+      q:'Al entrar a las prácticas en empresa el primer día, observas que varios técnicos trabajan sin guantes en el sistema eléctrico. ¿Qué postura adoptas?',
+      options:['Tú usas siempre tus EPI independientemente de lo que hagan los demás; si el responsable de PRL del taller lo permite, el problema es de ellos y debes comunicarlo a tu tutor del centro','Haces lo mismo que los técnicos con experiencia porque ellos saben lo que hacen','Solo te pones los EPI cuando el encargado está mirando','Abandones las prácticas porque el taller no cumple la normativa'],
+      correct:0,explanation:'Las normas de seguridad son personales e intransferibles. La experiencia no elimina el riesgo. Tú eres responsable de tu propia seguridad. Si el taller tiene una cultura de seguridad deficiente, comunicarlo a tu tutor del centro es parte de tu responsabilidad como alumno en FCT.'},
+
+    {band:'a',tag:'emergencias',level:'Alto',points:20,
+      q:'Durante las prácticas, un vehículo en el que estás trabajando comienza a arder en el compartimento motor. Hay humo denso pero aún no hay llamas visibles. ¿Cuál es el protocolo completo de actuación?',
+      options:['1. Desconectar el contacto si es posible sin riesgo. 2. Alejar a las personas de la zona. 3. Activar la alarma del taller. 4. Coger el extintor de CO₂ más cercano y atacar el foco por la base si hay una vía de salida libre detrás de ti. 5. Si el fuego crece o no se controla en 30 s, salir y llamar al 112','Abrir el capó completamente para ver el foco y echar agua','Arrancar el vehículo y sacarlo a la calle antes de que el fuego se extienda','Esperar a que salgan llamas para saber qué extintor usar'],
+      correct:0,explanation:'El protocolo P-A-S-S del extintor (Sacar pasador, Apuntar a la base, Apretar palanca, Barrer) se aplica solo si el fuego es pequeño y hay salida libre detrás. Nunca arriesgar la vida por un vehículo. La activación de la alarma y el 112 son prioritarios si el fuego no se controla.'},
+
+    {band:'a',tag:'epi',level:'Alto',points:20,
+      q:'¿Cuál es la diferencia entre un EPI y una medida de protección colectiva? ¿Cuál tiene prioridad según la normativa?',
+      options:['La protección colectiva (barandillas, extracción de humos, señalización) protege a todos los trabajadores sin depender de su uso correcto; el EPI protege solo al individuo que lo lleva. La normativa prioriza la colectiva sobre la individual','El EPI tiene prioridad porque cada trabajador es responsable de su propia protección','Son equivalentes; se elige el que sea más barato o cómodo','La protección colectiva solo aplica en obras de construcción, no en talleres'],
+      correct:0,explanation:'La Ley de Prevención de Riesgos Laborales y el RD 773/1997 establecen la jerarquía: primero eliminar el riesgo, luego protección colectiva, y solo cuando no es suficiente, EPI individual. Un EPI es la última barrera y depende de que el trabajador lo use correctamente.'},
+
+    {band:'a',tag:'riesgo_medioambiental',level:'Alto',points:20,
+      q:'El taller de prácticas tiene un bidón de aceite usado sin etiquetar junto al desagüe. ¿Qué riesgos presenta y cuál es la actuación correcta?',
+      options:['Riesgo de vertido accidental al desagüe (contaminación de aguas) y riesgo de incendio (el aceite es inflamable). Actuación: etiquetar el bidón correctamente como residuo peligroso, alejarlo del desagüe, colocarlo en zona habilitada para RP y comunicarlo al responsable de medio ambiente del taller','Ningún riesgo si el bidón tiene tapa y está en el interior del taller','Solo riesgo de incendio; el aceite en el desagüe no es problema si se diluye','Es problema del responsable de residuos; no debes tocarlo ni comunicarlo'],
+      correct:0,explanation:'Un bidón sin etiquetar no puede rastrearse ni gestionarse correctamente. Junto al desagüe hay riesgo real de vertido. El aceite mineral usado en la Lista Europea de Residuos (LER 13 02) es RP inflamable. Un alumno en FCT debe comunicar estos incumplimientos a su tutor, que los trasladará a la empresa.'},
+
+    {band:'a',tag:'riesgo_electrico',level:'Alto',points:20,
+      q:'¿Qué es el arco eléctrico y por qué es especialmente peligroso en trabajos de baja tensión como las instalaciones del automóvil?',
+      options:['Es una descarga eléctrica a través del aire entre dos conductores; alcanza temperaturas de hasta 20.000 °C, proyecta metal fundido y gases ionizados. En instalaciones de automóvil puede ocurrir en baterías de alto amperaje, causando quemaduras graves aunque la tensión sea "solo" 12-48 V','Solo es peligroso en instalaciones de alta tensión (más de 1.000 V)','Es solo una chispa estética sin consecuencias físicas reales','Es el mismo fenómeno que una descarga de relámpago; imposible en un taller'],
+      correct:0,explanation:'El arco eléctrico depende de la corriente, no solo de la tensión. Una batería de automóvil puede suministrar miles de amperios en cortocircuito. El arco generado alcanza temperaturas que funden el metal y proyectan partículas incandescentes. El riesgo de quemaduras graves existe incluso a 12 V con mucha corriente disponible.'},
+
+    {band:'a',tag:'residuos',level:'Alto',points:20,
+      q:'¿Qué documento debe acompañar a los residuos peligrosos cuando el gestor autorizado los recoge del taller?',
+      options:['El documento de identificación del residuo peligroso (ficha de aceptación + documento de traslado), que garantiza la trazabilidad legal del residuo desde el taller hasta el gestor final','Un albarán de entrega normal como cualquier recambio devuelto al proveedor','Una fotocopia de la licencia de actividad del taller','Solo la factura de recogida del gestor es suficiente'],
+      correct:0,explanation:'La normativa de residuos peligrosos (Ley 7/2022 y RD 553/2020) exige documentación de traslado que acredite quién generó el residuo, qué tipo es, qué cantidad y quién lo transporta y trata. Esta trazabilidad protege al taller legalmente y garantiza la gestión correcta.'},
+
+    {band:'a',tag:'orden_limpieza',level:'Alto',points:20,
+      q:'En la empresa de prácticas, el puesto de trabajo tiene herramientas por el suelo, los contenedores de residuos están desbordados y hay un derrame sin limpiar. ¿Cuál es tu actuación como alumno en FCT?',
+      options:['Limpias el derrame inmediatamente (seguridad propia y de los demás), recoges las herramientas peligrosas del suelo, no usas los contenedores desbordados y comunicas la situación al encargado y a tu tutor del centro si no se toma acción','Trabajas en esas condiciones porque no es tu responsabilidad el orden del taller','Solo limpias tu zona inmediata y no comentas nada para no crear problemas','Esperas a que el encargado lo resuelva antes de empezar a trabajar'],
+      correct:0,explanation:'En FCT eres trabajador en formación: tienes derecho a trabajar en condiciones seguras y la obligación de contribuir a ellas. Actuar ante riesgos inmediatos (derrame, herramientas en zona de paso) es tu responsabilidad. Comunicar deficiencias sistemáticas al tutor del centro es el canal correcto para situaciones que no se resuelven en el taller.'},
+
+    {band:'a',tag:'emergencias',level:'Alto',points:20,
+      q:'¿Cuáles son las señales de alerta de una batería que puede explotar y cuál es la actuación preventiva en el taller?',
+      options:['Deformación de la carcasa (abombamiento), temperatura excesiva al tacto, olor intenso a huevo podrido (H₂S) o ácido, y electrolito hirviendo al cargar. Actuación: parar la carga inmediatamente, ventilar, alejarse y no provocar chispas','Solo la deformación visible de la carcasa es señal de peligro real','El olor a ácido es normal; solo hay riesgo si la batería humea durante más de 10 minutos','Una batería nunca puede explotar a 12 V; el riesgo de explosión solo existe en baterías industriales'],
+      correct:0,explanation:'Las baterías de plomo-ácido sobrecargadas o defectuosas emiten hidrógeno (H₂, altamente explosivo) y H₂S. Una chispa en una zona con concentración de H₂ puede provocar una explosión real. Las señales de alerta deben conocerse y actuarse preventivamente.'},
+
+    {band:'a',tag:'epi',level:'Alto',points:20,
+      q:'¿Por qué los guantes dieléctricos deben someterse a una prueba de inflado antes de cada uso?',
+      options:['Para detectar perforaciones invisibles a simple vista que anularían completamente la protección aislante del guante; un guante perforado es más peligroso que no llevar guante porque da falsa sensación de seguridad','Solo hay que inspeccionarlos visualmente; la prueba de inflado es excesiva para trabajos de baja tensión','La prueba de inflado es solo necesaria para guantes de alta tensión (más de 1.000 V)','Los guantes nuevos no necesitan prueba de inflado; solo los guantes usados más de 10 veces'],
+      correct:0,explanation:'Los guantes dieléctricos pueden tener microperforaciones imperceptibles visualmente. La prueba de inflado (doblar el guante para atrapar aire y comprobar que no se desinfla) detecta poros y pinchazos que dejarían paso a la corriente. Es obligatoria antes de cada uso, independientemente de la tensión de trabajo.'},
+
+    {band:'a',tag:'riesgo_medioambiental',level:'Alto',points:20,
+      q:'¿Cuál es la diferencia entre un residuo peligroso y un residuo no peligroso en el contexto del taller? Da dos ejemplos de cada tipo.',
+      options:['Peligroso: contiene sustancias tóxicas, inflamables, corrosivas o ecotóxicas (ejemplos: batería usada, aceite de motor usado). No peligroso: no presenta esas propiedades (ejemplos: cartón de embalaje, metal limpio sin contaminantes)','No existe diferencia legal; todos los residuos del taller son peligrosos por definición','Solo son peligrosos los residuos que huelen mal o que están calientes','Los residuos no peligrosos pueden verterse al desagüe si están suficientemente diluidos'],
+      correct:0,explanation:'La clasificación RP/no-RP está definida en la Lista Europea de Residuos (LER) y depende de las propiedades de peligrosidad (H1-H15 del Reglamento 1357/2014). Los RP requieren gestor autorizado, documentación de traslado y almacenamiento separado. Los no-RP siguen el circuito de reciclaje convencional.'},
+
+    {band:'a',tag:'riesgo_electrico',level:'Alto',points:20,
+      q:'¿Qué significa la señal de seguridad de "rayo en triángulo amarillo" y dónde aparece en el taller y en el vehículo?',
+      options:['Riesgo eléctrico: presencia de tensión peligrosa. En el taller aparece en cuadros eléctricos, equipos y zonas de riesgo. En el vehículo señaliza componentes de alta tensión (batería HV, inversor, cables naranja)','Señal de advertencia de tormenta; solo aparece en zonas de trabajo exterior','Indica que el equipo tiene batería interna y no debe mojarse','Es la señal de zona de recarga de vehículos eléctricos en aparcamientos'],
+      correct:0,explanation:'El triángulo amarillo con rayo negro (ISO 7010 - W012) es la señal internacional de riesgo eléctrico. En el taller marca equipos y cuadros peligrosos. En vehículos eléctricos e híbridos señaliza todos los componentes del sistema de alta tensión que no deben manipularse sin formación específica.'},
+
+    {band:'a',tag:'residuos',level:'Alto',points:20,
+      q:'Una empresa de prácticas te pide que anotes en el libro de registro de residuos peligrosos la cantidad de baterías generadas esa semana. ¿Por qué existe este registro y qué consecuencias tiene no llevarlo correctamente?',
+      options:['El registro es obligatorio por ley para garantizar la trazabilidad de los RP: permite a la Administración comprobar que los residuos se generan, almacenan y gestionan correctamente. No llevarlo puede suponer sanciones económicas muy elevadas e incluso la clausura del taller','Es un registro voluntario para mejorar la organización interna del taller','Solo es obligatorio para talleres con más de 50 empleados','El registro solo lo lleva el gestor de residuos, no el taller generador'],
+      correct:0,explanation:'La Ley 7/2022 de Residuos y la normativa autonómica obligan a los productores de RP a llevar un registro cronológico de todos los residuos generados, con cantidad, tipo, fecha y gestor. Las inspecciones de la administración comprueban este registro; su ausencia o incorrecta llevanza conlleva sanciones graves.'},
+
+    {band:'a',tag:'orden_limpieza',level:'Alto',points:20,
+      q:'¿Qué es una evaluación de riesgos y para qué sirve en un taller de electricidad del automóvil?',
+      options:['Un documento legal que identifica los peligros del taller, valora su probabilidad e impacto y establece las medidas preventivas a adoptar; es obligatorio y debe revisarse cuando cambian las condiciones de trabajo','Un informe que solo elabora la mutua de accidentes cuando ocurre un siniestro','Un formulario que rellena el técnico al terminar cada jornada','Solo lo necesitan talleres con trabajadores con discapacidad'],
+      correct:0,explanation:'La evaluación de riesgos es el documento base del sistema de gestión de la PRL (Ley 31/1995). Identifica qué puede ir mal, con qué probabilidad y qué consecuencias tendría, y define las medidas para eliminarlo o controlarlo. En un taller eléctrico debe cubrir riesgos eléctricos, químicos, incendio, ergonómicos y medioambientales.'},
+
+    {band:'a',tag:'emergencias',level:'Alto',points:20,
+      q:'¿Cuál es el número de teléfono de emergencias en España y qué información debes dar al llamar desde el taller?',
+      options:['El 112. Debes indicar: tu nombre, la dirección exacta del taller, qué ha ocurrido (tipo de accidente: eléctrico, incendio, herido), número de afectados y su estado aparente, y seguir las instrucciones del operador sin colgar hasta que te lo indiquen','El 091 (policía nacional); solo el 112 es para emergencias médicas','El 062 (guardia civil); el 112 solo funciona fuera de las ciudades','El 1006 del servicio de urgencias de la mutua de accidentes de trabajo'],
+      correct:0,explanation:'El 112 es el número único de emergencias en toda la UE (police, bomberos, ambulancias). Dar información precisa y ordenada permite a los servicios de emergencia preparar la respuesta adecuada antes de llegar. No colgar hasta que el operador lo indique puede ser crucial.'}
+  ],
+
+  // ══════════════════════════════════════════════════════════════════
+  // BLOQUE HV — VEHÍCULOS HÍBRIDOS Y ELÉCTRICOS
+  // ══════════════════════════════════════════════════════════════════
+  hv:[
+    // ── BÁSICO (8)
+    {band:'b',tag:'clasificacion',level:'Básico',points:10,
+      q:'¿Cuál es la diferencia fundamental entre un vehículo híbrido (HEV) y un vehículo eléctrico puro (BEV)?',
+      options:['El HEV combina motor de combustión y motor eléctrico; el BEV usa exclusivamente motor eléctrico alimentado por batería y no tiene motor de combustión','El HEV funciona solo con electricidad y el BEV usa solo gasolina','El HEV puede enchufarse a la red eléctrica y el BEV no puede cargarse externamente','Son sinónimos; ambos términos describen el mismo tipo de vehículo'],
+      correct:0,explanation:'HEV (Hybrid Electric Vehicle) combina propulsión térmica y eléctrica, sin posibilidad de carga externa. BEV (Battery Electric Vehicle) tiene solo tracción eléctrica y se carga de la red. Entre ellos existe el PHEV (plug-in hybrid) que combina ambas capacidades.'},
+
+    {band:'b',tag:'señalizacion',level:'Básico',points:10,
+      q:'¿Qué color identifica los cables de alta tensión en los vehículos eléctricos e híbridos?',
+      options:['Naranja, según la norma internacional SAE J1673 e ISO 6469','Rojo, igual que el positivo de 12 V','Amarillo, para distinguirlos del cableado convencional','Azul, para indicar que son de corriente continua'],
+      correct:0,explanation:'El color naranja para los cables de alta tensión en vehículos electrificados es un estándar internacional que facilita la identificación visual del riesgo eléctrico. Nunca se deben cortar, manipular ni perforar estos cables sin la formación y los EPI específicos de alta tensión.'},
+
+    {band:'b',tag:'riesgo_hv',level:'Básico',points:10,
+      q:'¿A partir de qué tensión se considera que una instalación eléctrica es de "alta tensión" en los vehículos electrificados según la normativa de seguridad?',
+      options:['Por encima de 60 V en CC o 25 V en CA (según UNECE R100 y normas de seguridad vehicular)','Por encima de 230 V en cualquier tipo de corriente','Por encima de 1.000 V, igual que en instalaciones industriales','No existe un límite oficial; depende del fabricante del vehículo'],
+      correct:0,explanation:'Los vehículos electrificados usan el umbral de 60 V CC / 25 V CA como límite de alta tensión según la regulación UNECE R100 y las normas IEC 60479. A estas tensiones la corriente puede ser mortal en condiciones de baja resistencia corporal (manos húmedas, sudor).'},
+
+    {band:'b',tag:'componentes_hv',level:'Básico',points:10,
+      q:'¿Cuál es la función del inversor (convertidor DC/AC) en un vehículo eléctrico?',
+      options:['Convertir la corriente continua de la batería HV en corriente alterna trifásica para alimentar el motor eléctrico de tracción','Cargar la batería de 12 V desde la batería de alta tensión','Regular la tensión de la batería HV para mantenerla siempre a 400 V','Convertir la corriente alterna de la red de carga en continua para almacenarla en la batería'],
+      correct:0,explanation:'El inversor toma la CC de la batería HV (100-800 V) y la convierte en CA trifásica de frecuencia variable para controlar la velocidad y el par del motor eléctrico de tracción. En frenada regenerativa realiza el proceso inverso (rectifica la CA del motor en CC para cargar la batería).'},
+
+    {band:'b',tag:'protocolo_hv',level:'Básico',points:10,
+      q:'¿Qué es el conector manual de servicio (MSD o Service Disconnect) en un vehículo híbrido o eléctrico?',
+      options:['Un conector extraíble que interrumpe mecánicamente el circuito de alta tensión de la batería HV, poniendo el sistema en estado seguro antes de cualquier intervención','Un conector de diagnóstico OBD-II de acceso rápido para el técnico','El conector de carga rápida CC del sistema de carga externo del vehículo','Un fusible de alta capacidad que se cambia cuando la batería HV falla'],
+      correct:0,explanation:'El MSD (Manual Service Disconnect) o conector de servicio es el elemento de desconexión mecánica del circuito HV. Al extraerlo, se interrumpe el circuito de la batería de alta tensión de forma segura. Es el primer paso del protocolo de puesta en seguridad antes de cualquier intervención en el sistema HV.'},
+
+    {band:'b',tag:'señalizacion',level:'Básico',points:10,
+      q:'¿Qué indica la etiqueta de advertencia con la leyenda "HIGH VOLTAGE" o "ALTA TENSIÓN" en un componente del vehículo?',
+      options:['Que ese componente pertenece al circuito de alta tensión y solo puede ser manipulado por personal con formación específica en HV y con los EPI adecuados','Que el componente tiene prioridad de suministro eléctrico sobre los demás sistemas','Que el componente es el más caro del vehículo y hay que manejarlo con cuidado mecánico','Que el componente necesita más de 30 V para funcionar correctamente'],
+      correct:0,explanation:'Las etiquetas de alta tensión en vehículos electrificados tienen el mismo significado que la señal de rayo en triángulo: presencia de tensión peligrosa. Ningún componente marcado así debe abrirse, perforarse ni desconectarse sin el protocolo completo de seguridad HV.'},
+
+    {band:'b',tag:'clasificacion',level:'Básico',points:10,
+      q:'¿Qué es un vehículo PHEV (Plug-in Hybrid Electric Vehicle)?',
+      options:['Un híbrido que puede cargarse desde la red eléctrica externa, tiene mayor capacidad de batería que un HEV convencional y puede circular un tramo significativo solo en modo eléctrico','Un vehículo solo eléctrico con autonomía extendida por un generador de gasolina de pequeña potencia','Un híbrido ligero (mild-hybrid) con sistema de 48 V que ayuda al motor en las aceleraciones','Un vehículo de pila de combustible de hidrógeno con motor eléctrico de tracción'],
+      correct:0,explanation:'El PHEV tiene una batería de mayor capacidad que el HEV y un conector para cargarse de la red. Puede circular en modo 100% eléctrico (20-80 km según modelo) y luego pasar a modo híbrido convencional. Combina lo mejor del BEV (emisiones cero en ciudad) y del HEV (autonomía ilimitada).'},
+
+    {band:'b',tag:'riesgo_hv',level:'Básico',points:10,
+      q:'¿Por qué un vehículo eléctrico apagado sigue siendo peligroso eléctricamente?',
+      options:['La batería HV mantiene la alta tensión aunque el vehículo esté apagado; además, los condensadores del inversor pueden permanecer cargados durante varios minutos después de desconectar el sistema','Una vez apagado el vehículo, la tensión cae a 0 V en todos los circuitos inmediatamente','Solo son peligrosos los vehículos con el motor en marcha o el contacto puesto','La tensión residual desaparece en menos de 5 segundos tras apagar el vehículo'],
+      correct:0,explanation:'La batería HV siempre está bajo tensión mientras esté conectada, independientemente del estado del vehículo. Los condensadores del bus de alta tensión del inversor pueden mantener varios cientos de voltios durante 1-10 minutos tras la desconexión del sistema. Por eso existe el tiempo de espera en el protocolo de seguridad HV.'},
+
+    // ── MEDIO (16)
+    {band:'m',tag:'clasificacion',level:'Medio',points:15,
+      q:'¿Cuál es la diferencia entre un micro-hybrid (start-stop) y un full-hybrid en términos de capacidad eléctrica?',
+      options:['El micro-hybrid solo usa la electricidad para el start-stop y la recuperación de energía en frenada (sistema de 12-48 V); el full-hybrid puede propulsar el vehículo solo con electricidad a bajas velocidades con una batería de mayor tensión (100-300 V)','Son sinónimos; la diferencia es solo de denominación comercial','El micro-hybrid tiene mayor autonomía eléctrica porque su batería es más pequeña y se carga más rápido','El full-hybrid solo funciona en ciudad; el micro-hybrid puede usarse en carretera'],
+      correct:0,explanation:'Los sistemas mild/micro-hybrid trabajan a 12-48 V y solo asisten al motor; no pueden propulsar el vehículo solos. Los full-hybrid (Toyota Prius, Honda CR-V) tienen baterías de NiMH o Li-Ion a 100-300 V que permiten circulación en modo eléctrico puro a bajas velocidades.'},
+
+    {band:'m',tag:'protocolo_hv',level:'Medio',points:15,
+      q:'¿Cuál es el protocolo estándar de puesta en seguridad de un vehículo HV antes de cualquier intervención en el sistema de alta tensión?',
+      options:['1. Apagar el vehículo y extraer la llave. 2. Desconectar la batería de 12 V. 3. Extraer el MSD (conector de servicio) con guantes HV. 4. Esperar el tiempo indicado por el fabricante (generalmente 5-15 min) para la descarga de condensadores. 5. Verificar con voltímetro HV que la tensión es < 60 V antes de intervenir','Solo apagar el vehículo y desconectar la batería de 12 V es suficiente','Solo extraer el MSD sin necesidad de esperar ni verificar la tensión','Desconectar la batería HV con guantes de goma de cocina y continuar inmediatamente'],
+      correct:0,explanation:'El protocolo completo es imprescindible porque cada paso tiene una razón específica de seguridad: la llave evita el encendido accidental, el MSD corta el circuito HV, la espera permite la descarga de condensadores (cargados a cientos de voltios), y la verificación con voltímetro confirma que es seguro intervenir.'},
+
+    {band:'m',tag:'componentes_hv',level:'Medio',points:15,
+      q:'¿Dónde se ubica habitualmente la batería de alta tensión en los vehículos eléctricos e híbridos?',
+      options:['Generalmente bajo el suelo del habitáculo (entre los ejes) para lograr un centro de gravedad bajo y un buen reparto de masas; en algunos híbridos bajo el maletero o entre el maletero y el habitáculo trasero','Siempre en el compartimento motor para facilitar el acceso del técnico','Siempre en el maletero para no ocupar espacio del habitáculo','En el techo del vehículo para no afectar a la habitabilidad'],
+      correct:0,explanation:'La ubicación bajo el suelo (estructura de skateboard) es la más frecuente en BEV modernos porque optimiza el centro de gravedad y el reparto de masas, y aleja la batería de las zonas de impacto en colisiones frontales y traseras. En híbridos más antiguos (Toyota Prius) la batería está bajo el maletero trasero.'},
+
+    {band:'m',tag:'riesgo_hv',level:'Medio',points:15,
+      q:'¿Qué riesgo adicional presentan los vehículos de tracción eléctrica frente a los de combustión en caso de colisión?',
+      options:['Riesgo de electrocución del conductor, pasajeros o servicios de emergencia si el circuito HV queda dañado y los cables naranja se exponen; además riesgo de incendio por thermal runaway en la batería de Li-Ion','Los EV son más seguros en todos los aspectos porque no tienen combustible inflamable','El único riesgo adicional es la descarga total de la batería que deja el vehículo sin iluminación','El riesgo es idéntico al de un vehículo convencional ya que los sistemas de seguridad desconectan automáticamente la HV'],
+      correct:0,explanation:'En un accidente grave, el BMS (Battery Management System) puede desconectar la HV automáticamente, pero los cables naranja dañados siguen siendo conductores a la tensión de la batería. El thermal runaway es un incendio de batería Li-Ion que puede tardar horas en manifestarse y es muy difícil de extinguir.'},
+
+    {band:'m',tag:'señalizacion',level:'Medio',points:15,
+      q:'Llegas a la empresa de prácticas y ves un vehículo eléctrico averiado en el taller. ¿Cómo identificas visualmente los componentes de alta tensión antes de acercarte?',
+      options:['Buscas los cables de color naranja, las etiquetas de "ALTA TENSIÓN / HIGH VOLTAGE" con el símbolo de rayo, y los componentes marcados con fondo naranja o amarillo en el manual de taller','Los componentes HV siempre están en el compartimento motor y no hay que buscarlos','Solo el cable que va de la batería al motor tiene marcado HV; el resto es convencional','Los vehículos eléctricos tienen los mismos colores de cableado que los convencionales'],
+      correct:0,explanation:'La identificación visual es el primer paso de seguridad antes de acercarse a un vehículo HV averiado. Los cables naranja, las etiquetas de advertencia y los componentes con pictogramas de rayo son indicadores claros. El manual de taller del vehículo específico detalla la ubicación exacta de todos los componentes HV.'},
+
+    {band:'m',tag:'protocolo_hv',level:'Medio',points:15,
+      q:'¿Qué son los guantes de categoría 00 o 0 en el contexto de trabajos en vehículos de alta tensión y cuándo se usan?',
+      options:['Guantes dieléctricos de clase 00 (tensión de prueba 2.500 V, uso hasta 500 V CC) o clase 0 (prueba 5.000 V, uso hasta 1.000 V CC), necesarios para intervenir en o cerca del sistema HV de vehículos electrificados','Son guantes de uso general para mecánica, sin propiedades aislantes específicas','Son guantes de clase máxima para alta tensión industrial (más de 10.000 V)','Solo se usan en talleres de fabricación de baterías, no en talleres de reparación de vehículos'],
+      correct:0,explanation:'Los vehículos HV trabajan típicamente a 200-800 V CC. Los guantes dieléctricos clase 0 (hasta 1.000 V CC) son los mínimos para trabajar en el sistema HV. Deben usarse siempre que haya posibilidad de contacto con partes activas del sistema de alta tensión, incluso después de ejecutar el protocolo de desconexión.'},
+
+    {band:'m',tag:'componentes_hv',level:'Medio',points:15,
+      q:'¿Qué es el BMS (Battery Management System) y cuál es su función en la seguridad del vehículo eléctrico?',
+      options:['Sistema electrónico que monitoriza y gestiona el estado de la batería HV (temperatura, tensión por celda, corriente), equilibra las celdas y desconecta el sistema en caso de condición peligrosa (sobretemperatura, sobretensión, colisión)','El sistema de mando de volante que controla la dirección eléctrica del vehículo','El módulo de carga del cargador OBC que regula la corriente de recarga desde la red','El sistema de gestión del motor de combustión en vehículos híbridos'],
+      correct:0,explanation:'El BMS es el cerebro de la batería HV. Supervisa cada celda individualmente para evitar sobrecargas, sobredescargas y sobretemperaturas que podrían desencadenar el thermal runaway. En caso de accidente o condición anómala, puede desconectar eléctricamente la batería del circuito de alta tensión.'},
+
+    {band:'m',tag:'riesgo_hv',level:'Medio',points:15,
+      q:'¿Qué es el fenómeno de "thermal runaway" en una batería de iones de litio y por qué es tan peligroso?',
+      options:['Una reacción en cadena exotérmica en la que el calor generado por una celda dañada eleva la temperatura de las celdas adyacentes, provocando más calor y más daño hasta el incendio del módulo completo, difícil de extinguir con métodos convencionales','Una descarga total de la batería por corto circuito interno, sin riesgo de incendio','Un fallo del BMS que provoca una sobrecarga leve de las celdas','Una fuga de electrolito líquido sin riesgo de propagación al resto de celdas'],
+      correct:0,explanation:'El thermal runaway es el modo de fallo más peligroso de las baterías Li-Ion. Una celda dañada genera calor que propaga el fallo a las celdas vecinas en cascada. El incendio resultante puede durar horas, reactivarse tras ser extinguido, y solo el enfriamiento masivo con agua (dentro de la estructura) puede controlarlo.'},
+
+    {band:'m',tag:'clasificacion',level:'Medio',points:15,
+      q:'¿Qué tensión nominal tiene típicamente la batería de alta tensión de un vehículo eléctrico de turismo moderno?',
+      options:['Entre 300 V y 800 V CC, según el fabricante y el modelo','Entre 48 V y 60 V CC, igual que los sistemas mild-hybrid','Exactamente 400 V CC en todos los modelos por normativa europea','Entre 12 V y 24 V CC, siendo la misma que la batería auxiliar de servicio'],
+      correct:0,explanation:'Los turismos eléctricos modernos trabajan a 300-800 V CC. Los modelos de gama media suelen usar 400 V (p.ej. Renault, Volkswagen ID) y los de alto rendimiento o recarga rápida 800 V (Porsche Taycan, Hyundai Ioniq 5). Esta tensión es letal y requiere formación específica para cualquier intervención.'},
+
+    {band:'m',tag:'protocolo_hv',level:'Medio',points:15,
+      q:'¿Por qué es necesario esperar varios minutos tras extraer el MSD antes de intervenir en el sistema HV?',
+      options:['Los condensadores del inversor y de otros módulos del sistema HV almacenan energía a alta tensión y necesitan tiempo para descargarse a través de sus resistencias internas; tocar los terminales antes puede provocar una descarga eléctrica grave','El tiempo de espera es solo un protocolo burocrático sin base técnica real','Solo es necesario esperar si el vehículo ha estado enchufado a la red de carga','El BMS necesita ese tiempo para registrar el evento de desconexión en su memoria'],
+      correct:0,explanation:'Los condensadores de bus DC del inversor pueden almacenar energía a cientos de voltios. Tienen resistencias de descarga internas (pre-charge resistors) pero necesitan tiempo para llegar a tensión segura (<60 V). El tiempo exacto varía por fabricante (5-15 min) y siempre debe verificarse con voltímetro antes de intervenir.'},
+
+    {band:'m',tag:'señalizacion',level:'Medio',points:15,
+      q:'¿Qué señalización de seguridad debe colocarse en el área de trabajo cuando se realiza una intervención en el sistema HV de un vehículo?',
+      options:['Conos y balizas de señalización, cartel de "ALTA TENSIÓN – NO TOCAR", y si es posible una cuerda o valla que impida el acceso de personas no autorizadas al área de trabajo','Solo una señal en el parabrisas del vehículo con la fecha del trabajo','Ninguna señalización especial; con cerrar el capó es suficiente','Solo la señalización obligatoria en las escaleras de acceso al taller'],
+      correct:0,explanation:'El área de trabajo en sistemas HV debe estar perfectamente delimitada y señalizada para evitar que personas sin formación o EPI adecuados se acerquen. Los conos, balizas y carteles de advertencia protegen tanto al técnico que trabaja como al resto del personal del taller.'},
+
+    {band:'m',tag:'componentes_hv',level:'Medio',points:15,
+      q:'¿Cuál es la función del cargador OBC (On-Board Charger) en un vehículo eléctrico o PHEV?',
+      options:['Convertir la corriente alterna de la red de carga (CA monofásica o trifásica) en corriente continua para cargar la batería HV; está integrado en el vehículo y define la potencia máxima de carga en CA','Convertir la corriente de la batería HV en CA para los sistemas de 230 V del vehículo','Regular la tensión de la batería auxiliar de 12 V cuando el vehículo está enchufado','Controlar la corriente de carga rápida DC directamente desde el cargador externo'],
+      correct:0,explanation:'El OBC (cargador a bordo) convierte la CA de la red (Modo 1, 2 o 3) en CC para la batería HV. Su potencia (3,6 kW, 7,4 kW, 11 kW o 22 kW) determina la velocidad máxima de carga en corriente alterna. La carga rápida DC (Modo 4, CHAdeMO, CCS) bypasea el OBC y carga la batería directamente.'},
+
+    {band:'m',tag:'riesgo_hv',level:'Medio',points:15,
+      q:'¿Qué precauciones adicionales son necesarias al trabajar en un vehículo eléctrico con agua (limpieza a presión, lluvia)?',
+      options:['No limpiar a presión el compartimento del motor ni la zona de la batería HV, ya que el agua puede penetrar en conectores y crear caminos conductores entre circuitos HV; si el vehículo se ha mojado, verificar que no hay alertas de HV antes de intervenir','El agua no supone ningún riesgo adicional en vehículos eléctricos porque los circuitos HV son estancos IP67','Solo hay que secar el exterior antes de enchufar el cargador; el interior es completamente seguro','El agua cortocircuita automáticamente el sistema HV y lo pone en estado seguro'],
+      correct:0,explanation:'Los componentes HV tienen protección IP alta pero no son completamente impermeables en todas las condiciones. El agua salada o sucia reduce drásticamente la resistencia de aislamiento. Un vehículo muy mojado o inundado puede presentar riesgo de electrocución aunque esté "apagado".'},
+
+    {band:'m',tag:'clasificacion',level:'Medio',points:15,
+      q:'¿Qué vehículo NO forma parte de la categoría de vehículos electrificados con alta tensión?',
+      options:['Un vehículo con sistema start-stop convencional de 12 V (micro-hybrid básico sin batería de 48 V)','Un turismo eléctrico puro (BEV) de 400 V','Un híbrido enchufable (PHEV) con batería de 300 V','Un híbrido completo (HEV) con batería de NiMH a 200 V'],
+      correct:0,explanation:'Los sistemas start-stop convencionales de 12 V son sistemas de baja tensión convencional que no requieren protocolos de alta tensión. Solo a partir de los sistemas de 48 V (mild-hybrid) se empieza a hablar de alta tensión según algunos fabricantes, y claramente a partir de los 60 V CC según la normativa UNECE.'},
+
+    // ── ALTO (16)
+    {band:'a',tag:'protocolo_hv',level:'Alto',points:20,
+      q:'Durante las prácticas, el encargado te pide que ayudes a retirar la batería HV de un vehículo eléctrico porque "es un trabajo rápido". No has recibido formación específica en alta tensión. ¿Cuál es tu actuación?',
+      options:['Declinas de forma respetuosa pero firme: la manipulación de sistemas de alta tensión requiere formación específica certificada (mínimo nivel de cualificación en HV) y EPI adecuados que tú no tienes. Comunicas la situación a tu tutor del centro','Aceptas porque el encargado está presente y puede guiarte paso a paso','Aceptas solo si el encargado desconecta primero el MSD','Aceptas porque al ser "un trabajo rápido" el riesgo es mínimo'],
+      correct:0,explanation:'La manipulación de sistemas de alta tensión en vehículos electrificados requiere formación certificada específica (p.ej. según ITIC o BATT-E en España). Sin esa formación y sin los EPI homologados para HV, el riesgo de electrocución es real e inmediato. Negarse es legítimo y obligatorio. El tutor del centro debe saberlo.'},
+
+    {band:'a',tag:'riesgo_hv',level:'Alto',points:20,
+      q:'Un vehículo eléctrico llega al taller de prácticas tras un accidente con daños en la parte trasera donde está la batería. Se ve humo y olor a quemado. ¿Cuál es el protocolo de actuación?',
+      options:['Evacuar el área inmediatamente, llamar al 112 informando de que es un vehículo eléctrico con posible incendio de batería, mantener una distancia de seguridad mínima de 15-20 m, no intentar abrir la batería ni usar extintores convencionales (requiere agua en gran cantidad y tiempo prolongado)','Abrir la tapa de la batería para ventilar el humo y evitar el calentamiento de las celdas','Usar el extintor de CO₂ del taller para apagar el foco antes de que se extienda','Conectar el vehículo al cargador para estabilizar la batería mientras se evalúa el daño'],
+      correct:0,explanation:'Un incendio de batería Li-Ion (thermal runaway) puede reactivarse incluso horas después de parecer extinguido. Los bomberos necesitan saber que es un VE para aplicar el protocolo específico (inundación de la batería con agua durante horas). El personal del taller no está equipado para este tipo de emergencia; la evacuación y el 112 son las únicas acciones correctas.'},
+
+    {band:'a',tag:'componentes_hv',level:'Alto',points:20,
+      q:'¿Qué significa el código IP67 en un componente de alta tensión de un vehículo eléctrico?',
+      options:['Grado de protección IP: 6 = protección total contra el polvo (herméico); 7 = resistente a la inmersión temporal en agua hasta 1 m durante 30 min. No significa que sea permanentemente sumergible ni que sea seguro en inundaciones prolongadas','IP67 indica el número de celdas de batería (6) y la tensión nominal (7 × 100 V = 700 V)','Es el código de diagnóstico OBD de un fallo en el inversor del vehículo','Indica que el componente ha superado 67 ciclos de carga sin degradación'],
+      correct:0,explanation:'El código IP (Ingress Protection, IEC 60529) describe el grado de protección de la envolvente: el primer dígito (6) indica protección total contra polvo; el segundo (7) indica protección contra inmersión hasta 1 m durante 30 min. Es importante entender el límite: IP67 no es adecuado para inmersión prolongada o a mayor profundidad.'},
+
+    {band:'a',tag:'señalizacion',level:'Alto',points:20,
+      q:'¿Qué diferencia hay entre las señales de seguridad obligatorias en el taller convencional y las adicionales necesarias cuando hay vehículos HV?',
+      options:['El taller HV debe añadir señales específicas de riesgo eléctrico de alta tensión (rayo en triángulo), señales de EPI obligatorio (guantes HV, gafas), demarcación de zona de acceso restringido para personal sin formación HV, y procedimientos de emergencia para incendio de batería Li-Ion','Las señales son idénticas porque la normativa de señalización no distingue entre tensiones','Solo hay que añadir una señal de "prohibido el paso" en la puerta del taller cuando hay un VE en reparación','No son necesarias señales adicionales si el MSD está extraído del vehículo'],
+      correct:0,explanation:'Los talleres que trabajan con vehículos HV deben cumplir requisitos específicos de señalización, zonificación y procedimientos de emergencia adicionales a los del taller convencional. El RD 614/2001 de riesgo eléctrico y las guías técnicas de INSST aplican también a estos entornos con las adaptaciones necesarias para HV.'},
+
+    {band:'a',tag:'riesgo_hv',level:'Alto',points:20,
+      q:'¿Por qué el aislamiento del circuito de alta tensión respecto a la carrocería (aislamiento galvánico) es crítico para la seguridad del ocupante y del técnico?',
+      options:['Si existe continuidad eléctrica entre el circuito HV y la carrocería (fallo de aislamiento), tocar cualquier parte metálica del vehículo expone a la tensión completa de la batería (400-800 V). El aislamiento galvánico evita que la carrocería quede bajo tensión aunque el circuito HV tenga un fallo interno','El aislamiento galvánico solo protege los componentes electrónicos del vehículo, no a las personas','Solo es crítico en vehículos con motor de tracción delantera; en los de tracción trasera la carrocería está siempre a masa','El aislamiento galvánico es una característica estética que no afecta a la seguridad eléctrica'],
+      correct:0,explanation:'La carrocería de un VE no debe estar conectada eléctricamente al circuito HV. Si el aislamiento falla (cable naranja rozado con la carrocería), toda la carrocería queda bajo tensión HV. El IMD (Insulation Monitoring Device) del vehículo detecta este fallo y alerta al conductor. Un fallo no detectado convierte el vehículo en una trampa mortal.'},
+
+    {band:'a',tag:'clasificacion',level:'Alto',points:20,
+      q:'¿Qué es la frenada regenerativa y cómo funciona en un vehículo eléctrico o híbrido?',
+      options:['Al soltar el acelerador o frenar, el motor eléctrico pasa a actuar como generador: convierte la energía cinética del vehículo en energía eléctrica que se almacena en la batería HV, recuperando energía que en un vehículo convencional se perdería como calor en los frenos','Es un sistema que recarga la batería usando el calor de los frenos de disco','Es una función que permite al motor de combustión apagar los cilindros en desaceleración para ahorrar combustible','Es el sistema que permite cargar la batería HV mientras el vehículo está parado con el motor térmico en marcha'],
+      correct:0,explanation:'La frenada regenerativa es clave para la eficiencia de los vehículos electrificados: recupera hasta un 15-30% de la energía cinética. El motor eléctrico de tracción invierte su función (funciona como generador), el inversor rectifica la CA producida en CC, y el BMS gestiona la carga recuperada hacia la batería HV.'},
+
+    {band:'a',tag:'protocolo_hv',level:'Alto',points:20,
+      q:'En la empresa de prácticas, ves que un técnico retira el MSD de un vehículo eléctrico sin guantes dieléctricos y trabaja inmediatamente en el sistema HV sin esperar. ¿Cuál es tu actuación?',
+      options:['Alertas al técnico del riesgo que corre de forma respetuosa, y si no adopta medidas, comunicas la situación al responsable de PRL del taller y a tu tutor del centro educativo, sin participar en el trabajo en esas condiciones','Haces lo mismo que el técnico porque es el procedimiento del taller','Le das tus guantes de mecánica convencional para que tenga algo de protección','No dices nada para no crear mal ambiente en el primer día de prácticas'],
+      correct:0,explanation:'Un técnico sin guantes HV trabajando en alta tensión está en riesgo inmediato de muerte. La seguridad de terceros es también tu responsabilidad. Alertar respetuosamente es lo correcto; si no se actúa, la cadena de comunicación (responsable PRL → tutor del centro) es el mecanismo adecuado. No participar en trabajos inseguros es un derecho y una obligación.'},
+
+    {band:'a',tag:'componentes_hv',level:'Alto',points:20,
+      q:'¿Cuánto tiempo puede mantener los condensadores del inversor cargados un vehículo eléctrico tras la desconexión del MSD y qué implica esto para el técnico?',
+      options:['Entre 1 y 15 minutos dependiendo del fabricante y del estado de las resistencias de descarga internas; el técnico debe siempre verificar con un voltímetro homologado para HV que la tensión es inferior a 60 V antes de tocar ningún componente del bus DC, aunque haya esperado el tiempo especificado','El inversor se descarga completamente en menos de 2 segundos en todos los vehículos modernos','Solo los inversores de vehículos fabricados antes de 2010 tienen condensadores que retienen carga; los modernos se descargan al instante','Los condensadores se descargan automáticamente al abrir la puerta del vehículo'],
+      correct:0,explanation:'El tiempo de descarga varía por diseño y estado del componente. Las resistencias de descarga pueden degradarse con el tiempo o fallar. Por eso el tiempo de espera es una medida necesaria pero no suficiente: la verificación con voltímetro HV (categoría CATIII mínima) es imprescindible para confirmar tensión segura antes de intervenir.'},
+
+    {band:'a',tag:'riesgo_hv',level:'Alto',points:20,
+      q:'¿Qué riesgo eléctrico específico presenta un vehículo eléctrico en un rescate de accidente de tráfico y cómo deben actuar los bomberos y personal de emergencias?',
+      options:['Los cables HV dañados en el accidente pueden estar expuestos y bajo tensión; los bomberos usan procedimientos específicos (corte en zonas marcadas, no uso de agua conductora cerca de HV, distancia de seguridad) y consultan la Emergency Response Guide del fabricante para ese modelo concreto','Los vehículos eléctricos son más seguros que los de combustión en accidentes porque no tienen combustible inflamable','El sistema HV se desconecta automáticamente en todos los accidentes sin excepción, por lo que no hay riesgo eléctrico adicional','Los bomberos solo deben preocuparse por el incendio de la batería; el riesgo de electrocución es mínimo si no tocan los cables naranja'],
+      correct:0,explanation:'Los fabricantes publican Emergency Response Guides (ERGs) específicas para cada modelo que los servicios de emergencia deben consultar: ubicación del MSD, zonas de corte seguras, tiempo de descarga del sistema. El riesgo de electrocución en rescates es real y ha causado víctimas entre personal de emergencias no formado en VE.'},
+
+    {band:'a',tag:'señalizacion',level:'Alto',points:20,
+      q:'¿Qué formación mínima se requiere en España para trabajar en el sistema de alta tensión de vehículos electrificados y qué organismos la regulan?',
+      options:['Formación específica en riesgo eléctrico para vehículos electrificados, como las certificaciones BATT-E (ASTIC/CETRAA) o los cursos del ITIC reconocidos por la industria; la normativa de referencia es el RD 614/2001 de riesgo eléctrico adaptado a vehículos HV, y las guías técnicas del INSST','Basta con el carnet de conducir de vehículos eléctricos (clase B con anotación)','Cualquier técnico con 5 años de experiencia en mecánica puede trabajar en sistemas HV sin formación adicional','Solo necesitan formación específica los técnicos de los concesionarios oficiales de marcas de vehículos eléctricos'],
+      correct:0,explanation:'España no tiene aún una regulación específica unificada para formación en VE, pero el consenso del sector se apoya en el RD 614/2001 (riesgo eléctrico), las normas IEC 60479 y las guías del INSST. Las certificaciones BATT-E y los programas de formación de fabricantes son el estándar de facto reconocido por talleres y aseguradoras.'},
+
+    {band:'a',tag:'clasificacion',level:'Alto',points:20,
+      q:'¿Cómo afecta la temperatura exterior al rendimiento y la seguridad de la batería de iones de litio en un vehículo eléctrico?',
+      options:['Las temperaturas bajas (<0°C) reducen la capacidad disponible y la potencia de carga/descarga; las temperaturas altas (>40°C) aceleran la degradación y aumentan el riesgo de thermal runaway. El sistema de gestión térmica (refrigeración o calefacción de la batería) es crítico para el rendimiento y la durabilidad','La temperatura no afecta a las baterías de Li-Ion; están diseñadas para cualquier clima sin limitaciones','Solo las temperaturas extremas (menos de -20°C o más de 80°C) afectan levemente a la autonomía','El frío mejora el rendimiento de las baterías Li-Ion porque reduce la resistencia interna'],
+      correct:0,explanation:'Las baterías Li-Ion tienen un rango óptimo de 15-35°C. A bajas temperaturas la cinética electroquímica se ralentiza: menor capacidad y mayor resistencia interna (riesgo de daño por carga en frío). A altas temperaturas se acelera la degradación y aumenta el riesgo de reacciones exotérmicas. El sistema de gestión térmica (refrigeración líquida o resistencias de calefacción) es fundamental para la seguridad y la vida útil.'},
+
+    {band:'a',tag:'protocolo_hv',level:'Alto',points:20,
+      q:'¿Qué verificación final debe realizarse antes de declarar seguro el sistema HV de un vehículo para trabajar en él, y qué herramienta se requiere?',
+      options:['Medir la tensión entre los terminales del bus DC (positivo y negativo del sistema HV) y entre cada terminal y la carrocería con un voltímetro categoría CAT III (mínimo 600 V) u homologado para HV; la tensión debe ser < 60 V en todas las mediciones antes de tocar ningún componente','Con comprobar visualmente que el MSD está extraído es suficiente; no es necesaria ninguna medición','Con un voltímetro estándar de 10 V es suficiente para verificar la descarga del sistema HV','La verificación no es necesaria si el fabricante especifica un tiempo de espera fijo y ese tiempo ha transcurrido'],
+      correct:0,explanation:'La verificación instrumental es el único método que confirma la seguridad real. Un voltímetro CAT III 600 V (o superior) tiene la protección interna necesaria para trabajar cerca de circuitos de alta energía sin riesgo de arco interno en el instrumento. Las tres mediciones (V+/masa, V-/masa, V+/V-) confirman que no hay tensión residual peligrosa en ningún punto del bus HV.'}
+  ],
+
+  // ══════════════════════════════════════════════════════════════════
+  // FINAL RA4
+  // ══════════════════════════════════════════════════════════════════
+  final:[
+    {band:'b',tag:'decision',level:'Nivel 1',points:10,
+      q:'Antes de intervenir en el sistema eléctrico de un vehículo, ¿cuál es la primera acción de seguridad?',
+      options:['Desconectar el borne negativo de la batería y verificar con voltímetro que no hay tensión','Poner el motor en marcha para comprobar el fallo','Colocarse los guantes y empezar a trabajar directamente','Consultar el precio del recambio en el catálogo'],
+      correct:0,explanation:'Desconectar el negativo elimina la fuente de energía. Verificar con voltímetro confirma que no hay tensión residual. Sin estos pasos no hay trabajo seguro.'},
+
+    {band:'b',tag:'epi_aplicado',level:'Nivel 2',points:10,
+      q:'¿Qué hace al llegar al puesto de trabajo en el taller de prácticas antes de tocar ningún vehículo?',
+      options:['Ponerse el mono de trabajo, el calzado de seguridad y los guantes adecuados para la tarea asignada','Solo ponerse el mono si el encargado está presente','Comprobar primero los materiales y después decidir si hace falta EPI','No es necesario EPI para tareas de diagnóstico visual'],
+      correct:0,explanation:'El EPI se pone antes de acceder al área de trabajo, no cuando el encargado mira. Es una responsabilidad personal desde el primer momento de la jornada.'},
+
+    {band:'b',tag:'decision',level:'Nivel 3',points:10,
+      q:'¿Qué contenedor es el correcto para depositar una batería de plomo-ácido usada?',
+      options:['El contenedor de residuos peligrosos específico para baterías (sistema de depósito-retorno con el proveedor)','El contenedor de metales junto con los recambios metálicos','La basura general del taller','El contenedor de vidrio del taller'],
+      correct:0,explanation:'Las baterías de plomo-ácido son RP que contienen plomo y ácido sulfúrico. El sistema de depósito-retorno obliga al proveedor del recambio a recoger la batería usada.'},
+
+    {band:'m',tag:'hv_practica',level:'Nivel 4',points:15,
+      q:'¿Cuál es el color de los cables de alta tensión en un vehículo eléctrico o híbrido?',
+      options:['Naranja, según norma internacional SAE J1673','Rojo, igual que el positivo de batería de 12 V','Azul, para indicar corriente continua','Amarillo, para diferenciarlos de los cables de 12 V'],
+      correct:0,explanation:'El naranja identifica universalmente los cables de alta tensión en vehículos electrificados. Nunca manipular ni cortar un cable naranja sin formación y EPI específicos de HV.'},
+
+    {band:'m',tag:'decision',level:'Nivel 5',points:15,
+      q:'Estás en prácticas y el encargado te pide que hagas algo que crees que es inseguro. ¿Cómo actúas?',
+      options:['Explicas respetuosamente tu duda, preguntas cómo hacerlo con seguridad, y si no se resuelve, comunicas la situación a tu tutor del centro sin realizar el trabajo en esas condiciones','Haces lo que dice sin cuestionar porque es el encargado','Lo haces muy rápido para que el riesgo dure menos tiempo','Te marchas sin decir nada'],
+      correct:0,explanation:'Tienes derecho a trabajar de forma segura. Comunicar una duda de seguridad de forma respetuosa es profesional. Si no se resuelve, el tutor del centro es el canal correcto. Nunca estás obligado a poner en riesgo tu integridad.'},
+
+    {band:'m',tag:'hv_practica',level:'Nivel 6',points:15,
+      q:'¿Qué es el MSD (conector de servicio) en un vehículo eléctrico y cuándo se extrae?',
+      options:['Es el conector que interrumpe mecánicamente el circuito de alta tensión; se extrae como primer paso del protocolo de seguridad HV antes de cualquier intervención en el sistema','Es el conector de carga rápida del vehículo; se extrae cuando termina la carga','Es el conector del diagnóstico OBD; se conecta para leer los códigos de fallo','Es el fusible principal de 12 V del vehículo'],
+      correct:0,explanation:'El MSD es la llave de seguridad del sistema HV. Su extracción (con guantes dieléctricos HV) interrumpe el circuito de alta tensión. Pero hay que esperar y verificar con voltímetro antes de intervenir.'},
+
+    {band:'m',tag:'decision',level:'Nivel 7',points:15,
+      q:'Detectas un derrame de líquido de frenos en el suelo del taller. ¿Cuál es la actuación inmediata correcta?',
+      options:['Absorber el derrame con material absorbente, depositar el residuo en el contenedor de RP y limpiar la zona antes de continuar trabajando','Cubrir con cartón y limpiar al final de la jornada','Echar agua para diluirlo y mandarlo al desagüe','Avisar al encargado y no tocar nada hasta que él lo limpie'],
+      correct:0,explanation:'Un derrame en el suelo es un riesgo de caída inmediato y un residuo peligroso. La actuación es limpieza inmediata con absorbente y gestión correcta del residuo. No esperar.'},
+
+    {band:'a',tag:'hv_practica',level:'Nivel 8',points:20,
+      q:'Un vehículo eléctrico llega al taller tras un accidente con daños en la zona de la batería y humo. ¿Cuál es el protocolo correcto?',
+      options:['Evacuar el área, llamar al 112 informando de que es un vehículo eléctrico con posible thermal runaway, mantener distancia de 15-20 m y no intentar extinguir con medios convencionales del taller','Abrir la tapa de la batería para ventilar el humo','Usar el extintor de CO₂ para apagar el posible foco de calor','Conectar el vehículo al cargador para estabilizar la batería'],
+      correct:0,explanation:'El thermal runaway de batería Li-Ion puede ser letal y requiere intervención especializada de bomberos con protocolos específicos de VE. Evacuación inmediata y 112 son las únicas actuaciones correctas para el personal del taller.'},
+
+    {band:'a',tag:'epi_aplicado',level:'Nivel 9',points:20,
+      q:'¿Cuál es la diferencia entre un guante de mecánica estándar y un guante dieléctrico clase 0 para trabajos en alta tensión?',
+      options:['El guante dieléctrico clase 0 está probado y homologado para tensiones de hasta 1.000 V CC, fabricado en caucho dieléctrico sin imperfecciones conductoras; el guante de mecánica no ofrece protección eléctrica y puede ser conductor','Solo difieren en el grosor; cualquier guante grueso protege de la electricidad','El guante de mecánica es suficiente para vehículos de 12 V; el dieléctrico solo para instalaciones industriales','Son intercambiables; la diferencia es solo comercial'],
+      correct:0,explanation:'Los guantes dieléctricos clase 0 están certificados según la norma EN 60903 y probados a 5.000 V. Un guante de mecánica convencional puede tener partes metálicas o materiales conductores; no ofrece ninguna garantía de protección eléctrica y puede ser más peligroso que no llevar guantes si da falsa seguridad.'},
+
+    {band:'a',tag:'decision',level:'Nivel 10',points:25,
+      q:'Es el último día de prácticas. El encargado te pide que firmes un documento en el que declaras que has realizado trabajos en el sistema de alta tensión de vehículos eléctricos de forma supervisada. Sin embargo, en ningún momento del período de prácticas realizaste esos trabajos. ¿Qué haces?',
+      options:['No firmas el documento porque contiene información falsa; explicas al encargado que no realizaste esos trabajos y que no puedes firmar algo que no es verdad. Comunicas la situación a tu tutor del centro para que se resuelva correctamente','Firmas porque el encargado lo pide y no quieres terminar mal las prácticas','Firmas poniendo una nota al margen de que fue "supervisado de lejos"','Firmas pero guardas una copia por si acaso'],
+      correct:0,explanation:'Firmar un documento con información falsa es una falta grave con consecuencias legales y profesionales. La integridad profesional es un valor fundamental en cualquier sector. Tu tutor del centro es el responsable de resolver este tipo de situaciones en las prácticas en empresa. Esta es la pregunta de mayor dificultad del RA4 porque evalúa valores, no solo conocimientos técnicos.'}
+  ]
+};
+
+// ── MOTOR ─────────────────────────────────────────────────────────────
+function shuffle(arr){
+  const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;
+}
+function buildSelection(pool){
+  const b=shuffle(pool.filter(q=>q.band==='b')).slice(0,6);
+  const m=shuffle(pool.filter(q=>q.band==='m')).slice(0,8);
+  const a=shuffle(pool.filter(q=>q.band==='a')).slice(0,6);
+  return shuffle([...b,...m,...a]);
+}
+function defaultResult(){return{best:null,attempts:0,last:null,basicCorrect:0};}
+const profileKey=()=>`${storagePrefix}::${student.name}`;
+function hydrateResults(){unlockOrder.forEach(id=>{if(!globalState.results[id])globalState.results[id]=defaultResult();});}
+function serializableState(){return{name:student.name,points:globalState.points,stars:globalState.stars,bestStreak:globalState.bestStreak,completedUnits:[...globalState.completedUnits],results:globalState.results,saveCount:globalState.saveCount};}
+function saveProfile(){
+  if(student.name==='Sin nombre')return;
+  globalState.saveCount++;
+  localStorage.setItem(profileKey(),JSON.stringify(serializableState()));
+  document.getElementById('save-status').textContent=`✅ Guardado: ${student.name} · ${new Date().toLocaleTimeString()}`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+}
+function loadProfileByName(name){
+  const raw=localStorage.getItem(`${storagePrefix}::${name}`);if(!raw)return false;
+  const d=JSON.parse(raw);
+  student.name=d.name;globalState.points=d.points||0;globalState.stars=d.stars||0;globalState.bestStreak=d.bestStreak||0;globalState.completedUnits=new Set(d.completedUnits||[]);globalState.results=d.results||{};globalState.saveCount=d.saveCount||0;
+  hydrateResults();return true;
+}
+function resetProfile(){
+  globalState.points=0;globalState.stars=0;globalState.bestStreak=0;globalState.completedUnits=new Set();globalState.results={};globalState.saveCount=0;
+  hydrateResults();localStorage.removeItem(profileKey());
+}
+document.getElementById('save-student').addEventListener('click',()=>{
+  const n=document.getElementById('student-name').value.trim();if(!n)return;
+  student.name=n;hydrateResults();saveProfile();updateGlobalPanel();refreshAll();
+});
+document.getElementById('resume-student').addEventListener('click',()=>{
+  const n=document.getElementById('student-name').value.trim();
+  if(!n){document.getElementById('save-status').textContent='⚠️ Escribe un nombre primero.';return;}
+  if(loadProfileByName(n)){document.getElementById('student-name').value=student.name;document.getElementById('save-status').textContent=`📂 Perfil cargado: ${student.name}`;updateGlobalPanel();refreshAll();updateReport();}
+  else document.getElementById('save-status').textContent='⚠️ No se encontró perfil con ese nombre.';
+});
+document.getElementById('clear-student').addEventListener('click',()=>{
+  if(!confirm('¿Reiniciar el perfil? Se perderá todo el progreso.'))return;
+  resetProfile();document.getElementById('save-status').textContent='🗑️ Perfil reiniciado.';updateGlobalPanel();refreshAll();updateReport();
+});
+function passesUnlock(id){
+  const r=globalState.results[id];if(!r||r.best===null)return false;
+  return r.best>=7||(r.basicCorrect||0)>=6;
+}
+function isQuizUnlocked(id){
+  const rule=unlockRules[id];if(!rule)return true;
+  const idx=unlockOrder.indexOf(id);
+  for(let i=0;i<idx;i++){if(!passesUnlock(unlockOrder[i]))return false;}
+  return passesUnlock(rule.prev);
+}
+function attemptsLeft(id){const r=globalState.results[id];if(!r)return maxAttemptsPerBlock;return Math.max(0,maxAttemptsPerBlock-r.attempts);}
+function hasAttemptsLeft(id){return attemptsLeft(id)>0;}
+function updateGlobalPanel(){
+  document.getElementById('global-points').textContent=globalState.points;
+  document.getElementById('global-stars').textContent=globalState.stars;
+  document.getElementById('global-streak').textContent=globalState.bestStreak;
+  document.getElementById('global-units').textContent=`${globalState.completedUnits.size}/2`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+  document.getElementById('report-name').textContent=student.name;
+  unlockOrder.forEach(id=>{
+    const badge=document.getElementById(`badge-${id}`);if(!badge)return;
+    if(passesUnlock(id)){
+      badge.classList.remove('badge-lock');badge.classList.add('badge-unlock');
+      const h3=badge.querySelector('h3');
+      if(h3&&!h3.textContent.includes('🏆')&&!h3.textContent.includes('✅')){
+        const r=globalState.results[id];
+        h3.textContent=(r&&r.best>=8?'🏆 ':'✅ ')+h3.textContent.replace(/^[^\w🛡️⚠️🏆✅]*/,'');
+      }
+    }
+  });
+}
+function levelLabel(score){
+  if(score>=9)return'⭐⭐⭐ Excelente';if(score>=7)return'⭐⭐ Superado';if(score>=5)return'⭐ Mejorable';return'❌ No superado';
+}
+function updateReport(){
+  const tbody=document.getElementById('report-table');
+  const titles={taller:'Bloque 1 · Taller Eléctrico',hv:'Bloque 2 · Híbridos / EV',final:'Prueba Final RA4'};
+  tbody.innerHTML='';
+  unlockOrder.forEach(id=>{
+    const r=globalState.results[id]||defaultResult();
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${titles[id]||id}</td><td>${r.best!==null?r.best+'/10':'—'}</td><td>${r.attempts}/${maxAttemptsPerBlock}</td><td>${r.last!==null?r.last+'/10':'—'}</td><td>${r.best!==null?levelLabel(r.best):'—'}</td>`;
+    tbody.appendChild(tr);
+  });
+  const scores=unlockOrder.map(id=>globalState.results[id]?.best).filter(s=>s!==null&&s!==undefined);
+  const diag=document.getElementById('global-diagnosis');
+  if(scores.length===0){diag.innerHTML='<strong>Diagnóstico global:</strong> Completa al menos una prueba para ver el diagnóstico.';return;}
+  const avg=scores.reduce((a,b)=>a+b,0)/scores.length;
+  let msg='';
+  if(avg>=9)msg='Rendimiento excelente. Estás preparado para trabajar con seguridad en el taller y en las prácticas en empresa, incluyendo entornos con vehículos electrificados.';
+  else if(avg>=7)msg='Buen nivel. Tienes la base necesaria para las prácticas en empresa. Repasa los puntos señalados antes de tu incorporación.';
+  else if(avg>=5)msg='Nivel aceptable, pero hay aspectos de seguridad que debes reforzar antes de iniciar las prácticas. Consulta con tu profesor.';
+  else msg='Necesitas repasar en profundidad los contenidos de seguridad y PRL antes de incorporarte a las prácticas en empresa. Habla con tu tutor.';
+  diag.innerHTML=`<strong>Diagnóstico global (media ${avg.toFixed(1)}/10):</strong> ${msg}`;
+}
+function buildReview(id,tagErrors){
+  if(!tagErrors||Object.keys(tagErrors).length===0)return'';
+  const msgs=reviewMessages[id]||{};
+  const lines=Object.keys(tagErrors).filter(t=>tagErrors[t]>0).map(t=>msgs[t]||`Repasa el apartado: ${t}.`);
+  if(lines.length===0)return'';
+  return'<strong>📚 Puntos para repasar:</strong><ul style="margin:.5em 0 0 1.2em">'+lines.map(l=>`<li>${l}</li>`).join('')+'</ul>';
+}
+function buildGateSummary(id,score,passed,tagErrors){
+  const left=attemptsLeft(id);let html='';
+  if(passed){
+    const stars=score>=9?'⭐⭐⭐':score>=7?'⭐⭐':'⭐';
+    html=`<div style="font-size:13px"><strong>${stars} ¡Bloque superado!</strong> Resultado: ${score}/10.<br>`;
+    if(id!=='final'&&!isQuizUnlocked('final'))html+='Supera ambos bloques para desbloquear la Prueba Final.</div>';
+    else html+='</div>';
+  }else{
+    const reviewHtml=buildReview(id,tagErrors);
+    html=`<div style="font-size:13px"><strong>Resultado: ${score}/10.</strong> ${left>0?`Intentos restantes: ${left}.`:'Sin más intentos.'}<br>${reviewHtml}</div>`;
+  }
+  return html;
+}
+function createQuiz(id){
+  const meta=unitMeta[id],isFinal=id==='final';
+  let questions=[],qi=0,score=0,streak=0,localBestStreak=0,answered=0,tagErrors={};let sessionActive=false;
+  const section=document.getElementById(`quiz-${id}`);
+  const progFill=section.querySelector('.prog-fill'),progText=section.querySelector('.prog-text'),scoreEl=section.querySelector('.score-el'),streakEl=section.querySelector('.streak-el'),ptsEl=section.querySelector('.pts-el'),levelTag=section.querySelector('.level-tag'),qText=section.querySelector('.question-text'),optsEl=section.querySelector('.options'),feedbackEl=section.querySelector('.feedback'),rewardEl=section.querySelector('.reward'),gateEl=section.querySelector('.gate-msg'),reviewEl=section.querySelector('.review-box'),lockedEl=section.querySelector('.locked-notice'),quizContent=section.querySelector('.quiz-content'),nextBtn=section.querySelector('.btn-next'),restartBtn=section.querySelector('.btn-restart');
+  function render(){
+    const unlocked=isQuizUnlocked(id),hasAttempts=hasAttemptsLeft(id);
+    if(!unlocked){lockedEl.style.display='block';quizContent.style.display='none';const rule=unlockRules[id];lockedEl.querySelector('p').textContent=rule?rule.label:'Completa los bloques anteriores.';return;}
+    lockedEl.style.display='none';quizContent.style.display='block';
+    if(!sessionActive){gateEl.classList.remove('show');reviewEl.classList.remove('show');if(!hasAttempts){qText.textContent='Has alcanzado el máximo de intentos para este bloque.';optsEl.innerHTML='';feedbackEl.classList.remove('show');rewardEl.classList.remove('show');nextBtn.style.display='none';restartBtn.style.display='none';progFill.style.width='100%';return;}startSession();return;}
+    renderQuestion();
+  }
+  function startSession(){
+    questions=isFinal?[...questionPools.final]:buildSelection(questionPools[id]);
+    qi=0;score=0;streak=0;localBestStreak=0;answered=0;tagErrors={};sessionActive=true;
+    gateEl.classList.remove('show');reviewEl.classList.remove('show');renderQuestion();
+  }
+  function renderQuestion(){
+    if(qi>=questions.length){endSession();return;}
+    const q=questions[qi];
+    const pct=Math.round((qi/questions.length)*100);
+    progFill.style.width=pct+'%';progText.textContent=`${qi+1}/${questions.length}`;scoreEl.textContent=`${score}/${questions.length}`;streakEl.textContent=streak>1?`🔥${streak}`:'';ptsEl.textContent=globalState.points;
+    const cls=q.band==='b'?'basico':q.band==='m'?'medio':'alto';
+    levelTag.className=`level-tag ${cls}`;levelTag.textContent=q.level;qText.textContent=q.q;
+    const shuffled=shuffle([0,1,2,3]),correctShuffled=shuffled.indexOf(0);
+    optsEl.innerHTML='';
+    shuffled.forEach((origIdx,dispIdx)=>{const btn=document.createElement('button');btn.className='opt-btn';btn.textContent=q.options[origIdx];btn.addEventListener('click',()=>handleAnswer(dispIdx,correctShuffled,q));optsEl.appendChild(btn);});
+    feedbackEl.classList.remove('show','ok','fail');rewardEl.classList.remove('show');nextBtn.style.display='none';
+  }
+  function handleAnswer(chosen,correct,q){
+    const btns=optsEl.querySelectorAll('.opt-btn');btns.forEach(b=>b.disabled=true);btns[correct].classList.add('correct');answered++;
+    if(!tagErrors[q.tag])tagErrors[q.tag]=0;
+    if(chosen===correct){
+      score++;streak++;if(streak>localBestStreak)localBestStreak=streak;if(streak>globalState.bestStreak)globalState.bestStreak=streak;globalState.points+=q.points;
+      feedbackEl.className='feedback show ok';feedbackEl.innerHTML=`✅ <strong>¡Correcto!</strong> (+${q.points} pts) ${q.explanation}`;
+      rewardEl.textContent=streak>=5?'🔥🔥🔥':streak>=3?'🌟':streak>=2?'✨':'';if(streak>=2)rewardEl.classList.add('show');
+      if(q.band==='b'){const r=globalState.results[id];if(r)r.basicCorrect=(r.basicCorrect||0)+1;}
+    }else{btns[chosen].classList.add('wrong');streak=0;tagErrors[q.tag]++;feedbackEl.className='feedback show fail';feedbackEl.innerHTML=`❌ <strong>Incorrecto.</strong> ${q.explanation}`;}
+    scoreEl.textContent=`${score}/${questions.length}`;streakEl.textContent=streak>1?`🔥${streak}`:'';ptsEl.textContent=globalState.points;nextBtn.style.display='inline-block';
+  }
+  function endSession(){
+    sessionActive=false;const total=questions.length,finalScore=Math.round((score/total)*10);
+    const r=globalState.results[id];r.attempts++;r.last=finalScore;if(r.best===null||finalScore>r.best)r.best=finalScore;
+    const stars=finalScore>=9?3:finalScore>=7?2:finalScore>=5?1:0;globalState.stars+=stars;
+    if(finalScore>=7&&!isFinal)globalState.completedUnits.add(id);
+    progFill.style.width='100%';progText.textContent=`${total}/${total}`;scoreEl.textContent=`${score}/${total}`;
+    qText.textContent=`Resultado final: ${score}/${total} preguntas correctas (${finalScore}/10)`;
+    optsEl.innerHTML='';feedbackEl.classList.remove('show');rewardEl.classList.remove('show');
+    const passed=finalScore>=7;
+    gateEl.innerHTML=buildGateSummary(id,finalScore,passed,tagErrors);gateEl.classList.add('show');
+    const reviewHtml=buildReview(id,tagErrors);if(reviewHtml&&!passed){reviewEl.innerHTML=reviewHtml;reviewEl.classList.add('show');}
+    nextBtn.style.display='none';restartBtn.style.display=hasAttemptsLeft(id)?'inline-block':'none';
+    saveProfile();updateGlobalPanel();updateReport();refreshAll();
+  }
+  nextBtn.addEventListener('click',()=>{qi++;renderQuestion();});
+  restartBtn.addEventListener('click',()=>{startSession();});
+  return{render};
+}
+function renderQuizSections(){
+  const container=document.getElementById('quizzes');container.innerHTML='';
+  ['taller','hv','final'].forEach(id=>{
+    const meta=unitMeta[id],isFinal=id==='final';
+    const alertHtml=id==='hv'?`<div class="alert-banner"><div class="alert-icon">⚠️</div><p><strong>Atención:</strong> Este bloque cubre vehículos de alta tensión (100-800 V CC). La información aquí presentada es de <strong>carácter introductorio y de concienciación</strong>. La manipulación real de sistemas de alta tensión requiere <strong>formación certificada específica</strong> que va más allá de este módulo.</p></div>`:'';
+    const sec=document.createElement('section');sec.className='section';sec.id=id;
+    sec.innerHTML=`
+    <div class="wrap">
+      <div class="section-head"><div><h2>${meta[0]}</h2><p class="muted">${meta[1]}</p></div></div>
+      ${alertHtml}
+      <div class="quiz-layout" id="quiz-${id}">
+        <div class="status-box">
+          <h4>${isFinal?'Prueba Final':'Progreso Bloque'}</h4>
+          <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
+          <div class="status-row"><span>Pregunta</span><strong class="prog-text">0/20</strong></div>
+          <div class="status-row"><span>Aciertos</span><strong class="score-el">0/20</strong></div>
+          <div class="status-row"><span>Puntos totales</span><strong class="pts-el">0</strong></div>
+          <div style="margin-top:8px"><span class="streak-badge" style="display:inline-flex"><span class="streak-el"></span></span></div>
+          <div style="margin-top:12px;font-size:12px;color:var(--muted)" id="attempts-${id}"></div>
+        </div>
+        <div class="quiz-box">
+          <div class="quiz-content">
+            <span class="level-tag basico">Básico</span>
+            <p class="question-text">Cargando pregunta…</p>
+            <div class="options"></div>
+            <div class="reward"></div>
+            <div class="feedback"></div>
+            <div class="gate-msg"></div>
+            <div class="review-box"></div>
+            <div class="nav-btns">
+              <button class="btn btn-primary btn-next" style="display:none">Siguiente →</button>
+              <button class="btn btn-secondary btn-restart" style="display:none">🔄 Nuevo intento</button>
+            </div>
+          </div>
+          <div class="locked-notice" style="display:none"><div class="lock-icon">🔒</div><p></p></div>
+        </div>
+      </div>
+    </div>`;
+    container.appendChild(sec);
+  });
+}
+let quizInstances={};
+function refreshAll(){
+  Object.values(quizInstances).forEach(q=>q.render());
+  unlockOrder.forEach(id=>{const el=document.getElementById(`attempts-${id}`);if(el)el.textContent=`Intentos: ${(globalState.results[id]?.attempts||0)}/${maxAttemptsPerBlock}`;});
+}
+renderQuizSections();
+hydrateResults();
+['taller','hv','final'].forEach(id=>{quizInstances[id]=createQuiz(id);});
+updateGlobalPanel();
+refreshAll();
+updateReport();
+</script>
+</body>
+</html>

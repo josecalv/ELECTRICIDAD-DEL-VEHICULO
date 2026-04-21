@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula Taller · Electricidad del Vehículo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;--surface3:#f0ece6;
+      --border:#d4d1ca;--text:#28251d;--muted:#6f6d67;--inv:#faf8f5;
+      --primary:#01696f;--success:#437a22;--danger:#b13b82;--gold:#d19900;
+      --radius:18px;--shadow:0 18px 40px rgba(35,28,18,.09);
+      --font-display:'Instrument Serif',Georgia,serif;
+      --font-body:'Inter',system-ui,sans-serif
+    }
+    [data-theme="dark"]{
+      --bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--surface3:#262422;
+      --border:#393836;--text:#e2dfd9;--muted:#a5a19b;--inv:#191816;
+      --primary:#4f98a3;--success:#76b14c;--danger:#db77b2;--gold:#e4b843;
+      --shadow:0 18px 40px rgba(0,0,0,.35)
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s;min-height:100vh}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+    /* ── HEADER ── */
+    header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .topbar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .logo svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .brand small{display:block;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;line-height:1}
+    .brand strong{font-size:15px;font-weight:700}
+    .theme-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:15px;transition:background .2s}
+    .theme-btn:hover{background:var(--surface3)}
+    .badge-cfgb{font-size:11px;font-weight:700;background:var(--surface3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--muted);white-space:nowrap}
+
+    /* ── HERO ── */
+    .hero{padding:72px 0 56px;background:linear-gradient(140deg,var(--surface) 0%,var(--surface2) 60%,var(--surface3) 100%);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(1,105,111,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-inner{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center}
+    @media(max-width:700px){.hero-inner{grid-template-columns:1fr}}
+    .eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:14px}
+    .eyebrow-dot{width:6px;height:6px;background:var(--primary);border-radius:50%;display:inline-block}
+    h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.4rem);font-weight:400;line-height:1.08;margin-bottom:18px}
+    h1 em{font-style:italic;color:var(--primary)}
+    .lead{font-size:16px;color:var(--muted);max-width:540px;margin-bottom:28px;line-height:1.7}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{font-size:12px;font-weight:600;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:5px 13px;color:var(--muted)}
+
+    /* Módulos stats en hero */
+    .hero-stats{display:flex;flex-direction:column;gap:12px;flex-shrink:0}
+    @media(max-width:700px){.hero-stats{flex-direction:row;flex-wrap:wrap}}
+    .hstat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 20px;text-align:center;min-width:110px;box-shadow:var(--shadow)}
+    .hstat strong{display:block;font-size:26px;font-weight:800;color:var(--primary);line-height:1}
+    .hstat span{font-size:11px;color:var(--muted);font-weight:600;display:block;margin-top:4px}
+
+    /* ── SECCIÓN DESCRIPCIÓN ── */
+    .section{padding:56px 0}
+    .section + .section{padding-top:0}
+    .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:10px}
+    .section-title{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2rem);font-weight:400;margin-bottom:8px}
+    .section-sub{font-size:15px;color:var(--muted);margin-bottom:36px;max-width:580px}
+
+    /* ── CARDS RA ── */
+    .ra-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:20px}
+    @media(max-width:520px){.ra-grid{grid-template-columns:1fr}}
+
+    .ra-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s,border-color .25s;display:flex;flex-direction:column}
+    .ra-card:hover{transform:translateY(-3px);box-shadow:0 24px 52px rgba(35,28,18,.13);border-color:var(--primary)}
+
+    .ra-card-header{padding:22px 24px 16px;display:flex;align-items:flex-start;gap:16px;border-bottom:1px solid var(--border)}
+    .ra-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px}
+    .ra-icon.c1{background:linear-gradient(135deg,#e3f6f5,#b2e8e6)}
+    .ra-icon.c2{background:linear-gradient(135deg,#fff3e0,#ffe0b2)}
+    .ra-icon.c3{background:linear-gradient(135deg,#f3e5f5,#e1bee7)}
+    .ra-icon.c4{background:linear-gradient(135deg,#e8f5e9,#c8e6c9)}
+    [data-theme="dark"] .ra-icon.c1{background:linear-gradient(135deg,#0d2e2e,#0a3a38)}
+    [data-theme="dark"] .ra-icon.c2{background:linear-gradient(135deg,#2a1800,#3a2200)}
+    [data-theme="dark"] .ra-icon.c3{background:linear-gradient(135deg,#1e0a2e,#2a1038)}
+    [data-theme="dark"] .ra-icon.c4{background:linear-gradient(135deg,#0a1e0a,#102a10)}
+
+    .ra-card-meta{flex:1;min-width:0}
+    .ra-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--primary);margin-bottom:4px}
+    .ra-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:4px}
+    .ra-ce{font-size:12px;color:var(--muted);line-height:1.5}
+
+    .ra-card-body{padding:16px 24px;flex:1;display:flex;flex-direction:column;gap:12px}
+
+    /* Unidades dentro de la card */
+    .ud-list{display:flex;flex-direction:column;gap:6px}
+    .ud-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:10px;border:1px solid var(--border)}
+    .ud-emoji{font-size:16px;flex-shrink:0;width:24px;text-align:center}
+    .ud-info{flex:1;min-width:0}
+    .ud-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ud-desc{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ud-badge{font-size:10px;font-weight:700;background:var(--surface3);border:1px solid var(--border);border-radius:8px;padding:2px 7px;color:var(--muted);flex-shrink:0;white-space:nowrap}
+
+    /* Stats de la card */
+    .ra-card-stats{display:flex;gap:8px;flex-wrap:wrap}
+    .cstat{font-size:11px;font-weight:600;background:var(--surface3);border:1px solid var(--border);border-radius:8px;padding:3px 9px;color:var(--muted)}
+
+    /* Footer de la card con botón */
+    .ra-card-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .ra-card-footer .final-note{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
+    .btn-ra{display:inline-flex;align-items:center;gap:7px;background:var(--primary);color:#fff;font-family:var(--font-body);font-size:13px;font-weight:700;padding:10px 20px;border-radius:10px;border:none;cursor:pointer;text-decoration:none;transition:filter .2s,transform .15s}
+    .btn-ra:hover{filter:brightness(1.1);transform:translateY(-1px)}
+    .btn-ra svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+    /* ── CÓMO FUNCIONA ── */
+    .how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:36px}
+    .how-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;position:relative}
+    .how-num{font-family:var(--font-display);font-size:2.4rem;font-weight:400;color:var(--border);line-height:1;margin-bottom:10px}
+    .how-title{font-size:14px;font-weight:700;margin-bottom:6px}
+    .how-text{font-size:13px;color:var(--muted);line-height:1.6}
+
+    /* ── LEYENDA ── */
+    .legend{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:0}
+    .legend-title{font-size:13px;font-weight:700;margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+    .legend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+    .legend-item{display:flex;align-items:center;gap:10px;font-size:13px}
+    .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .dot-b{background:#437a22}
+    .dot-m{background:#d19900}
+    .dot-a{background:#b13b82}
+    .dot-final{background:var(--primary)}
+
+    /* ── FOOTER ── */
+    footer{padding:40px 0;border-top:1px solid var(--border)}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .footer-brand{display:flex;align-items:center;gap:10px}
+    .footer-logo{width:30px;height:30px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center}
+    .footer-logo svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .footer-text{font-size:13px;color:var(--muted)}
+    .footer-right{font-size:12px;color:var(--muted);text-align:right}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap topbar">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div>
+        <small>Ciclo Formativo Grado Básico</small>
+        <strong>Aula Taller</strong>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="badge-cfgb">Electricidad del Vehículo</span>
+      <button class="theme-btn" data-theme-toggle>◐</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Módulo profesional</div>
+      <h1>Electricidad<br>del <em>Vehículo</em></h1>
+      <p class="lead">Evaluación digital de los cuatro resultados de aprendizaje. Practica a tu ritmo, comprueba tu nivel y prepárate para las prácticas en empresa con preguntas extraídas aleatoriamente de un banco amplio en cada intento.</p>
+      <div class="chips">
+        <span class="chip">4 resultados de aprendizaje</span>
+        <span class="chip">250+ preguntas en banco</span>
+        <span class="chip">Dificultad progresiva</span>
+        <span class="chip">Guardado por alumno</span>
+        <span class="chip">Orientado a FCT</span>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><strong>4</strong><span>RAs</span></div>
+      <div class="hstat"><strong>9</strong><span>Unidades</span></div>
+      <div class="hstat"><strong>260</strong><span>Preguntas</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- RA CARDS -->
+<section class="section">
+  <div class="wrap">
+    <p class="section-label">Resultados de aprendizaje</p>
+    <h2 class="section-title">Elige un resultado de aprendizaje</h2>
+    <p class="section-sub">Cada RA se desbloquea por unidades: supera la primera para acceder a la siguiente. La prueba final se activa al completar todas las unidades del RA.</p>
+
+    <div class="ra-grid">
+
+      <!-- RA1 -->
+      <div class="ra-card">
+        <div class="ra-card-header">
+          <div class="ra-icon c1">⚡</div>
+          <div class="ra-card-meta">
+            <div class="ra-num">RA 1</div>
+            <div class="ra-title">Medidas eléctricas básicas</div>
+            <div class="ra-ce">Relaciona las magnitudes con las características de los equipos de medida</div>
+          </div>
+        </div>
+        <div class="ra-card-body">
+          <div class="ud-list">
+            <div class="ud-item">
+              <div class="ud-emoji">📐</div>
+              <div class="ud-info">
+                <div class="ud-name">UD1 · Conceptos básicos de electricidad</div>
+                <div class="ud-desc">Corriente, magnitudes, Ley de Ohm, circuitos, medición y componentes</div>
+              </div>
+              <div class="ud-badge">40 preguntas</div>
+            </div>
+            <div class="ud-item">
+              <div class="ud-emoji">🏆</div>
+              <div class="ud-info">
+                <div class="ud-name">Prueba final RA1</div>
+                <div class="ud-desc">10 preguntas integradoras, Nivel 1 → 10</div>
+              </div>
+              <div class="ud-badge">Se desbloquea</div>
+            </div>
+          </div>
+          <div class="ra-card-stats">
+            <span class="cstat">🟢 8 básicas</span>
+            <span class="cstat">🟡 16 medias</span>
+            <span class="cstat">🔴 16 altas</span>
+            <span class="cstat">Extrae 20/intento</span>
+          </div>
+        </div>
+        <div class="ra-card-footer">
+          <span class="final-note">🔒 Final se desbloquea al superar UD1</span>
+          <a href="elec-ra1.html" class="btn-ra">
+            Abrir RA1
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- RA2 -->
+      <div class="ra-card">
+        <div class="ra-card-header">
+          <div class="ra-icon c2">🔋</div>
+          <div class="ra-card-meta">
+            <div class="ra-num">RA 2</div>
+            <div class="ra-title">Carga y arranque</div>
+            <div class="ra-ce">Mantenimiento básico del circuito de carga y arranque</div>
+          </div>
+        </div>
+        <div class="ra-card-body">
+          <div class="ud-list">
+            <div class="ud-item">
+              <div class="ud-emoji">🔌</div>
+              <div class="ud-info">
+                <div class="ud-name">UD5 · Circuitos de carga y arranque</div>
+                <div class="ud-desc">Batería, alternador, motor de arranque, start-stop y seguridad</div>
+              </div>
+              <div class="ud-badge">40 preguntas</div>
+            </div>
+            <div class="ud-item">
+              <div class="ud-emoji">🏆</div>
+              <div class="ud-info">
+                <div class="ud-name">Prueba final RA2</div>
+                <div class="ud-desc">10 preguntas integradoras, Nivel 1 → 10</div>
+              </div>
+              <div class="ud-badge">Se desbloquea</div>
+            </div>
+          </div>
+          <div class="ra-card-stats">
+            <span class="cstat">🟢 8 básicas</span>
+            <span class="cstat">🟡 16 medias</span>
+            <span class="cstat">🔴 16 altas</span>
+            <span class="cstat">Extrae 20/intento</span>
+          </div>
+        </div>
+        <div class="ra-card-footer">
+          <span class="final-note">🔒 Final se desbloquea al superar UD5</span>
+          <a href="elec-ra2.html" class="btn-ra">
+            Abrir RA2
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- RA3 -->
+      <div class="ra-card">
+        <div class="ra-card-header">
+          <div class="ra-icon c3">💡</div>
+          <div class="ra-card-meta">
+            <div class="ra-num">RA 3</div>
+            <div class="ra-title">Sistemas auxiliares</div>
+            <div class="ra-ce">Mantenimiento básico de los sistemas auxiliares del vehículo</div>
+          </div>
+        </div>
+        <div class="ra-card-body">
+          <div class="ud-list">
+            <div class="ud-item">
+              <div class="ud-emoji">🔌</div>
+              <div class="ud-info">
+                <div class="ud-name">UD2 · Elementos de los circuitos eléctricos</div>
+                <div class="ud-desc">Fusibles, relés, lámparas, cableado y seguridad</div>
+              </div>
+              <div class="ud-badge">40 preguntas</div>
+            </div>
+            <div class="ud-item">
+              <div class="ud-emoji">💡</div>
+              <div class="ud-info">
+                <div class="ud-name">UD3 · Alumbrado y maniobras</div>
+                <div class="ud-desc">Faros, pilotos, regloscopio, bocina y limpiaparabrisas</div>
+              </div>
+              <div class="ud-badge">40 preguntas</div>
+            </div>
+            <div class="ud-item">
+              <div class="ud-emoji">🪟</div>
+              <div class="ud-info">
+                <div class="ud-name">UD4 · Otros circuitos eléctricos</div>
+                <div class="ud-desc">Elevalunas, cierre centralizado, luneta térmica y espejos</div>
+              </div>
+              <div class="ud-badge">40 preguntas</div>
+            </div>
+            <div class="ud-item">
+              <div class="ud-emoji">🏆</div>
+              <div class="ud-info">
+                <div class="ud-name">Prueba final RA3</div>
+                <div class="ud-desc">10 preguntas integradoras, Nivel 1 → 10</div>
+              </div>
+              <div class="ud-badge">Se desbloquea</div>
+            </div>
+          </div>
+          <div class="ra-card-stats">
+            <span class="cstat">🟢 24 básicas</span>
+            <span class="cstat">🟡 48 medias</span>
+            <span class="cstat">🔴 48 altas</span>
+            <span class="cstat">3 unidades en cadena</span>
+          </div>
+        </div>
+        <div class="ra-card-footer">
+          <span class="final-note">🔒 Final se desbloquea al superar UD2 → UD3 → UD4</span>
+          <a href="elec-ra3.html" class="btn-ra">
+            Abrir RA3
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- RA4 -->
+      <div class="ra-card">
+        <div class="ra-card-header">
+          <div class="ra-icon c4">🛡️</div>
+          <div class="ra-card-meta">
+            <div class="ra-num">RA 4</div>
+            <div class="ra-title">Seguridad, PRL y medioambiente</div>
+            <div class="ra-ce">Trabajo seguro, EPI, residuos y vehículos electrificados · Clave para FCT</div>
+          </div>
+        </div>
+        <div class="ra-card-body">
+          <div class="ud-list">
+            <div class="ud-item">
+              <div class="ud-emoji">🛡️</div>
+              <div class="ud-info">
+                <div class="ud-name">Bloque 1 · Seguridad en el taller eléctrico</div>
+                <div class="ud-desc">EPI, riesgos eléctricos, residuos, emergencias y FCT</div>
+              </div>
+              <div class="ud-badge">40 preguntas</div>
+            </div>
+            <div class="ud-item">
+              <div class="ud-emoji">⚠️</div>
+              <div class="ud-info">
+                <div class="ud-name">Bloque 2 · Híbridos y vehículos eléctricos</div>
+                <div class="ud-desc">Alta tensión, componentes HV, protocolo de seguridad</div>
+              </div>
+              <div class="ud-badge">40 preguntas</div>
+            </div>
+            <div class="ud-item">
+              <div class="ud-emoji">🏆</div>
+              <div class="ud-info">
+                <div class="ud-name">Prueba final RA4</div>
+                <div class="ud-desc">10 escenarios de toma de decisión en taller y empresa</div>
+              </div>
+              <div class="ud-badge">Se desbloquea</div>
+            </div>
+          </div>
+          <div class="ra-card-stats">
+            <span class="cstat">🟢 16 básicas</span>
+            <span class="cstat">🟡 32 medias</span>
+            <span class="cstat">🔴 32 altas</span>
+            <span class="cstat">Orientado a FCT</span>
+          </div>
+        </div>
+        <div class="ra-card-footer">
+          <span class="final-note">🔒 Final se desbloquea al superar ambos bloques</span>
+          <a href="elec-ra4.html" class="btn-ra">
+            Abrir RA4
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="section">
+  <div class="wrap">
+    <p class="section-label">Funcionamiento</p>
+    <h2 class="section-title">¿Cómo funciona Aula Taller?</h2>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-title">Escribe tu nombre</div>
+        <div class="how-text">El progreso se guarda localmente asociado a tu nombre. Puedes retomar cualquier RA en otro momento sin perder tus resultados.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-title">Progresa en orden</div>
+        <div class="how-text">Cada unidad se desbloquea al superar la anterior con un 70% o acertando todas las preguntas básicas. La prueba final requiere superar todas las unidades del RA.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-title">Banco aleatorio</div>
+        <div class="how-text">En cada intento se extraen 20 preguntas distintas del banco (6 básicas, 8 medias, 6 altas). Los distractores también se mezclan, por lo que cada intento es diferente.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">04</div>
+        <div class="how-title">Máximo 3 intentos</div>
+        <div class="how-text">Dispones de 3 intentos por bloque. Si no superas el mínimo, el informe final te indica exactamente qué subtemas repasar para mejorar en el siguiente.</div>
+      </div>
+    </div>
+
+    <!-- Leyenda de dificultad -->
+    <div class="legend" style="margin-top:20px">
+      <div class="legend-title">Niveles de dificultad</div>
+      <div class="legend-grid">
+        <div class="legend-item"><div class="legend-dot dot-b"></div><span><strong>Básico (10 pts)</strong> — Identificación, conceptos y nomenclatura</span></div>
+        <div class="legend-item"><div class="legend-dot dot-m"></div><span><strong>Medio (15 pts)</strong> — Procedimientos, cálculos y relaciones causa-efecto</span></div>
+        <div class="legend-item"><div class="legend-dot dot-a"></div><span><strong>Alto (20 pts)</strong> — Diagnóstico, toma de decisiones y seguridad</span></div>
+        <div class="legend-item"><div class="legend-dot dot-final"></div><span><strong>Final (Niveles 1-10)</strong> — Integrador, la última pregunta vale 25 pts</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div class="footer-text">
+        <strong>Aula Taller</strong> · Electricidad del Vehículo<br>
+        Ciclo Formativo de Grado Básico · Mecánica del Vehículo
+      </div>
+    </div>
+    <div class="footer-right">
+      Herramienta de evaluación digital<br>
+      Uso educativo · Sin datos en servidor
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const root=document.documentElement,btn=document.querySelector('[data-theme-toggle]');
+  let theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  root.setAttribute('data-theme',theme);
+  btn.addEventListener('click',()=>{
+    theme=theme==='dark'?'light':'dark';
+    root.setAttribute('data-theme',theme);
+  });
+})();
+</script>
+</body>
+</html>

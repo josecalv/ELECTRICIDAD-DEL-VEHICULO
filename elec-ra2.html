@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula Taller · RA2 Carga y Arranque · Electricidad del Vehículo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;--surface3:#f0ece6;
+      --border:#d4d1ca;--text:#28251d;--muted:#6f6d67;--inv:#faf8f5;
+      --primary:#01696f;--success:#437a22;--danger:#b13b82;--gold:#d19900;
+      --radius:18px;--shadow:0 18px 40px rgba(35,28,18,.09);
+      --font-display:'Instrument Serif',Georgia,serif;
+      --font-body:'Inter',system-ui,sans-serif
+    }
+    [data-theme="dark"]{
+      --bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--surface3:#262422;
+      --border:#393836;--text:#e2dfd9;--muted:#a5a19b;--inv:#191816;
+      --primary:#4f98a3;--success:#76b14c;--danger:#db77b2;--gold:#e4b843;
+      --shadow:0 18px 40px rgba(0,0,0,.35)
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+    header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .topbar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .logo svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .brand small{display:block;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;line-height:1}
+    .brand strong{font-size:15px;font-weight:700}
+    .nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+    .nav a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;transition:background .2s,color .2s}
+    .nav a:hover{background:var(--surface3);color:var(--text)}
+    .theme-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:15px;transition:background .2s}
+    .theme-btn:hover{background:var(--surface3)}
+    .hero{padding:64px 0 48px;background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border-bottom:1px solid var(--border)}
+    .hero-grid{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+    @media(max-width:780px){.hero-grid{grid-template-columns:1fr}.hero-side{display:none}}
+    .eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:12px}
+    h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:400;line-height:1.1;margin-bottom:16px}
+    .lead{font-size:16px;color:var(--muted);max-width:520px;margin-bottom:24px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+    .chip{font-size:12px;font-weight:600;background:var(--surface3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--muted)}
+    .student-form{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+    .student-form input{flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border .2s}
+    .student-form input:focus{border-color:var(--primary)}
+    .save-box{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .save-status{font-size:13px;color:var(--muted);flex:1;min-width:160px}
+    .btn{font-family:var(--font-body);font-size:13px;font-weight:600;padding:9px 18px;border-radius:10px;border:none;cursor:pointer;transition:all .2s}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{filter:brightness(1.1)}
+    .btn-secondary{background:var(--surface3);color:var(--text);border:1px solid var(--border)}
+    .btn-secondary:hover{background:var(--border)}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+    .hero-side h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .stat{text-align:center;padding:12px 8px;background:var(--surface2);border-radius:12px;border:1px solid var(--border)}
+    .stat strong{display:block;font-size:22px;font-weight:800;color:var(--primary)}
+    .stat span{font-size:11px;color:var(--muted);font-weight:600}
+    .muted{color:var(--muted)}
+    .section{padding:48px 0}
+    .section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:32px}
+    .section-head h2{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400}
+    .section-head p{margin-top:4px;font-size:14px;color:var(--muted)}
+    .cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .badgebox{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:all .3s}
+    .badgebox h3{font-size:22px;margin-bottom:8px}
+    .badgebox p{font-size:13px;color:var(--muted)}
+    .badgebox.badge-lock{opacity:.5;filter:grayscale(1)}
+    .badgebox.badge-unlock{border-color:var(--success);background:linear-gradient(135deg,var(--surface),var(--surface2));opacity:1;filter:none}
+    .quiz-layout{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+    @media(max-width:700px){.quiz-layout{grid-template-columns:1fr}}
+    .status-box{position:sticky;top:80px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+    .status-box h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+    .prog-bar{height:8px;background:var(--surface3);border-radius:4px;margin-bottom:16px;overflow:hidden}
+    .prog-fill{height:100%;background:var(--primary);border-radius:4px;transition:width .4s}
+    .status-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
+    .status-row span{color:var(--muted)}
+    .status-row strong{color:var(--text)}
+    .streak-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gold);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+    .quiz-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+    .level-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:20px;margin-bottom:14px}
+    .level-tag.basico{background:#e8f5e9;color:#2e7d32}
+    .level-tag.medio{background:#fff8e1;color:#f57f17}
+    .level-tag.alto{background:#fce4ec;color:#880e4f}
+    [data-theme="dark"] .level-tag.basico{background:#1b3a1f;color:#76b14c}
+    [data-theme="dark"] .level-tag.medio{background:#3a2e00;color:#e4b843}
+    [data-theme="dark"] .level-tag.alto{background:#3a0a20;color:#db77b2}
+    .question-text{font-size:17px;font-weight:600;line-height:1.5;margin-bottom:22px}
+    .options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+    .opt-btn{text-align:left;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface2);color:var(--text);font-family:var(--font-body);font-size:14px;cursor:pointer;transition:all .2s;line-height:1.4}
+    .opt-btn:hover:not(:disabled){border-color:var(--primary);background:var(--surface3)}
+    .opt-btn.correct{border-color:var(--success);background:#f0fce8;color:#2e5c10}
+    .opt-btn.wrong{border-color:var(--danger);background:#fce8f3;color:#7a1045}
+    [data-theme="dark"] .opt-btn.correct{background:#1a2e10;color:#76b14c}
+    [data-theme="dark"] .opt-btn.wrong{background:#2e0a1a;color:#db77b2}
+    .opt-btn:disabled{cursor:default}
+    .feedback{padding:12px 16px;border-radius:12px;font-size:14px;margin-bottom:16px;display:none}
+    .feedback.show{display:block}
+    .feedback.ok{background:#f0fce8;border:1px solid var(--success);color:#2e5c10}
+    .feedback.fail{background:#fce8f3;border:1px solid var(--danger);color:#7a1045}
+    [data-theme="dark"] .feedback.ok{background:#1a2e10;color:#76b14c}
+    [data-theme="dark"] .feedback.fail{background:#2e0a1a;color:#db77b2}
+    .reward{font-size:28px;text-align:center;margin-bottom:8px;display:none}
+    .reward.show{display:block}
+    .gate-msg{padding:16px;border-radius:12px;font-size:14px;background:var(--surface3);border:1px solid var(--border);margin-bottom:16px;display:none}
+    .gate-msg.show{display:block}
+    .review-box{padding:16px;border-radius:12px;font-size:13px;background:var(--surface3);border:1px solid var(--border);color:var(--muted);margin-top:12px;display:none}
+    .review-box.show{display:block}
+    .nav-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .locked-notice{text-align:center;padding:40px 24px;color:var(--muted);font-size:15px}
+    .locked-notice .lock-icon{font-size:40px;margin-bottom:12px}
+    .table{width:100%;border-collapse:collapse;font-size:14px}
+    .table th{text-align:left;padding:10px 14px;border-bottom:2px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+    .table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+    .report-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+    .report-box p{margin-bottom:16px;font-size:15px}
+    footer{padding:32px 0;border-top:1px solid var(--border);text-align:center;font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap topbar">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+      </div>
+      <div>
+        <small>RA2 · Electricidad del Vehículo</small>
+        <strong>Aula Taller</strong>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#ud5">UD5</a>
+      <a href="#final">Final RA2</a>
+      <a href="#informe">Informe</a>
+      <button class="theme-btn" data-theme-toggle>◐</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">RA2 · Electricidad del Vehículo</span>
+      <h1>Aula Taller</h1>
+      <p class="lead">Realiza operaciones de mantenimiento básico de elementos del circuito de carga y arranque, relacionando sus parámetros de funcionamiento con las especificaciones del fabricante.</p>
+      <div class="chips">
+        <span class="chip">40 preguntas en banco</span>
+        <span class="chip">Se extraen 20 por intento</span>
+        <span class="chip">Sin repetir dentro del intento</span>
+        <span class="chip">Guardado local</span>
+      </div>
+      <div class="student-form">
+        <input id="student-name" type="text" placeholder="Escribe el nombre del alumno">
+        <button class="btn btn-primary" id="save-student">Guardar nombre</button>
+      </div>
+      <div class="save-box">
+        <div class="save-status" id="save-status">Sin perfil cargado</div>
+        <button class="btn btn-secondary" id="resume-student">Cargar progreso</button>
+        <button class="btn btn-secondary" id="clear-student">Reiniciar perfil</button>
+      </div>
+    </div>
+    <aside class="panel hero-side">
+      <h3>Panel del alumno</h3>
+      <div class="hero-stats">
+        <div class="stat"><strong id="global-points">0</strong><br><span class="muted">Puntos</span></div>
+        <div class="stat"><strong id="global-stars">0</strong><br><span class="muted">Estrellas</span></div>
+        <div class="stat"><strong id="global-streak">0</strong><br><span class="muted">Mejor racha</span></div>
+        <div class="stat"><strong id="global-units">0/1</strong><br><span class="muted">UD completadas</span></div>
+        <div class="stat"><strong id="global-saves">0</strong><br><span class="muted">Guardados</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Insignias del recorrido</h2>
+        <p class="muted">Supera cada unidad para desbloquear tu insignia.</p>
+      </div>
+    </div>
+    <div class="cards2">
+      <div class="badgebox badge-lock" id="badge-ud5">
+        <h3>🔋 UD5</h3>
+        <p>Circuitos de carga y arranque</p>
+      </div>
+      <div class="badgebox badge-lock" id="badge-final">
+        <h3>🏆 Final RA2</h3>
+        <p>Prueba final integradora</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="quizzes"></div>
+
+<section class="section" id="informe">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Informe de resultados</h2>
+        <p class="muted">Resumen de tu progreso en este resultado de aprendizaje.</p>
+      </div>
+    </div>
+    <div class="report-box" id="report-box">
+      <p><strong>Alumno:</strong> <span id="report-name">Sin nombre</span></p>
+      <table class="table">
+        <thead><tr><th>Bloque</th><th>Mejor resultado</th><th>Intentos</th><th>Último</th><th>Nivel</th></tr></thead>
+        <tbody id="report-table"></tbody>
+      </table>
+      <div class="review-box" id="global-diagnosis" style="display:block;margin-top:16px">
+        <strong>Diagnóstico global:</strong> Completa al menos una prueba para ver el diagnóstico.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Aula Taller · Electricidad del Vehículo · RA2 · Ciclo Formativo Grado Básico</div>
+</footer>
+
+<script>
+// ── TEMA ──────────────────────────────────────────────────────────────
+(function(){
+  const root=document.documentElement,btn=document.querySelector('[data-theme-toggle]');
+  let theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  root.setAttribute('data-theme',theme);
+  btn.addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';root.setAttribute('data-theme',theme);});
+})();
+
+// ── CONFIGURACIÓN ─────────────────────────────────────────────────────
+const storagePrefix='aula-taller-elec-ra2-v1';
+const maxAttemptsPerBlock=3;
+const student={name:'Sin nombre'};
+const globalState={points:0,stars:0,bestStreak:0,completedUnits:new Set(),results:{},saveCount:0};
+
+const unitIds=['ud5'];
+const unlockOrder=[...unitIds,'final'];
+
+const unlockRules={
+  ud5:null,
+  final:{prev:'ud5',score:7,label:'Necesitas al menos 70% en UD5 o acertar todas las básicas para acceder a la prueba final.'}
+};
+
+const unitMeta={
+  ud5:['Evaluación UD5 · Circuitos de Carga y Arranque','40 preguntas en banco: 8 básicas, 16 medias, 16 altas. Se extraen 20 por intento.'],
+  final:['Evaluación Final RA2 · Carga y Arranque','10 preguntas progresivas que integran los contenidos de UD5.']
+};
+
+// ── MENSAJES DE REPASO ────────────────────────────────────────────────
+const reviewMessages={
+  ud5:{
+    bateria:'Repasa la batería: composición, nomenclatura, tipos y función en el circuito eléctrico.',
+    carga_bateria:'Repasa los procedimientos de verificación y carga de baterías: densidad, tensión y uso del cargador.',
+    arranque:'Repasa el circuito y el motor de arranque: componentes, funcionamiento y técnicas de sustitución.',
+    alternador:'Repasa el alternador: función, componentes internos, regulador de tensión y verificaciones básicas.',
+    start_stop:'Repasa el sistema start-stop: funcionamiento, condiciones de activación y diferencias con sistemas convencionales.',
+    seguridad:'Repasa las normas de seguridad en la manipulación de baterías y en trabajos en el sistema de carga/arranque.'
+  },
+  final:{
+    integracion:'Repasa la relación entre batería, alternador y motor de arranque en el ciclo de carga y arranque.',
+    verificacion:'Repasa los procedimientos y valores de referencia para verificar el correcto funcionamiento del sistema.',
+    seguridad:'Refuerza los procedimientos seguros en sustitución de componentes de carga y arranque.'
+  }
+};
+
+// ── BANCO DE PREGUNTAS ────────────────────────────────────────────────
+const questionPools={
+
+  ud5:[
+    // ── BÁSICO (8) ─────────────────────────────────────────────────
+    {band:'b',tag:'bateria',level:'Básico',points:10,
+      q:'¿Cuál es la función principal de la batería en el automóvil?',
+      options:['Suministrar energía eléctrica para el arranque y alimentar los sistemas cuando el motor está parado','Generar corriente eléctrica mientras el motor está en marcha','Regular la tensión del alternador a 14 V','Almacenar el combustible en forma de energía química permanente'],
+      correct:0,explanation:'La batería es el acumulador de energía eléctrica del vehículo: proporciona la corriente de arranque y alimenta los consumidores cuando el motor (y por tanto el alternador) no está en marcha.'},
+
+    {band:'b',tag:'arranque',level:'Básico',points:10,
+      q:'¿Qué función cumple el motor de arranque en el vehículo?',
+      options:['Hacer girar el motor térmico a la velocidad mínima necesaria para que arranque','Generar electricidad para cargar la batería','Regular la corriente que recibe el alternador','Controlar el sistema de inyección durante el arranque'],
+      correct:0,explanation:'El motor de arranque (o motor de arranque eléctrico) convierte energía eléctrica de la batería en energía mecánica para hacer girar el cigüeñal y permitir que el motor de combustión arranque.'},
+
+    {band:'b',tag:'alternador',level:'Básico',points:10,
+      q:'¿Cuál es la función del alternador en el vehículo?',
+      options:['Generar corriente eléctrica para cargar la batería y alimentar los consumidores con el motor en marcha','Arrancar el motor térmico en frío','Convertir la corriente alterna de la red en continua para la batería','Controlar la tensión de la batería mediante una válvula de corte'],
+      correct:0,explanation:'El alternador, accionado por el motor térmico a través de una correa, genera corriente alterna que el rectificador interno convierte en corriente continua para cargar la batería y alimentar los sistemas eléctricos.'},
+
+    {band:'b',tag:'bateria',level:'Básico',points:10,
+      q:'¿Qué tensión nominal tiene la batería de un turismo convencional de 12 V completamente cargada?',
+      options:['Aproximadamente 12,6 V en reposo','Exactamente 12,0 V en todo momento','Entre 14 y 15 V en reposo','Entre 10 y 11 V en reposo'],
+      correct:0,explanation:'Una batería de 12 V en buen estado y completamente cargada muestra en reposo (sin carga ni carga) entre 12,6 V y 12,8 V. El valor de 12 V es solo la denominación nominal.'},
+
+    {band:'b',tag:'carga_bateria',level:'Básico',points:10,
+      q:'¿Qué indica la densidad del electrolito de una batería convencional?',
+      options:['El estado de carga: a mayor densidad, más cargada está la batería','La temperatura de congelación del ácido','La cantidad de plomo en las placas','La resistencia interna de la batería'],
+      correct:0,explanation:'El electrolito de una batería de plomo-ácido es ácido sulfúrico diluido. Cuando la batería se carga, el ácido se concentra más (mayor densidad). Una densidad de ~1,28 g/cm³ indica carga completa.'},
+
+    {band:'b',tag:'arranque',level:'Básico',points:10,
+      q:'¿Con qué instrumento se mide la intensidad que consume el motor de arranque durante el arranque?',
+      options:['Pinza amperimétrica','Voltímetro en paralelo con la batería','Densímetro de batería','Manómetro de presión de aceite'],
+      correct:0,explanation:'La pinza amperimétrica permite medir corrientes muy altas (varios cientos de amperios) sin cortar el circuito, ideal para medir la intensidad de arranque sin desmontar cables.'},
+
+    {band:'b',tag:'alternador',level:'Básico',points:10,
+      q:'¿Qué tensión debe proporcionar el alternador con el motor en marcha para cargar correctamente la batería?',
+      options:['Entre 13,8 V y 14,5 V','Entre 11 V y 12 V','Entre 15 V y 18 V','Entre 6 V y 9 V'],
+      correct:0,explanation:'El regulador del alternador mantiene la tensión de salida entre 13,8 V y 14,5 V, suficiente para cargar la batería (12,6 V) sin deteriorar sus placas por sobretensión.'},
+
+    {band:'b',tag:'start_stop',level:'Básico',points:10,
+      q:'¿Cuál es el objetivo principal del sistema start-stop automático?',
+      options:['Reducir el consumo de combustible y las emisiones apagando el motor en paradas','Proteger el motor de arranque limitando sus arranques al día','Desconectar la batería automáticamente cuando el vehículo para','Aumentar la potencia del alternador durante la desaceleración'],
+      correct:0,explanation:'El sistema start-stop apaga el motor en paradas (semáforos, retenciones) y lo arranca automáticamente al soltar el freno o embragar, reduciendo el consumo y las emisiones en ciclo urbano.'},
+
+    // ── MEDIO (16) ──────────────────────────────────────────────────
+    {band:'m',tag:'bateria',level:'Medio',points:15,
+      q:'¿Qué significa la nomenclatura "60 Ah" en una batería de automóvil?',
+      options:['La batería puede suministrar 60 amperios durante 1 hora (o 1 A durante 60 horas) antes de descargarse','La batería tiene 60 celdas internas de plomo','La batería soporta una intensidad máxima de 60 A en arranque','La batería pesa 60 kg con el electrolito incluido'],
+      correct:0,explanation:'Ah (amperios-hora) es la capacidad de la batería: indica la cantidad total de carga que puede entregar. 60 Ah significa que puede dar 60 A durante 1 hora o 1 A durante 60 horas en condiciones normales.'},
+
+    {band:'m',tag:'bateria',level:'Medio',points:15,
+      q:'¿Qué indica el valor CCA (Cold Cranking Amps) en las especificaciones de una batería?',
+      options:['La corriente máxima que puede suministrar a -18 °C durante 30 segundos manteniendo al menos 7,2 V','La capacidad total en amperios-hora a temperatura ambiente','La intensidad de carga recomendada por el fabricante','El número de ciclos de carga-descarga garantizados'],
+      correct:0,explanation:'El CCA mide la capacidad de arranque en frío: cuánta corriente puede dar la batería a -18°C durante 30 s sin caer por debajo de 7,2 V. Es crítico en climas fríos donde la viscosidad del aceite dificulta el arranque.'},
+
+    {band:'m',tag:'carga_bateria',level:'Medio',points:15,
+      q:'Al verificar el electrolito con el densímetro, se obtiene una lectura de 1,12 g/cm³. ¿Qué indica?',
+      options:['La batería está muy descargada (densidad correcta cargada ≈ 1,28 g/cm³)','La batería está completamente cargada','El electrolito necesita reemplazarse por agua destilada','La batería tiene exceso de ácido y hay que retirar electrolito'],
+      correct:0,explanation:'La densidad del electrolito cargado es ~1,27-1,28 g/cm³. Un valor de 1,12 g/cm³ indica batería muy descargada o en mal estado. Hay que cargar y volver a medir.'},
+
+    {band:'m',tag:'carga_bateria',level:'Medio',points:15,
+      q:'¿Qué tipo de agua se añade para reponer el nivel del electrolito en una batería convencional?',
+      options:['Agua destilada o desmineralizada','Agua del grifo sin cloro','Agua mineral embotellada','Ácido sulfúrico diluido al 10%'],
+      correct:0,explanation:'Solo se repone con agua destilada o desmineralizada. El agua del grifo contiene minerales y cloro que deterioran las placas de plomo. El ácido solo se añade si se ha derramado electrolito.'},
+
+    {band:'m',tag:'carga_bateria',level:'Medio',points:15,
+      q:'¿Cómo se conectan los cables del cargador de baterías?',
+      options:['Primero positivo (+) al positivo de la batería, luego negativo (-) al negativo; desconectar en orden inverso','Primero negativo, luego positivo; desconectar en el mismo orden','Cualquier orden, ya que el cargador es automático','Solo se conecta el positivo; la masa va directamente a chasis'],
+      correct:0,explanation:'Para cargar: conectar rojo (+) al borne positivo y negro (-) al negativo. Al desconectar, invertir el orden (primero negro, luego rojo) para evitar chispas cerca del hidrógeno generado por la batería.'},
+
+    {band:'m',tag:'arranque',level:'Medio',points:15,
+      q:'¿Qué componente del motor de arranque convierte el movimiento giratorio en lineal para engranar con la corona del volante?',
+      options:['El piñón de Bendix (o solenoide con piñón desplazable)','El colector de delgas','El inducido (rotor)','El regulador de tensión'],
+      correct:0,explanation:'El piñón de Bendix se desplaza axialmente al activarse el solenoide y engrána con la corona dentada del volante de inercia para transmitir el par de arranque. Una vez arrancado el motor, se desengrana automáticamente.'},
+
+    {band:'m',tag:'arranque',level:'Medio',points:15,
+      q:'¿Cuál es la intensidad típica que consume un motor de arranque de turismo durante el arranque?',
+      options:['Entre 80 y 200 A','Entre 5 y 15 A','Entre 300 y 500 A','Entre 1 y 5 A'],
+      correct:0,explanation:'Los motores de arranque de turismos consumen entre 80 y 200 A según el motor y la temperatura. Motores de mayor cilindrada o en frío extremo pueden superar los 200 A.'},
+
+    {band:'m',tag:'alternador',level:'Medio',points:15,
+      q:'¿Qué componente del alternador convierte la corriente alterna generada en corriente continua?',
+      options:['El puente rectificador de diodos','El regulador de tensión','El rotor (inductor)','El estátor (inducido)'],
+      correct:0,explanation:'El puente de diodos (rectificador) convierte la corriente alterna trifásica generada en el estátor en corriente continua. Los diodos solo dejan pasar la corriente en un sentido.'},
+
+    {band:'m',tag:'alternador',level:'Medio',points:15,
+      q:'¿Qué función realiza el regulador de tensión del alternador?',
+      options:['Mantener la tensión de salida constante (~14 V) variando la excitación del rotor independientemente de las rpm','Convertir la corriente alterna en continua','Controlar el caudal de refrigerante hacia el alternador','Limitar la velocidad máxima de rotación del alternador'],
+      correct:0,explanation:'El regulador electrónico de tensión ajusta la corriente que circula por el bobinado del rotor (campo magnético), aumentándola o reduciéndola para mantener la tensión de salida constante independientemente de las rpm del motor.'},
+
+    {band:'m',tag:'bateria',level:'Medio',points:15,
+      q:'Al sustituir una batería, ¿por qué puede ser necesario realizar un proceso de "codificación" o registro en algunos vehículos modernos?',
+      options:['Porque la centralita de gestión del alternador necesita conocer la capacidad y el estado de la nueva batería para optimizar la carga','Porque la nueva batería tiene un chip de seguridad que hay que activar','Para actualizar el número de serie del vehículo en la documentación','Porque el sistema de arranque queda bloqueado al desconectar la batería'],
+      correct:0,explanation:'En vehículos modernos con gestión inteligente de la batería (p. ej. con start-stop o recuperación de energía en frenada), la ECU controla la carga según el estado de la batería. Al sustituirla, hay que registrar la nueva para que el sistema cargue correctamente y no dañe la batería prematuramente.'},
+
+    {band:'m',tag:'start_stop',level:'Medio',points:15,
+      q:'¿Por qué los vehículos con sistema start-stop utilizan baterías AGM o EFB en lugar de baterías convencionales?',
+      options:['Porque soportan muchos más ciclos de carga-descarga parcial y tienen mayor capacidad de arranque repetido','Porque son más baratas y ligeras que las baterías convencionales','Porque no generan gas durante la carga y no necesitan ventilación','Porque tienen mayor capacidad en Ah que cualquier batería convencional'],
+      correct:0,explanation:'Los sistemas start-stop someten a la batería a muchos más arranques diarios. Las baterías AGM (Absorbent Glass Mat) y EFB (Enhanced Flooded Battery) están diseñadas para soportar miles de ciclos de carga-descarga parcial sin deteriorarse.'},
+
+    {band:'m',tag:'carga_bateria',level:'Medio',points:15,
+      q:'¿Qué precaución de seguridad es fundamental durante la carga de una batería?',
+      options:['Cargar en lugar ventilado porque la batería emite hidrógeno (gas inflamable) durante la carga','Cargar siempre con el tapón de llenado cerrado para evitar salpicaduras','Mantener la batería a más de 50 °C para acelerar el proceso de carga','Conectar ambos cables al mismo borne para equilibrar la carga'],
+      correct:0,explanation:'Durante la carga por electrólisis el agua se descompone y se emite hidrógeno, que es altamente inflamable y explosivo. La carga debe hacerse en lugares ventilados, lejos de llamas o chispas.'},
+
+    {band:'m',tag:'seguridad',level:'Medio',points:15,
+      q:'¿Cuál es el riesgo principal al manipular el electrolito de una batería convencional?',
+      options:['Quemaduras por ácido sulfúrico, que es corrosivo para la piel y los ojos','Electrocución por la alta tensión del electrolito','Intoxicación por inhalación de vapores de plomo','Incendio espontáneo al contacto del electrolito con el aire'],
+      correct:0,explanation:'El electrolito es una solución de ácido sulfúrico diluido, altamente corrosivo. En contacto con la piel produce quemaduras químicas y en los ojos puede causar lesiones graves o ceguera. Son obligatorios guantes y gafas de protección.'},
+
+    {band:'m',tag:'arranque',level:'Medio',points:15,
+      q:'El motor no arranca y al girar la llave solo se oye un "clic" del solenoide sin que el motor de arranque gire. ¿Cuál es la causa más probable?',
+      options:['Batería descargada o con mala conexión en los bornes (baja tensión no suficiente para girar el motor de arranque)','Motor de arranque fundido internamente','Fallo en el sistema de inyección','Fusible del motor de arranque fundido'],
+      correct:0,explanation:'El clic indica que el solenoide se activa (hay tensión suficiente para eso), pero la corriente de arranque no puede fluir, lo más habitual es batería muy descargada, bornes oxidados o cable de masa en mal estado.'},
+
+    {band:'m',tag:'alternador',level:'Medio',points:15,
+      q:'Con el motor en marcha, el polímetro en bornes de batería marca 12,4 V. ¿Qué indica este valor?',
+      options:['El alternador no está cargando correctamente (debería marcar entre 13,8 y 14,5 V)','El alternador funciona perfectamente','La batería está cargada al máximo y el regulador ha cortado la carga','El polímetro está mal conectado'],
+      correct:0,explanation:'Con el motor en marcha, el alternador debe elevar la tensión en bornes a 13,8-14,5 V. Si se mide 12,4 V, el alternador no genera o el regulador falla. La batería se descargará progresivamente.'},
+
+    // ── ALTO (16) ───────────────────────────────────────────────────
+    {band:'a',tag:'bateria',level:'Alto',points:20,
+      q:'Al sustituir la batería de un vehículo, ¿cuál es el orden correcto de los pasos?',
+      options:['Desconectar negativo, desconectar positivo, retirar batería; instalar nueva, conectar positivo, conectar negativo','Desconectar positivo, desconectar negativo, instalar nueva, conectar negativo, conectar positivo','Desconectar ambos cables a la vez, retirar batería, instalar nueva, conectar ambos a la vez','Desconectar positivo primero siempre para evitar cortocircuitos con la carrocería'],
+      correct:0,explanation:'Siempre se desconecta primero el negativo (masa) para que cualquier contacto accidental de la herramienta con la carrocería durante la maniobra no produzca cortocircuito. Al conectar, se invierte el orden: positivo primero.'},
+
+    {band:'a',tag:'carga_bateria',level:'Alto',points:20,
+      q:'¿Cómo se calcula el tiempo aproximado de carga de una batería de 60 Ah completamente descargada con un cargador de 6 A?',
+      options:['Aproximadamente 10-12 horas (60 Ah ÷ 6 A = 10 h, más un margen del 10-20% por la eficiencia de carga)','Exactamente 1 hora porque el cargador es automático','360 minutos exactos sin margen de eficiencia','Depende solo de la tensión del cargador, no de la intensidad'],
+      correct:0,explanation:'Tiempo ≈ Capacidad (Ah) ÷ Corriente de carga (A). Para 60 Ah con 6 A: 60/6 = 10 h. En la práctica se añade un 10-20% por pérdidas, por lo que se estiman 11-12 horas para una carga completa.'},
+
+    {band:'a',tag:'arranque',level:'Alto',points:20,
+      q:'Un vehículo da síntomas de arranque lento y dificultoso en frío, pero la batería está en buen estado. ¿Qué componente es el candidato principal a revisar?',
+      options:['El motor de arranque, que puede tener el colector desgastado o los escobones gastados, reduciendo el par de arranque','El alternador, que no carga bien a bajas temperaturas','El regulador de tensión, que limita la corriente a la batería','Los fusibles del circuito de iluminación'],
+      correct:0,explanation:'Si la batería está bien pero el arranque es lento, el motor de arranque consume más de lo normal o genera menos par. Los escobones gastados o el colector oxidado reducen la eficiencia y el par disponible.'},
+
+    {band:'a',tag:'alternador',level:'Alto',points:20,
+      q:'El testigo de batería (carga) del cuadro de instrumentos se enciende con el motor en marcha. ¿Cuál es el diagnóstico y el procedimiento a seguir?',
+      options:['El alternador no carga; hay que medir la tensión en bornes con motor en marcha, revisar la correa de transmisión y comprobar los diodos y regulador','La batería está completamente cargada y el sistema ha cortado la carga automáticamente','Hay que sustituir la batería inmediatamente sin más comprobaciones','El testigo indica que el motor de arranque está activo'],
+      correct:0,explanation:'El testigo de carga encendido con motor en marcha indica fallo en el circuito de carga. El diagnóstico empieza midiendo tensión en bornes: <13,8 V confirma que el alternador no carga. Luego se revisa correa, conexiones, diodos y regulador.'},
+
+    {band:'a',tag:'carga_bateria',level:'Alto',points:20,
+      q:'¿Qué diferencia existe entre una carga lenta (baja intensidad) y una carga rápida (alta intensidad) de la batería?',
+      options:['La carga lenta es más beneficiosa para la batería (no genera calor ni gases en exceso); la carga rápida puede dañar las placas si se hace frecuentemente','La carga rápida es siempre mejor porque la batería recupera mejor sus propiedades','Ambas son equivalentes; la única diferencia es el tiempo','La carga lenta no completa el 100% de la capacidad nunca'],
+      correct:0,explanation:'La carga lenta (C/10 o menos) carga completamente sin estrés térmico. La carga rápida (alta intensidad) genera más calor y gases, puede provocar sobrecalentamiento y acortar la vida útil si se usa frecuentemente. Se reserva para emergencias.'},
+
+    {band:'a',tag:'start_stop',level:'Alto',points:20,
+      q:'¿Cuáles son las condiciones típicas que impiden que el sistema start-stop apague el motor, aunque el vehículo esté parado?',
+      options:['Batería insuficientemente cargada, temperatura del motor o exterior fuera de rango, climatizador a máxima potencia, o volante girado que indica maniobra inminente','Solo la temperatura exterior por debajo de 0 °C','Únicamente cuando el nivel de combustible es inferior al 10%','Cuando el conductor no lleva el cinturón puesto'],
+      correct:0,explanation:'El sistema start-stop tiene múltiples condiciones de inhibición: batería baja (sin energía para rearrancar), temperatura del motor o exterior extrema, alta demanda de climatización, dirección girada (maniobra), capó abierto, etc.'},
+
+    {band:'a',tag:'arranque',level:'Alto',points:20,
+      q:'Al medir con la pinza amperimétrica la corriente de arranque se obtienen 450 A en un turismo de gasolina. ¿Qué indica este valor?',
+      options:['Es probablemente excesivo; un valor normal es 80-200 A. Puede indicar un motor de arranque atascado o un cigüeñal con excesiva resistencia mecánica','Es un valor completamente normal para cualquier turismo de gasolina','Es un valor bajo; hay que revisar si el motor de arranque está bien conectado','Indica que la batería tiene demasiada capacidad para el motor'],
+      correct:0,explanation:'450 A es muy elevado para un turismo de gasolina (normal: 80-200 A). Un consumo tan alto con arranque lento indica resistencia mecánica excesiva en el motor (poco aceite, gripaje incipiente) o el motor de arranque trabaja en sobrecarga.'},
+
+    {band:'a',tag:'seguridad',level:'Alto',points:20,
+      q:'Durante la sustitución del alternador con el motor frío, ¿qué riesgo específico debe tenerse en cuenta además de los eléctricos?',
+      options:['El riesgo de quemaduras si el motor aún está caliente, aplastamiento por la correa de transmisión bajo tensión, y caída del alternador que puede pesar varios kilos','Solo riesgo eléctrico de descarga al tocar los terminales','Riesgo exclusivo de derrame de aceite del motor','Riesgo de contaminación por refrigerante del motor de arranque'],
+      correct:0,explanation:'En trabajos mecánicos-eléctricos combinados hay que considerar: motor caliente (quemaduras), correa bajo tensión (atrapamiento), peso del componente (golpes y aplastamiento), además de los riesgos eléctricos por cables bajo tensión.'},
+
+    {band:'a',tag:'bateria',level:'Alto',points:20,
+      q:'Una batería de 12 V muestra 10,5 V en reposo. ¿Qué acción se debe tomar?',
+      options:['Cargar la batería y volver a medir; si tras la carga completa no supera los 12,4 V, la batería está sulfatada y debe sustituirse','Añadir agua destilada hasta el nivel máximo para recuperar la tensión','Conectar un segundo banco de baterías en paralelo para elevar la tensión','Aumentar la corriente del alternador ajustando el regulador de tensión'],
+      correct:0,explanation:'10,5 V indica batería muy descargada o dañada. Se carga completamente y se mide de nuevo. Si no recupera al menos 12,4-12,6 V en reposo (tras reposar 1h), hay sulfatación irreversible y la batería debe cambiarse.'},
+
+    {band:'a',tag:'alternador',level:'Alto',points:20,
+      q:'¿Qué ocurre en el circuito eléctrico del vehículo si el alternador genera más de 15 V por fallo del regulador?',
+      options:['La sobretensión puede dañar la centralita electrónica, fundir bombillas, deteriorar la batería y destruir otros componentes electrónicos sensibles','La batería almacena el exceso de energía sin ningún problema','El fusible principal protege todos los componentes automáticamente','El motor de arranque se activa para compensar el exceso de tensión'],
+      correct:0,explanation:'Los componentes electrónicos del vehículo están diseñados para trabajar a 12-14,5 V. Una sobretensión sostenida por encima de 15 V puede destruir la ECU, el módulo ABS, el cuadro de instrumentos, las bombillas LED y la propia batería.'},
+
+    {band:'a',tag:'start_stop',level:'Alto',points:20,
+      q:'En un vehículo con start-stop, tras cambiar la batería convencional por una batería AGM, ¿qué paso adicional es imprescindible?',
+      options:['Registrar el tipo de batería (AGM) en la centralita de gestión energética mediante herramienta de diagnóstico, para que el perfil de carga sea el correcto','Solo hay que verificar que la batería nueva tiene la misma capacidad en Ah','Ninguno; el sistema detecta automáticamente el tipo de batería al conectarla','Actualizar el firmware del alternador vía OBD-II'],
+      correct:0,explanation:'Las baterías AGM requieren un perfil de carga diferente al de las baterías convencionales (mayor tensión de carga, ~14,8 V). Si la ECU no se actualiza para reconocer la AGM, cargará con el perfil de batería estándar y la nueva batería se deteriorará prematuramente.'},
+
+    {band:'a',tag:'carga_bateria',level:'Alto',points:20,
+      q:'¿Por qué no se debe arrancar el vehículo con el cargador de baterías conectado?',
+      options:['Porque el pico de corriente del arranque puede dañar el cargador y generar chispas cerca de los gases de hidrógeno de la batería','Porque el cargador aumenta la tensión durante el arranque pudiendo dañar el motor de arranque','Porque la combinación cargador + batería suministra 24 V al motor de arranque','Porque el cargador no puede suministrar suficiente corriente para el arranque y se bloquea'],
+      correct:0,explanation:'Al arrancar, el motor de arranque consume cientos de amperios en un instante. Esta demanda brusca puede dañar el cargador (que no está diseñado para picos de arranque) y las chispas generadas son un riesgo de explosión si hay hidrógeno acumulado.'},
+
+    {band:'a',tag:'seguridad',level:'Alto',points:20,
+      q:'Al realizar una carga de emergencia con cables de batería entre dos vehículos, ¿cuál es el orden correcto de conexión?',
+      options:['(+) batería buena → (+) batería descargada → (-) batería buena → punto de masa del vehículo averiado (no al borneλ (-)); desconectar en orden inverso','(+) a (+) y (-) a (-) simultáneamente; el orden exacto no importa','Primero ambos negativos, luego ambos positivos','Solo conectar los positivos; los negativos van a la carrocería automáticamente'],
+      correct:0,explanation:'El orden de conexión es crítico para evitar chispas cerca de la batería descargada (que puede emitir hidrógeno): 1º(+)a(+), 2º(-)a masa del motor o chasis del averiado (no al borne para evitar chispas junto a la batería). Desconectar en inverso.'},
+
+    {band:'a',tag:'arranque',level:'Alto',points:20,
+      q:'El motor de arranque gira pero no engrána con el volante de inercia (se oye girar sin esfuerzo). ¿Qué componente está fallando?',
+      options:['El piñón de Bendix o el solenoide que desplaza el piñón, que no empuja el piñón hacia la corona del volante','Los escobones del motor de arranque completamente desgastados','La batería con tensión insuficiente para activar el solenoide','La correa de distribución rota que desconecta el volante'],
+      correct:0,explanation:'Si el motor de arranque gira en vacío sin arrastrar el motor, el piñón no engrána. Puede ser el solenoide que no desplaza el piñón, el propio piñón desgastado, o el mecanismo de avance libre (Bendix) deteriorado.'},
+
+    {band:'a',tag:'alternador',level:'Alto',points:20,
+      q:'Un vehículo muestra el testigo de batería parpadeando a ciertas rpm pero no continuamente. ¿Cuál es la causa más probable?',
+      options:['La correa de transmisión del alternador patina o está floja, reduciendo las rpm del alternador a baja velocidad del motor','El regulador de tensión está completamente fundido','La batería tiene un cortocircuito interno intermitente','El motor de arranque está consumiendo corriente de forma intermitente'],
+      correct:0,explanation:'Si el testigo parpadea a bajas rpm pero no a altas, el alternador genera bien cuando gira rápido pero falla a bajas vueltas. La causa más frecuente es la correa floja o deteriorada que patina, reduciendo la velocidad del alternador.'}
+  ],
+
+  final:[
+    {band:'b',tag:'integracion',level:'Nivel 1',points:10,
+      q:'¿Cuál es la función principal de la batería en el automóvil?',
+      options:['Suministrar energía para el arranque y alimentar los sistemas con motor parado','Generar corriente durante la marcha del vehículo','Regular la tensión del sistema a 12 V exactos','Controlar el encendido del motor'],
+      correct:0,explanation:'La batería acumula energía para el arranque y cubre la demanda eléctrica cuando el alternador no genera (motor parado).'},
+
+    {band:'b',tag:'integracion',level:'Nivel 2',points:10,
+      q:'¿Qué tensión debe mostrar el polímetro en bornes de batería con el motor en marcha y el alternador funcionando correctamente?',
+      options:['Entre 13,8 V y 14,5 V','Exactamente 12,0 V','Entre 15 V y 18 V','Menos de 12 V'],
+      correct:0,explanation:'El alternador eleva la tensión a 13,8-14,5 V para cargar la batería y alimentar los consumidores con el motor en marcha.'},
+
+    {band:'b',tag:'integracion',level:'Nivel 3',points:10,
+      q:'¿Qué instrumento se usa para medir la corriente de arranque sin cortar el circuito?',
+      options:['Pinza amperimétrica','Voltímetro','Densímetro','Ohmetro'],
+      correct:0,explanation:'La pinza amperimétrica detecta el campo magnético del cable y mide corrientes altas sin interrumpir el circuito.'},
+
+    {band:'m',tag:'verificacion',level:'Nivel 4',points:15,
+      q:'Una batería completamente cargada muestra una densidad de electrolito de 1,28 g/cm³. Si baja a 1,20 g/cm³, ¿qué indica?',
+      options:['La batería está parcialmente descargada y necesita carga','La batería está en perfecto estado','El nivel de electrolito es excesivo','Hay que añadir ácido sulfúrico'],
+      correct:0,explanation:'La densidad 1,20 g/cm³ indica una descarga parcial significativa. La batería debe cargarse y verificarse de nuevo.'},
+
+    {band:'m',tag:'verificacion',level:'Nivel 5',points:15,
+      q:'¿Cuál es el orden correcto para conectar los cables de un cargador de baterías?',
+      options:['Primero positivo (+) al positivo de batería, luego negativo (-) al negativo','Primero negativo, luego positivo','Ambos simultáneamente','Solo el positivo; el negativo conecta solo'],
+      correct:0,explanation:'Al cargar: + primero, luego -. Al desconectar: - primero, luego +. Evita chispas cerca del hidrógeno generado.'},
+
+    {band:'m',tag:'integracion',level:'Nivel 6',points:15,
+      q:'¿Qué componente del alternador transforma la corriente alterna generada en corriente continua?',
+      options:['El puente rectificador de diodos','El regulador de tensión','El rotor','El ventilador de refrigeración'],
+      correct:0,explanation:'El puente de diodos rectifica la CA trifásica del estátor en CC apta para cargar la batería y alimentar los sistemas del vehículo.'},
+
+    {band:'m',tag:'seguridad',level:'Nivel 7',points:15,
+      q:'Al manipular la batería, ¿qué EPI son imprescindibles?',
+      options:['Guantes resistentes a ácidos y gafas de protección','Solo guantes de cuero para mejorar el agarre','Casco y arnés de seguridad','Protectores auditivos y mascarilla FFP2'],
+      correct:0,explanation:'El electrolito es ácido sulfúrico: los guantes protegen de quemaduras químicas en piel y las gafas protegen los ojos de salpicaduras.'},
+
+    {band:'a',tag:'verificacion',level:'Nivel 8',points:20,
+      q:'El testigo de batería se enciende con el motor en marcha. El técnico mide 12,3 V en bornes con motor al ralentí. ¿Diagnóstico y acción?',
+      options:['El alternador no carga; revisar correa de transmisión, conexiones del alternador, diodos y regulador de tensión','La batería está completamente cargada; el testigo es normal','Cambiar la batería inmediatamente sin más pruebas','Aumentar las rpm al ralentí para que el alternador genere más'],
+      correct:0,explanation:'12,3 V con motor en marcha confirma que el alternador no eleva la tensión. El diagnóstico secuencial es: verificar correa → conexiones → prueba de diodos → regulador. No se sustituye la batería sin confirmar que el alternador falla.'},
+
+    {band:'a',tag:'integracion',level:'Nivel 9',points:20,
+      q:'¿Por qué los vehículos con start-stop requieren baterías AGM y registro en la ECU al sustituirlas?',
+      options:['Las baterías AGM soportan más ciclos de arranque diarios y la ECU necesita conocer el tipo para aplicar el perfil de carga correcto (mayor tensión)','Son más baratas y el registro es solo burocrático','La ECU bloquea el sistema si detecta cualquier batería nueva','Solo los vehículos diésel requieren este registro'],
+      correct:0,explanation:'El start-stop multiplica los ciclos de carga-descarga. Las AGM los toleran. La ECU debe saber que es AGM para cargar a ~14,8 V en lugar del perfil estándar, o la batería se deteriorará prematuramente.'},
+
+    {band:'a',tag:'seguridad',level:'Nivel 10',points:25,
+      q:'Al cargar una batería en el taller, el técnico detecta que se está calentando excesivamente y borbotea con fuerza. ¿Cuál es la actuación correcta y por qué?',
+      options:['Detener la carga inmediatamente, ventilar el área y dejar enfriar; el sobrecalentamiento indica carga excesiva o batería en mal estado con riesgo de explosión por acumulación de hidrógeno','Aumentar la ventilación y continuar; el borboteo es normal en toda carga','Añadir agua fría a las celdas para reducir la temperatura','Subir la intensidad del cargador para finalizar la carga más rápido'],
+      correct:0,explanation:'El borboteo violento y calor excesivo indican electrólisis intensa: la batería puede estar defectuosa o la corriente de carga es demasiado alta. El hidrógeno generado puede alcanzar concentraciones explosivas. Hay que parar la carga, ventilar y diagnosticar antes de continuar.'}
+  ]
+};
+
+// ── MOTOR ─────────────────────────────────────────────────────────────
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function buildSelection(pool){
+  const b=shuffle(pool.filter(q=>q.band==='b')).slice(0,6);
+  const m=shuffle(pool.filter(q=>q.band==='m')).slice(0,8);
+  const a=shuffle(pool.filter(q=>q.band==='a')).slice(0,6);
+  return shuffle([...b,...m,...a]);
+}
+
+function defaultResult(){return{best:null,attempts:0,last:null,basicCorrect:0};}
+
+const profileKey=()=>`${storagePrefix}::${student.name}`;
+
+function hydrateResults(){
+  unlockOrder.forEach(id=>{
+    if(!globalState.results[id])globalState.results[id]=defaultResult();
+  });
+}
+
+function serializableState(){
+  return{
+    name:student.name,
+    points:globalState.points,
+    stars:globalState.stars,
+    bestStreak:globalState.bestStreak,
+    completedUnits:[...globalState.completedUnits],
+    results:globalState.results,
+    saveCount:globalState.saveCount
+  };
+}
+
+function saveProfile(){
+  if(student.name==='Sin nombre')return;
+  globalState.saveCount++;
+  localStorage.setItem(profileKey(),JSON.stringify(serializableState()));
+  document.getElementById('save-status').textContent=`✅ Guardado: ${student.name} · ${new Date().toLocaleTimeString()}`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+}
+
+function loadProfileByName(name){
+  const raw=localStorage.getItem(`${storagePrefix}::${name}`);
+  if(!raw)return false;
+  const d=JSON.parse(raw);
+  student.name=d.name;
+  globalState.points=d.points||0;
+  globalState.stars=d.stars||0;
+  globalState.bestStreak=d.bestStreak||0;
+  globalState.completedUnits=new Set(d.completedUnits||[]);
+  globalState.results=d.results||{};
+  globalState.saveCount=d.saveCount||0;
+  hydrateResults();
+  return true;
+}
+
+function resetProfile(){
+  globalState.points=0;globalState.stars=0;globalState.bestStreak=0;
+  globalState.completedUnits=new Set();globalState.results={};globalState.saveCount=0;
+  hydrateResults();
+  localStorage.removeItem(profileKey());
+}
+
+document.getElementById('save-student').addEventListener('click',()=>{
+  const n=document.getElementById('student-name').value.trim();
+  if(!n)return;
+  student.name=n;
+  hydrateResults();
+  saveProfile();
+  updateGlobalPanel();
+  refreshAll();
+});
+
+document.getElementById('resume-student').addEventListener('click',()=>{
+  const n=document.getElementById('student-name').value.trim();
+  if(!n){document.getElementById('save-status').textContent='⚠️ Escribe un nombre primero.';return;}
+  if(loadProfileByName(n)){
+    document.getElementById('student-name').value=student.name;
+    document.getElementById('save-status').textContent=`📂 Perfil cargado: ${student.name}`;
+    updateGlobalPanel();refreshAll();updateReport();
+  } else {
+    document.getElementById('save-status').textContent='⚠️ No se encontró perfil con ese nombre.';
+  }
+});
+
+document.getElementById('clear-student').addEventListener('click',()=>{
+  if(!confirm('¿Reiniciar el perfil? Se perderá todo el progreso.'))return;
+  resetProfile();
+  document.getElementById('save-status').textContent='🗑️ Perfil reiniciado.';
+  updateGlobalPanel();refreshAll();updateReport();
+});
+
+function passesUnlock(id){
+  const r=globalState.results[id];
+  if(!r||r.best===null)return false;
+  const basicTotal=6;
+  return r.best>=7||(r.basicCorrect||0)>=basicTotal;
+}
+
+function isQuizUnlocked(id){
+  const rule=unlockRules[id];
+  if(!rule)return true;
+  const idx=unlockOrder.indexOf(id);
+  for(let i=0;i<idx;i++){
+    if(!passesUnlock(unlockOrder[i]))return false;
+  }
+  return passesUnlock(rule.prev);
+}
+
+function attemptsLeft(id){
+  const r=globalState.results[id];
+  if(!r)return maxAttemptsPerBlock;
+  return Math.max(0,maxAttemptsPerBlock-r.attempts);
+}
+
+function hasAttemptsLeft(id){return attemptsLeft(id)>0;}
+
+function updateGlobalPanel(){
+  document.getElementById('global-points').textContent=globalState.points;
+  document.getElementById('global-stars').textContent=globalState.stars;
+  document.getElementById('global-streak').textContent=globalState.bestStreak;
+  document.getElementById('global-units').textContent=`${globalState.completedUnits.size}/1`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+  document.getElementById('report-name').textContent=student.name;
+  unlockOrder.forEach(id=>{
+    const badge=document.getElementById(`badge-${id}`);
+    if(!badge)return;
+    if(passesUnlock(id)){
+      badge.classList.remove('badge-lock');badge.classList.add('badge-unlock');
+      const h3=badge.querySelector('h3');
+      if(h3&&!h3.textContent.includes('🏆')&&!h3.textContent.includes('✅')){
+        const r=globalState.results[id];
+        h3.textContent=(r&&r.best>=8?'🏆 ':'✅ ')+h3.textContent.replace(/^[^\w⚡🔋🔌⚙️🏆✅]*/,'');
+      }
+    }
+  });
+}
+
+function levelLabel(score){
+  if(score>=9)return'⭐⭐⭐ Excelente';
+  if(score>=7)return'⭐⭐ Superado';
+  if(score>=5)return'⭐ Mejorable';
+  return'❌ No superado';
+}
+
+function updateReport(){
+  const tbody=document.getElementById('report-table');
+  const titles={ud5:'UD5 Carga y Arranque',final:'Prueba Final RA2'};
+  tbody.innerHTML='';
+  unlockOrder.forEach(id=>{
+    const r=globalState.results[id]||defaultResult();
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${titles[id]||id}</td><td>${r.best!==null?r.best+'/10':'—'}</td><td>${r.attempts}/${maxAttemptsPerBlock}</td><td>${r.last!==null?r.last+'/10':'—'}</td><td>${r.best!==null?levelLabel(r.best):'—'}</td>`;
+    tbody.appendChild(tr);
+  });
+  const scores=unlockOrder.map(id=>globalState.results[id]?.best).filter(s=>s!==null&&s!==undefined);
+  const diag=document.getElementById('global-diagnosis');
+  if(scores.length===0){diag.innerHTML='<strong>Diagnóstico global:</strong> Completa al menos una prueba para ver el diagnóstico.';return;}
+  const avg=scores.reduce((a,b)=>a+b,0)/scores.length;
+  let msg='';
+  if(avg>=9)msg='Rendimiento excelente. Dominas el mantenimiento de los sistemas de carga y arranque.';
+  else if(avg>=7)msg='Buen nivel. Has superado los objetivos del RA2. Repasa los puntos señalados para consolidar.';
+  else if(avg>=5)msg='Nivel aceptable. Hay procedimientos de carga y arranque que necesitan refuerzo.';
+  else msg='Necesitas repasar los contenidos de UD5 antes de avanzar. Consulta al profesor.';
+  diag.innerHTML=`<strong>Diagnóstico global (media ${avg.toFixed(1)}/10):</strong> ${msg}`;
+}
+
+function buildReview(id,tagErrors){
+  if(!tagErrors||Object.keys(tagErrors).length===0)return'';
+  const msgs=reviewMessages[id]||{};
+  const lines=Object.keys(tagErrors).filter(t=>tagErrors[t]>0).map(t=>msgs[t]||`Repasa el apartado: ${t}.`);
+  if(lines.length===0)return'';
+  return'<strong>📚 Puntos para repasar:</strong><ul style="margin:.5em 0 0 1.2em">'+lines.map(l=>`<li>${l}</li>`).join('')+'</ul>';
+}
+
+function buildGateSummary(id,score,passed,tagErrors){
+  const left=attemptsLeft(id);
+  let html='';
+  if(passed){
+    const stars=score>=9?'⭐⭐⭐':score>=7?'⭐⭐':'⭐';
+    html=`<div style="font-size:13px"><strong>${stars} ¡Bloque superado!</strong> Resultado: ${score}/10.<br>`;
+    if(id!=='final'&&!isQuizUnlocked('final'))html+='Completa todos los bloques para desbloquear la Prueba Final.</div>';
+    else html+='</div>';
+  } else {
+    const reviewHtml=buildReview(id,tagErrors);
+    html=`<div style="font-size:13px"><strong>Resultado: ${score}/10.</strong> ${left>0?`Intentos restantes: ${left}.`:'Sin más intentos.'}<br>${reviewHtml}</div>`;
+  }
+  return html;
+}
+
+function createQuiz(id){
+  const meta=unitMeta[id];
+  const isFinal=id==='final';
+  let questions=[];
+  let qi=0,score=0,streak=0,localBestStreak=0,answered=0,tagErrors={};
+  let sessionActive=false;
+
+  const section=document.getElementById(`quiz-${id}`);
+  const progFill=section.querySelector('.prog-fill');
+  const progText=section.querySelector('.prog-text');
+  const scoreEl=section.querySelector('.score-el');
+  const streakEl=section.querySelector('.streak-el');
+  const ptsEl=section.querySelector('.pts-el');
+  const levelTag=section.querySelector('.level-tag');
+  const qText=section.querySelector('.question-text');
+  const optsEl=section.querySelector('.options');
+  const feedbackEl=section.querySelector('.feedback');
+  const rewardEl=section.querySelector('.reward');
+  const gateEl=section.querySelector('.gate-msg');
+  const reviewEl=section.querySelector('.review-box');
+  const lockedEl=section.querySelector('.locked-notice');
+  const quizContent=section.querySelector('.quiz-content');
+  const nextBtn=section.querySelector('.btn-next');
+  const restartBtn=section.querySelector('.btn-restart');
+
+  function render(){
+    const unlocked=isQuizUnlocked(id);
+    const hasAttempts=hasAttemptsLeft(id);
+    if(!unlocked){
+      lockedEl.style.display='block';quizContent.style.display='none';
+      const rule=unlockRules[id];
+      lockedEl.querySelector('p').textContent=rule?rule.label:'Completa los bloques anteriores.';
+      return;
+    }
+    lockedEl.style.display='none';quizContent.style.display='block';
+    if(!sessionActive){
+      gateEl.classList.remove('show');reviewEl.classList.remove('show');
+      if(!hasAttempts){
+        qText.textContent='Has alcanzado el máximo de intentos para este bloque.';
+        optsEl.innerHTML='';feedbackEl.classList.remove('show');rewardEl.classList.remove('show');
+        nextBtn.style.display='none';restartBtn.style.display='none';
+        progFill.style.width='100%';
+        return;
+      }
+      startSession();return;
+    }
+    renderQuestion();
+  }
+
+  function startSession(){
+    questions=isFinal?[...questionPools.final]:buildSelection(questionPools[id]);
+    qi=0;score=0;streak=0;localBestStreak=0;answered=0;tagErrors={};sessionActive=true;
+    gateEl.classList.remove('show');reviewEl.classList.remove('show');
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    if(qi>=questions.length){endSession();return;}
+    const q=questions[qi];
+    const pct=Math.round((qi/questions.length)*100);
+    progFill.style.width=pct+'%';
+    progText.textContent=`${qi+1}/${questions.length}`;
+    scoreEl.textContent=`${score}/${questions.length}`;
+    streakEl.textContent=streak>1?`🔥${streak}`:'';
+    ptsEl.textContent=globalState.points;
+    const cls=q.band==='b'?'basico':q.band==='m'?'medio':'alto';
+    levelTag.className=`level-tag ${cls}`;levelTag.textContent=q.level;
+    qText.textContent=q.q;
+    const idxs=[0,1,2,3];
+    const shuffled=shuffle(idxs);
+    const correctShuffled=shuffled.indexOf(0);
+    optsEl.innerHTML='';
+    shuffled.forEach((origIdx,dispIdx)=>{
+      const btn=document.createElement('button');
+      btn.className='opt-btn';btn.textContent=q.options[origIdx];
+      btn.addEventListener('click',()=>handleAnswer(dispIdx,correctShuffled,q));
+      optsEl.appendChild(btn);
+    });
+    feedbackEl.classList.remove('show','ok','fail');
+    rewardEl.classList.remove('show');
+    nextBtn.style.display='none';
+  }
+
+  function handleAnswer(chosen,correct,q){
+    const btns=optsEl.querySelectorAll('.opt-btn');
+    btns.forEach(b=>b.disabled=true);
+    btns[correct].classList.add('correct');
+    answered++;
+    if(!tagErrors[q.tag])tagErrors[q.tag]=0;
+    if(chosen===correct){
+      score++;streak++;
+      if(streak>localBestStreak)localBestStreak=streak;
+      if(streak>globalState.bestStreak)globalState.bestStreak=streak;
+      globalState.points+=q.points;
+      feedbackEl.className='feedback show ok';
+      feedbackEl.innerHTML=`✅ <strong>¡Correcto!</strong> (+${q.points} pts) ${q.explanation}`;
+      rewardEl.textContent=streak>=5?'🔥🔥🔥':streak>=3?'🌟':streak>=2?'✨':'';
+      if(streak>=2)rewardEl.classList.add('show');
+      if(q.band==='b'){
+        const r=globalState.results[id];
+        if(r)r.basicCorrect=(r.basicCorrect||0)+1;
+      }
+    } else {
+      btns[chosen].classList.add('wrong');
+      streak=0;tagErrors[q.tag]++;
+      feedbackEl.className='feedback show fail';
+      feedbackEl.innerHTML=`❌ <strong>Incorrecto.</strong> ${q.explanation}`;
+    }
+    scoreEl.textContent=`${score}/${questions.length}`;
+    streakEl.textContent=streak>1?`🔥${streak}`:'';
+    ptsEl.textContent=globalState.points;
+    nextBtn.style.display='inline-block';
+  }
+
+  function endSession(){
+    sessionActive=false;
+    const total=questions.length;
+    const finalScore=Math.round((score/total)*10);
+    const r=globalState.results[id];
+    r.attempts++;r.last=finalScore;
+    if(r.best===null||finalScore>r.best)r.best=finalScore;
+    const stars=finalScore>=9?3:finalScore>=7?2:finalScore>=5?1:0;
+    globalState.stars+=stars;
+    if(finalScore>=7&&!isFinal)globalState.completedUnits.add(id);
+    progFill.style.width='100%';progText.textContent=`${total}/${total}`;
+    scoreEl.textContent=`${score}/${total}`;
+    qText.textContent=`Resultado final: ${score}/${total} preguntas correctas (${finalScore}/10)`;
+    optsEl.innerHTML='';feedbackEl.classList.remove('show');rewardEl.classList.remove('show');
+    const passed=finalScore>=7;
+    gateEl.innerHTML=buildGateSummary(id,finalScore,passed,tagErrors);
+    gateEl.classList.add('show');
+    const reviewHtml=buildReview(id,tagErrors);
+    if(reviewHtml&&!passed){reviewEl.innerHTML=reviewHtml;reviewEl.classList.add('show');}
+    nextBtn.style.display='none';
+    restartBtn.style.display=hasAttemptsLeft(id)?'inline-block':'none';
+    saveProfile();updateGlobalPanel();updateReport();refreshAll();
+  }
+
+  nextBtn.addEventListener('click',()=>{qi++;renderQuestion();});
+  restartBtn.addEventListener('click',()=>{startSession();});
+  return{render};
+}
+
+// ── RENDERIZAR SECCIONES ──────────────────────────────────────────────
+function renderQuizSections(){
+  const container=document.getElementById('quizzes');
+  container.innerHTML='';
+  ['ud5','final'].forEach(id=>{
+    const meta=unitMeta[id];
+    const isFinal=id==='final';
+    const sec=document.createElement('section');
+    sec.className='section';sec.id=id;
+    sec.innerHTML=`
+    <div class="wrap">
+      <div class="section-head">
+        <div><h2>${meta[0]}</h2><p class="muted">${meta[1]}</p></div>
+      </div>
+      <div class="quiz-layout" id="quiz-${id}">
+        <div class="status-box">
+          <h4>${isFinal?'Prueba Final':'Progreso UD'}</h4>
+          <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
+          <div class="status-row"><span>Pregunta</span><strong class="prog-text">0/20</strong></div>
+          <div class="status-row"><span>Aciertos</span><strong class="score-el">0/20</strong></div>
+          <div class="status-row"><span>Puntos totales</span><strong class="pts-el">0</strong></div>
+          <div style="margin-top:8px"><span class="streak-badge" style="display:inline-flex"><span class="streak-el"></span></span></div>
+          <div style="margin-top:12px;font-size:12px;color:var(--muted)" id="attempts-${id}"></div>
+        </div>
+        <div class="quiz-box">
+          <div class="quiz-content">
+            <span class="level-tag basico">Básico</span>
+            <p class="question-text">Cargando pregunta…</p>
+            <div class="options"></div>
+            <div class="reward"></div>
+            <div class="feedback"></div>
+            <div class="gate-msg"></div>
+            <div class="review-box"></div>
+            <div class="nav-btns">
+              <button class="btn btn-primary btn-next" style="display:none">Siguiente →</button>
+              <button class="btn btn-secondary btn-restart" style="display:none">🔄 Nuevo intento</button>
+            </div>
+          </div>
+          <div class="locked-notice" style="display:none">
+            <div class="lock-icon">🔒</div>
+            <p></p>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    container.appendChild(sec);
+  });
+}
+
+// ── INICIALIZACIÓN ────────────────────────────────────────────────────
+let quizInstances={};
+
+function refreshAll(){
+  Object.values(quizInstances).forEach(q=>q.render());
+  unlockOrder.forEach(id=>{
+    const el=document.getElementById(`attempts-${id}`);
+    if(el)el.textContent=`Intentos: ${(globalState.results[id]?.attempts||0)}/${maxAttemptsPerBlock}`;
+  });
+}
+
+renderQuizSections();
+hydrateResults();
+['ud5','final'].forEach(id=>{
+  quizInstances[id]=createQuiz(id);
+});
+updateGlobalPanel();
+refreshAll();
+updateReport();
+</script>
+</body>
+</html>

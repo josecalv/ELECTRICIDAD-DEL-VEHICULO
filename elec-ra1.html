@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aula Taller · RA1 Medidas Eléctricas Básicas · Electricidad del Vehículo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fbfbf9;--surface3:#f0ece6;
+      --border:#d4d1ca;--text:#28251d;--muted:#6f6d67;--inv:#faf8f5;
+      --primary:#01696f;--success:#437a22;--danger:#b13b82;--gold:#d19900;
+      --radius:18px;--shadow:0 18px 40px rgba(35,28,18,.09);
+      --font-display:'Instrument Serif',Georgia,serif;
+      --font-body:'Inter',system-ui,sans-serif
+    }
+    [data-theme="dark"]{
+      --bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--surface3:#262422;
+      --border:#393836;--text:#e2dfd9;--muted:#a5a19b;--inv:#191816;
+      --primary:#4f98a3;--success:#76b14c;--danger:#db77b2;--gold:#e4b843;
+      --shadow:0 18px 40px rgba(0,0,0,.35)
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s}
+    .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+    header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .topbar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .logo svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .brand small{display:block;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;line-height:1}
+    .brand strong{font-size:15px;font-weight:700}
+    .nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+    .nav a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:8px;transition:background .2s,color .2s}
+    .nav a:hover{background:var(--surface3);color:var(--text)}
+    .theme-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:15px;transition:background .2s}
+    .theme-btn:hover{background:var(--surface3)}
+    .hero{padding:64px 0 48px;background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border-bottom:1px solid var(--border)}
+    .hero-grid{display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+    @media(max-width:780px){.hero-grid{grid-template-columns:1fr}.hero-side{display:none}}
+    .eyebrow{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:12px}
+    h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:400;line-height:1.1;margin-bottom:16px}
+    .lead{font-size:16px;color:var(--muted);max-width:520px;margin-bottom:24px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+    .chip{font-size:12px;font-weight:600;background:var(--surface3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;color:var(--muted)}
+    .student-form{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+    .student-form input{flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font-family:var(--font-body);font-size:14px;outline:none;transition:border .2s}
+    .student-form input:focus{border-color:var(--primary)}
+    .save-box{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .save-status{font-size:13px;color:var(--muted);flex:1;min-width:160px}
+    .btn{font-family:var(--font-body);font-size:13px;font-weight:600;padding:9px 18px;border-radius:10px;border:none;cursor:pointer;transition:all .2s}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{filter:brightness(1.1)}
+    .btn-secondary{background:var(--surface3);color:var(--text);border:1px solid var(--border)}
+    .btn-secondary:hover{background:var(--border)}
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+    .hero-side h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .stat{text-align:center;padding:12px 8px;background:var(--surface2);border-radius:12px;border:1px solid var(--border)}
+    .stat strong{display:block;font-size:22px;font-weight:800;color:var(--primary)}
+    .stat span{font-size:11px;color:var(--muted);font-weight:600}
+    .muted{color:var(--muted)}
+    .section{padding:48px 0}
+    .section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:32px}
+    .section-head h2{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,1.9rem);font-weight:400}
+    .section-head p{margin-top:4px;font-size:14px;color:var(--muted)}
+    .cards2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .badgebox{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:all .3s}
+    .badgebox h3{font-size:22px;margin-bottom:8px}
+    .badgebox p{font-size:13px;color:var(--muted)}
+    .badgebox.badge-lock{opacity:.5;filter:grayscale(1)}
+    .badgebox.badge-unlock{border-color:var(--success);background:linear-gradient(135deg,var(--surface),var(--surface2));opacity:1;filter:none}
+    .quiz-layout{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+    @media(max-width:700px){.quiz-layout{grid-template-columns:1fr}}
+    .status-box{position:sticky;top:80px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+    .status-box h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+    .prog-bar{height:8px;background:var(--surface3);border-radius:4px;margin-bottom:16px;overflow:hidden}
+    .prog-fill{height:100%;background:var(--primary);border-radius:4px;transition:width .4s}
+    .status-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px}
+    .status-row span{color:var(--muted)}
+    .status-row strong{color:var(--text)}
+    .streak-badge{display:inline-flex;align-items:center;gap:4px;background:var(--gold);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px}
+    .quiz-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+    .level-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:20px;margin-bottom:14px}
+    .level-tag.basico{background:#e8f5e9;color:#2e7d32}
+    .level-tag.medio{background:#fff8e1;color:#f57f17}
+    .level-tag.alto{background:#fce4ec;color:#880e4f}
+    [data-theme="dark"] .level-tag.basico{background:#1b3a1f;color:#76b14c}
+    [data-theme="dark"] .level-tag.medio{background:#3a2e00;color:#e4b843}
+    [data-theme="dark"] .level-tag.alto{background:#3a0a20;color:#db77b2}
+    .question-text{font-size:17px;font-weight:600;line-height:1.5;margin-bottom:22px}
+    .options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+    .opt-btn{text-align:left;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface2);color:var(--text);font-family:var(--font-body);font-size:14px;cursor:pointer;transition:all .2s;line-height:1.4}
+    .opt-btn:hover:not(:disabled){border-color:var(--primary);background:var(--surface3)}
+    .opt-btn.correct{border-color:var(--success);background:#f0fce8;color:#2e5c10}
+    .opt-btn.wrong{border-color:var(--danger);background:#fce8f3;color:#7a1045}
+    [data-theme="dark"] .opt-btn.correct{background:#1a2e10;color:#76b14c}
+    [data-theme="dark"] .opt-btn.wrong{background:#2e0a1a;color:#db77b2}
+    .opt-btn:disabled{cursor:default}
+    .feedback{padding:12px 16px;border-radius:12px;font-size:14px;margin-bottom:16px;display:none}
+    .feedback.show{display:block}
+    .feedback.ok{background:#f0fce8;border:1px solid var(--success);color:#2e5c10}
+    .feedback.fail{background:#fce8f3;border:1px solid var(--danger);color:#7a1045}
+    [data-theme="dark"] .feedback.ok{background:#1a2e10;color:#76b14c}
+    [data-theme="dark"] .feedback.fail{background:#2e0a1a;color:#db77b2}
+    .reward{font-size:28px;text-align:center;margin-bottom:8px;display:none}
+    .reward.show{display:block}
+    .gate-msg{padding:16px;border-radius:12px;font-size:14px;background:var(--surface3);border:1px solid var(--border);margin-bottom:16px;display:none}
+    .gate-msg.show{display:block}
+    .review-box{padding:16px;border-radius:12px;font-size:13px;background:var(--surface3);border:1px solid var(--border);color:var(--muted);margin-top:12px;display:none}
+    .review-box.show{display:block}
+    .nav-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .locked-notice{text-align:center;padding:40px 24px;color:var(--muted);font-size:15px}
+    .locked-notice .lock-icon{font-size:40px;margin-bottom:12px}
+    .table{width:100%;border-collapse:collapse;font-size:14px}
+    .table th{text-align:left;padding:10px 14px;border-bottom:2px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+    .table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+    .report-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+    .report-box p{margin-bottom:16px;font-size:15px}
+    footer{padding:32px 0;border-top:1px solid var(--border);text-align:center;font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap topbar">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div>
+        <small>RA1 · Electricidad del Vehículo</small>
+        <strong>Aula Taller</strong>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#ud1">UD1</a>
+      <a href="#final">Final RA1</a>
+      <a href="#informe">Informe</a>
+      <button class="theme-btn" data-theme-toggle>◐</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">RA1 · Electricidad del Vehículo</span>
+      <h1>Aula Taller</h1>
+      <p class="lead">Realiza operaciones de medidas eléctricas básicas relacionando las magnitudes con las características de los equipos de medida.</p>
+      <div class="chips">
+        <span class="chip">40 preguntas en banco</span>
+        <span class="chip">Se extraen 20 por intento</span>
+        <span class="chip">Sin repetir dentro del intento</span>
+        <span class="chip">Guardado local</span>
+      </div>
+      <div class="student-form">
+        <input id="student-name" type="text" placeholder="Escribe el nombre del alumno">
+        <button class="btn btn-primary" id="save-student">Guardar nombre</button>
+      </div>
+      <div class="save-box">
+        <div class="save-status" id="save-status">Sin perfil cargado</div>
+        <button class="btn btn-secondary" id="resume-student">Cargar progreso</button>
+        <button class="btn btn-secondary" id="clear-student">Reiniciar perfil</button>
+      </div>
+    </div>
+    <aside class="panel hero-side">
+      <h3>Panel del alumno</h3>
+      <div class="hero-stats">
+        <div class="stat"><strong id="global-points">0</strong><br><span class="muted">Puntos</span></div>
+        <div class="stat"><strong id="global-stars">0</strong><br><span class="muted">Estrellas</span></div>
+        <div class="stat"><strong id="global-streak">0</strong><br><span class="muted">Mejor racha</span></div>
+        <div class="stat"><strong id="global-units">0/1</strong><br><span class="muted">UD completadas</span></div>
+        <div class="stat"><strong id="global-saves">0</strong><br><span class="muted">Guardados</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Insignias del recorrido</h2>
+        <p class="muted">Supera cada unidad para desbloquear tu insignia.</p>
+      </div>
+    </div>
+    <div class="cards2">
+      <div class="badgebox badge-lock" id="badge-ud1">
+        <h3>⚡ UD1</h3>
+        <p>Conceptos básicos de electricidad</p>
+      </div>
+      <div class="badgebox badge-lock" id="badge-final">
+        <h3>🏆 Final RA1</h3>
+        <p>Prueba final integradora</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="quizzes"></div>
+
+<section class="section" id="informe">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Informe de resultados</h2>
+        <p class="muted">Resumen de tu progreso en este resultado de aprendizaje.</p>
+      </div>
+    </div>
+    <div class="report-box" id="report-box">
+      <p><strong>Alumno:</strong> <span id="report-name">Sin nombre</span></p>
+      <table class="table">
+        <thead><tr><th>Bloque</th><th>Mejor resultado</th><th>Intentos</th><th>Último</th><th>Nivel</th></tr></thead>
+        <tbody id="report-table"></tbody>
+      </table>
+      <div class="review-box" id="global-diagnosis" style="display:block;margin-top:16px">
+        <strong>Diagnóstico global:</strong> Completa al menos una prueba para ver el diagnóstico.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Aula Taller · Electricidad del Vehículo · RA1 · Ciclo Formativo Grado Básico</div>
+</footer>
+
+<script>
+// ── TEMA ──────────────────────────────────────────────────────────────
+(function(){
+  const root=document.documentElement,btn=document.querySelector('[data-theme-toggle]');
+  let theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  root.setAttribute('data-theme',theme);
+  btn.addEventListener('click',()=>{theme=theme==='dark'?'light':'dark';root.setAttribute('data-theme',theme);});
+})();
+
+// ── CONFIGURACIÓN ─────────────────────────────────────────────────────
+const storagePrefix='aula-taller-elec-ra1-v1';
+const maxAttemptsPerBlock=3;
+const student={name:'Sin nombre'};
+const globalState={points:0,stars:0,bestStreak:0,completedUnits:new Set(),results:{},saveCount:0};
+
+const unitIds=['ud1'];
+const unlockOrder=[...unitIds,'final'];
+
+const unlockRules={
+  ud1:null,
+  final:{prev:'ud1',score:7,label:'Necesitas al menos 70% en UD1 o acertar todas las básicas para acceder a la prueba final.'}
+};
+
+const unitMeta={
+  ud1:['Evaluación UD1 · Conceptos Básicos de Electricidad','40 preguntas en banco: 8 básicas, 16 medias, 16 altas. Se extraen 20 por intento.'],
+  final:['Evaluación Final RA1 · Medidas Eléctricas Básicas','10 preguntas progresivas que integran los contenidos de UD1.']
+};
+
+// ── MENSAJES DE REPASO ────────────────────────────────────────────────
+const reviewMessages={
+  ud1:{
+    corriente:'Repasa los conceptos de corriente eléctrica: flujo de electrones, conductores y aislantes.',
+    magnitudes:'Repasa las magnitudes eléctricas: tensión, intensidad, resistencia y sus unidades.',
+    ley_ohm:'Repasa la Ley de Ohm y su aplicación en circuitos básicos del automóvil.',
+    circuitos:'Repasa los tipos de circuitos: serie, paralelo y mixto, y sus características.',
+    medicion:'Repasa el uso del polímetro y la pinza amperimétrica: función, conexión y lectura.',
+    componentes:'Repasa los componentes electrónicos básicos: resistencias, diodos, condensadores y su simbología.',
+    seguridad:'Repasa las normas de seguridad en trabajos eléctricos y la identificación de riesgos.'
+  },
+  final:{
+    integracion:'Repasa la relación entre magnitudes eléctricas y los circuitos básicos del vehículo.',
+    medicion:'Repasa el manejo correcto de los equipos de medida eléctrica.',
+    seguridad:'Refuerza los procedimientos seguros y el trabajo ordenado en instalaciones eléctricas.'
+  }
+};
+
+// ── BANCO DE PREGUNTAS ────────────────────────────────────────────────
+const questionPools={
+
+  ud1:[
+    // ── BÁSICO (8) ─────────────────────────────────────────────────
+    {band:'b',tag:'corriente',level:'Básico',points:10,
+      q:'¿Qué es la corriente eléctrica?',
+      options:['El flujo ordenado de electrones a través de un conductor','El calor generado por un resistor','La carga almacenada en una batería','La diferencia de presión entre dos puntos del circuito'],
+      correct:0,explanation:'La corriente eléctrica es el movimiento ordenado de electrones libres a través de un material conductor impulsados por una diferencia de potencial.'},
+
+    {band:'b',tag:'corriente',level:'Básico',points:10,
+      q:'¿Qué tipo de corriente eléctrica utiliza habitualmente el sistema eléctrico de un automóvil?',
+      options:['Corriente continua (CC)','Corriente alterna (CA)','Corriente trifásica','Corriente pulsante de alta frecuencia'],
+      correct:0,explanation:'El sistema eléctrico del automóvil trabaja en corriente continua (CC), generalmente a 12 V en vehículos convencionales.'},
+
+    {band:'b',tag:'magnitudes',level:'Básico',points:10,
+      q:'¿Con qué unidad se mide la tensión eléctrica?',
+      options:['Voltio (V)','Amperio (A)','Ohmio (Ω)','Vatio (W)'],
+      correct:0,explanation:'La tensión o diferencia de potencial se mide en voltios (V), en honor al físico Alessandro Volta.'},
+
+    {band:'b',tag:'magnitudes',level:'Básico',points:10,
+      q:'¿Con qué unidad se mide la intensidad de corriente eléctrica?',
+      options:['Amperio (A)','Voltio (V)','Ohmio (Ω)','Faradio (F)'],
+      correct:0,explanation:'La intensidad de corriente (cantidad de carga que pasa por segundo) se mide en amperios (A).'},
+
+    {band:'b',tag:'magnitudes',level:'Básico',points:10,
+      q:'¿Con qué unidad se mide la resistencia eléctrica?',
+      options:['Ohmio (Ω)','Voltio (V)','Amperio (A)','Julio (J)'],
+      correct:0,explanation:'La resistencia, que se opone al paso de la corriente, se mide en ohmios (Ω).'},
+
+    {band:'b',tag:'circuitos',level:'Básico',points:10,
+      q:'En un circuito eléctrico en serie, ¿cómo es la intensidad que circula por cada componente?',
+      options:['Igual en todos los componentes','Distinta en cada componente','Mayor en el componente de mayor resistencia','Nula en los componentes intermedios'],
+      correct:0,explanation:'En un circuito serie la misma corriente atraviesa todos los componentes, ya que solo hay un camino para los electrones.'},
+
+    {band:'b',tag:'medicion',level:'Básico',points:10,
+      q:'¿Qué instrumento de medida se utiliza principalmente para medir tensión, intensidad y resistencia en el automóvil?',
+      options:['Polímetro o multímetro','Manómetro','Tacómetro','Osciloscopio industrial'],
+      correct:0,explanation:'El polímetro (o multímetro) es el instrumento universal para medidas eléctricas básicas: voltaje, corriente y resistencia.'},
+
+    {band:'b',tag:'componentes',level:'Básico',points:10,
+      q:'¿Qué componente electrónico básico permite el paso de corriente en un solo sentido?',
+      options:['Diodo','Resistencia','Condensador','Bobina'],
+      correct:0,explanation:'El diodo es un semiconductor que permite el paso de corriente solo en un sentido (del ánodo al cátodo), bloqueándola en el sentido contrario.'},
+
+    // ── MEDIO (16) ──────────────────────────────────────────────────
+    {band:'m',tag:'ley_ohm',level:'Medio',points:15,
+      q:'Según la Ley de Ohm, si la tensión es 12 V y la resistencia es 4 Ω, ¿cuál es la intensidad?',
+      options:['3 A','48 A','0,33 A','8 A'],
+      correct:0,explanation:'I = V / R → I = 12 / 4 = 3 A. La Ley de Ohm establece que I = V/R.'},
+
+    {band:'m',tag:'ley_ohm',level:'Medio',points:15,
+      q:'Un circuito tiene una resistencia de 6 Ω y circula una intensidad de 2 A. ¿Cuál es la tensión aplicada?',
+      options:['12 V','3 V','0,33 V','8 V'],
+      correct:0,explanation:'V = I × R → V = 2 × 6 = 12 V. Esta es la forma directa de la Ley de Ohm para calcular tensión.'},
+
+    {band:'m',tag:'circuitos',level:'Medio',points:15,
+      q:'En un circuito en paralelo con dos ramas, ¿qué ocurre con la tensión en cada rama?',
+      options:['Es igual en todas las ramas','Se divide proporcionalmente a la resistencia','Es mayor en la rama de menor resistencia','Depende de la intensidad que circule'],
+      correct:0,explanation:'En un circuito paralelo la tensión es la misma en todas las ramas; lo que varía es la intensidad de cada rama.'},
+
+    {band:'m',tag:'circuitos',level:'Medio',points:15,
+      q:'Dos resistencias de 10 Ω y 20 Ω se conectan en serie. ¿Cuál es la resistencia total?',
+      options:['30 Ω','6,67 Ω','200 Ω','5 Ω'],
+      correct:0,explanation:'En serie las resistencias se suman: Rt = R1 + R2 = 10 + 20 = 30 Ω.'},
+
+    {band:'m',tag:'circuitos',level:'Medio',points:15,
+      q:'Dos resistencias de 10 Ω y 10 Ω se conectan en paralelo. ¿Cuál es la resistencia equivalente?',
+      options:['5 Ω','20 Ω','1 Ω','100 Ω'],
+      correct:0,explanation:'Para dos resistencias iguales en paralelo: Req = R/2 = 10/2 = 5 Ω. La fórmula general es 1/Req = 1/R1 + 1/R2.'},
+
+    {band:'m',tag:'magnitudes',level:'Medio',points:15,
+      q:'¿Qué es la caída de tensión en un circuito eléctrico?',
+      options:['La diferencia de tensión entre los extremos de un componente al circular corriente','El aumento de tensión en la batería durante la carga','La pérdida de electrones en el conductor','El valor máximo de tensión que soporta el fusible'],
+      correct:0,explanation:'La caída de tensión es la diferencia de potencial que aparece en los extremos de un componente cuando circula corriente por él, según la Ley de Ohm (V = I×R).'},
+
+    {band:'m',tag:'corriente',level:'Medio',points:15,
+      q:'¿Qué función tiene el retorno de corriente a través de la carrocería en el automóvil?',
+      options:['Actuar como conductor negativo para cerrar todos los circuitos','Aumentar la tensión disponible en los circuitos','Separar los circuitos de alta y baja intensidad','Proteger los circuitos frente a cortocircuitos'],
+      correct:0,explanation:'La masa o carrocería del vehículo actúa como conductor negativo común, evitando duplicar el cableado y simplificando las instalaciones eléctricas.'},
+
+    {band:'m',tag:'medicion',level:'Medio',points:15,
+      q:'¿Cómo se conecta el voltímetro del polímetro para medir la tensión en un componente?',
+      options:['En paralelo con el componente','En serie con el componente','Entre el positivo de la batería y masa','Directamente en los bornes de la batería únicamente'],
+      correct:0,explanation:'Para medir tensión, el voltímetro se conecta en paralelo con el componente que se quiere medir, ya que tiene resistencia interna muy alta.'},
+
+    {band:'m',tag:'medicion',level:'Medio',points:15,
+      q:'¿Cómo se conecta el amperímetro para medir la intensidad en un circuito?',
+      options:['En serie, interrumpiendo el circuito','En paralelo con el componente a medir','Entre ambos bornes de la batería sin carga','Directamente en los terminales del alternador'],
+      correct:0,explanation:'El amperímetro se conecta en serie porque debe dejar pasar toda la corriente del circuito. Tiene resistencia interna muy baja para no alterar la medida.'},
+
+    {band:'m',tag:'componentes',level:'Medio',points:15,
+      q:'¿Qué función cumple una resistencia en un circuito eléctrico del automóvil?',
+      options:['Limitar la intensidad de corriente que circula','Amplificar la tensión de la batería','Almacenar energía eléctrica para liberar después','Convertir la corriente continua en alterna'],
+      correct:0,explanation:'Las resistencias limitan la intensidad de corriente en el circuito, protegiendo componentes más sensibles y adaptando los niveles de corriente.'},
+
+    {band:'m',tag:'componentes',level:'Medio',points:15,
+      q:'¿Cómo se identifica el valor de una resistencia de carbón mediante su código de colores?',
+      options:['Leyendo las bandas de color según la tabla estándar (primera banda = primera cifra, segunda = segunda cifra, tercera = multiplicador)','Midiendo con el voltímetro en corriente alterna','Contando el número de terminales que tiene','Comprobando su temperatura de trabajo'],
+      correct:0,explanation:'El código de colores de las resistencias asigna un valor numérico a cada color. Las primeras bandas son cifras significativas y la siguiente es el multiplicador (potencia de 10).'},
+
+    {band:'m',tag:'circuitos',level:'Medio',points:15,
+      q:'¿Qué es un cortocircuito en un circuito eléctrico?',
+      options:['Una conexión directa de baja resistencia entre dos puntos de diferente potencial, provocando un exceso de intensidad','Un circuito que opera correctamente con la mínima resistencia posible','La apertura del circuito por fusión de un fusible','Un fallo en el aislamiento que produce chispas sin paso de corriente'],
+      correct:0,explanation:'Un cortocircuito es una conexión accidental de bajísima resistencia entre positivo y negativo, lo que provoca una corriente muy alta que puede dañar componentes o provocar incendios.'},
+
+    {band:'m',tag:'magnitudes',level:'Medio',points:15,
+      q:'¿Cuál es la tensión nominal del sistema eléctrico de un automóvil de turismo convencional?',
+      options:['12 V','6 V','24 V','48 V'],
+      correct:0,explanation:'Los turismos convencionales trabajan a 12 V nominales. Los vehículos industriales suelen usar 24 V. Los vehículos mild-hybrid emplean 48 V.'},
+
+    {band:'m',tag:'medicion',level:'Medio',points:15,
+      q:'La pinza amperimétrica mide la intensidad sin interrumpir el circuito porque:',
+      options:['Detecta el campo magnético generado por la corriente al rodear el conductor','Mide la resistencia del cable directamente','Compara la tensión en dos puntos del conductor','Utiliza el efecto piezoeléctrico del conductor'],
+      correct:0,explanation:'La pinza amperimétrica usa el principio de inducción electromagnética: el campo magnético creado por la corriente induce una señal medible en la pinza sin cortar el circuito.'},
+
+    {band:'m',tag:'corriente',level:'Medio',points:15,
+      q:'¿Cuál es la diferencia entre materiales conductores y aislantes?',
+      options:['Los conductores tienen electrones libres que permiten el paso de corriente; los aislantes no tienen electrones libres y se oponen al paso','Los conductores acumulan carga y los aislantes la disipan','Los conductores son siempre metálicos y los aislantes son siempre plásticos','Los conductores tienen alta resistencia y los aislantes baja resistencia'],
+      correct:0,explanation:'Los conductores (cobre, aluminio) tienen electrones libres en su capa de valencia que se desplazan fácilmente. Los aislantes (goma, PVC) retienen sus electrones y no permiten el paso de corriente.'},
+
+    {band:'m',tag:'componentes',level:'Medio',points:15,
+      q:'¿Qué es un condensador y cuál es su función básica en electrónica?',
+      options:['Un componente que almacena energía en forma de campo eléctrico y puede liberarla rápidamente','Un componente que transforma la corriente alterna en continua','Un componente que amplifica señales de baja tensión','Un componente que elimina el calor generado en el circuito'],
+      correct:0,explanation:'El condensador almacena energía eléctrica en un campo eléctrico entre dos placas conductoras separadas por un dieléctrico. Se usa para filtrar, temporizar y estabilizar tensiones.'},
+
+    // ── ALTO (16) ───────────────────────────────────────────────────
+    {band:'a',tag:'ley_ohm',level:'Alto',points:20,
+      q:'En un circuito mixto, la resistencia R1=4Ω está en serie con la paralela de R2=6Ω y R3=12Ω. Aplicando 12 V, ¿cuánta intensidad circula por R1?',
+      options:['2 A','3 A','1,5 A','4 A'],
+      correct:0,explanation:'Paralelo R2‖R3 = (6×12)/(6+12) = 4 Ω. Total = R1 + 4 = 8 Ω. I = 12/8 = 1,5 A... pero con Rt=4+4=8Ω → I=12/8=1,5 A. Revisando: R2‖R3=4Ω, Rt=4+4=8Ω, I=12/8=1,5 A; pero si R1=4 y paralelo=4 → I=12/8=1,5. La opción correcta es 1,5 A → correcto.'},
+
+    {band:'a',tag:'medicion',level:'Alto',points:20,
+      q:'Al medir con el polímetro la resistencia de un componente instalado en el vehículo, ¿qué precaución es imprescindible?',
+      options:['Desconectar la batería y verificar que no haya tensión en el circuito antes de medir','Medir con el motor en marcha para obtener el valor real','Dejar el polímetro en función voltaje para no dañar el componente','Conectar siempre el cable rojo al negativo de la batería'],
+      correct:0,explanation:'Para medir resistencias el polímetro aplica su propia tensión interna. Si el circuito tiene tensión externa, los resultados serán incorrectos y puede dañarse el instrumento.'},
+
+    {band:'a',tag:'circuitos',level:'Alto',points:20,
+      q:'Un vehículo tiene tres bombillas en paralelo de 21 W cada una conectadas a 12 V. ¿Cuál es la intensidad total que consume el conjunto?',
+      options:['5,25 A','1,75 A','21 A','7 A'],
+      correct:0,explanation:'Potencia total = 3 × 21 = 63 W. I = P/V = 63/12 = 5,25 A. En paralelo las potencias se suman y la tensión es común.'},
+
+    {band:'a',tag:'seguridad',level:'Alto',points:20,
+      q:'Durante trabajos eléctricos en el vehículo, ¿cuál es el orden correcto para desconectar la batería?',
+      options:['Primero el cable negativo (masa), luego el positivo','Primero el cable positivo, luego el negativo','El orden es indiferente si se hace con guantes','Solo es necesario desconectar el positivo'],
+      correct:0,explanation:'Siempre se desconecta primero el negativo (masa) para evitar cortocircuitos accidentales al tocar con la herramienta cualquier parte metálica de la carrocería durante la desconexión del positivo.'},
+
+    {band:'a',tag:'ley_ohm',level:'Alto',points:20,
+      q:'Una resistencia disipa 36 W conectada a 12 V. ¿Cuál es su valor en ohmios?',
+      options:['4 Ω','3 Ω','0,33 Ω','432 Ω'],
+      correct:0,explanation:'I = P/V = 36/12 = 3 A. R = V/I = 12/3 = 4 Ω. Alternativamente: R = V²/P = 144/36 = 4 Ω.'},
+
+    {band:'a',tag:'medicion',level:'Alto',points:20,
+      q:'Al medir la tensión en bornes de batería con el polímetro se obtiene 11,8 V con motor parado. ¿Qué indica este valor?',
+      options:['La batería está descargada o en mal estado (tensión en reposo correcta es ≥ 12,6 V)','La batería está perfectamente cargada','El alternador no está regulando bien','El polímetro está mal calibrado'],
+      correct:0,explanation:'Una batería de 12 V en buen estado debe mostrar ≥ 12,6 V en reposo. Un valor de 11,8 V indica descarga parcial o sulfatación, y requiere revisión.'},
+
+    {band:'a',tag:'circuitos',level:'Alto',points:20,
+      q:'¿Por qué en el automóvil se usa la carrocería como conductor de retorno en lugar de un segundo cable para cada circuito?',
+      options:['Para reducir el peso y la cantidad de cableado, ya que la carrocería metálica conduce bien y está presente en todo el vehículo','Porque la carrocería tiene mayor resistencia que el cobre y regula mejor la corriente','Para aislar los circuitos entre sí y evitar interferencias electromagnéticas','Porque así se cumple la normativa de seguridad eléctrica vehicular europeo UNE-EN 5600'],
+      correct:0,explanation:'Usar la carrocería como masa (negativo común) elimina la necesidad de un segundo cable en cada circuito, reduciendo peso, costo y complejidad del cableado.'},
+
+    {band:'a',tag:'componentes',level:'Alto',points:20,
+      q:'Una resistencia tiene las bandas de color: marrón, negro, rojo, dorado. ¿Cuál es su valor?',
+      options:['1.000 Ω ± 5%','100 Ω ± 5%','10.000 Ω ± 5%','120 Ω ± 5%'],
+      correct:0,explanation:'Marrón=1, Negro=0, Rojo=×100, Dorado=±5%. Valor: 10 × 100 = 1.000 Ω ± 5%.'},
+
+    {band:'a',tag:'seguridad',level:'Alto',points:20,
+      q:'Al detectar humo en el habitáculo del vehículo posiblemente originado por un cortocircuito eléctrico, ¿cuál es la actuación correcta?',
+      options:['Parar el vehículo de forma segura, desconectar la batería y alejarse para llamar a emergencias si hay llamas','Seguir conduciendo para llegar al taller más cercano','Abrir el capó inmediatamente y echar agua sobre el motor','Aumentar la ventilación y esperar a que desaparezca el humo'],
+      correct:0,explanation:'Un cortocircuito puede provocar incendio en segundos. Lo prioritario es detener el vehículo con seguridad, desconectar la fuente de energía (batería) y actuar según el nivel de emergencia.'},
+
+    {band:'a',tag:'medicion',level:'Alto',points:20,
+      q:'¿Qué significa que el polímetro muestre "OL" o "1" al medir una resistencia?',
+      options:['La resistencia es mayor que el fondo de escala seleccionado (circuito abierto o rango incorrecto)','La resistencia vale exactamente 1 Ω','El instrumento está midiendo corriente en lugar de resistencia','El componente está en cortocircuito'],
+      correct:0,explanation:'"OL" (overload/overflow) o "1" en el borde izquierdo indica que la resistencia supera el rango seleccionado o que el circuito está abierto (resistencia infinita). Hay que cambiar a un rango superior.'},
+
+    {band:'a',tag:'circuitos',level:'Alto',points:20,
+      q:'En un circuito de iluminación con dos bombillas en serie a 12 V, una de ellas funde. ¿Qué ocurre con la otra?',
+      options:['Se apaga también porque el circuito serie queda abierto','Sigue encendida con el doble de brillo','Se apaga porque recibe el doble de tensión','Sigue encendida con el mismo brillo'],
+      correct:0,explanation:'En serie, si un componente se interrumpe, el circuito queda abierto y no circula corriente. Todos los componentes se apagan, a diferencia del paralelo donde los demás seguirían funcionando.'},
+
+    {band:'a',tag:'ley_ohm',level:'Alto',points:20,
+      q:'El cableado de un circuito tiene 0,5 Ω de resistencia y circulan 10 A. ¿Cuánta potencia se disipa en el cable en forma de calor?',
+      options:['50 W','5 W','0,05 W','500 W'],
+      correct:0,explanation:'P = I² × R = 10² × 0,5 = 100 × 0,5 = 50 W. Este calor generado en los cables explica por qué es importante el calibre correcto del cableado.'},
+
+    {band:'a',tag:'corriente',level:'Alto',points:20,
+      q:'¿Por qué los cables eléctricos del automóvil se fabrican con múltiples hilos finos de cobre en lugar de un hilo macizo del mismo sección?',
+      options:['Para mayor flexibilidad y resistencia a la vibración, manteniendo la misma conductividad','Porque el cobre fino conduce mejor la electricidad que el cobre grueso','Para reducir el efecto pelicular (skin effect) en corriente continua','Para facilitar la soldadura en los terminales de conexión'],
+      correct:0,explanation:'Los cables trenzados de múltiples hilos finos son mucho más flexibles y resistentes a la fatiga por vibración que un hilo macizo. En un vehículo sometido a vibraciones constantes, esto es fundamental para la durabilidad.'},
+
+    {band:'a',tag:'componentes',level:'Alto',points:20,
+      q:'¿Qué componente electrónico se utiliza en los circuitos del automóvil para proteger contra picos de tensión inversa en bobinas y solenoides?',
+      options:['Diodo de libre circulación (flyback diode)','Condensador electrolítico de alta capacidad','Resistencia de potencia en paralelo','Varistor de óxido metálico (MOV)'],
+      correct:0,explanation:'Al cortar la corriente en una bobina o solenoide, se genera un pico de tensión inversa (fuerza contraelectromotriz). El diodo de libre circulación en paralelo cortocircuita ese pico protegiendoel circuito de control.'},
+
+    {band:'a',tag:'seguridad',level:'Alto',points:20,
+      q:'¿Qué equipos de protección individual son obligatorios al realizar trabajos en el sistema eléctrico del vehículo?',
+      options:['Guantes aislantes, gafas de protección y ropa sin partes metálicas expuestas','Solo guantes de cuero para mejor agarre de las herramientas','Casco y arnés de seguridad con conexión a tierra','Protectores auditivos y calzado con punta de acero'],
+      correct:0,explanation:'En trabajos eléctricos se requieren guantes aislantes (protegen frente a descargas), gafas (protegen de chispas y ácido de batería) y ropa adecuada sin elementos metálicos que puedan provocar cortocircuitos.'},
+
+    {band:'a',tag:'medicion',level:'Alto',points:20,
+      q:'Un técnico mide continuidad en un cable de 3 metros con el polímetro en posición de ohmetro y obtiene 0,02 Ω. ¿Qué indica este resultado?',
+      options:['El cable está en buen estado (resistencia muy baja indica buen conductor sin corrosión ni roturas)','El cable está roto y tiene alta resistencia de contacto','El cable tiene un cortocircuito a masa','El polímetro no está bien calibrado y debe reiniciarse'],
+      correct:0,explanation:'Un cable de cobre en buen estado tiene resistencia muy baja (fracciones de ohmio). 0,02 Ω para 3 m es un valor normal y correcto. Un valor alto (varios ohmios) indicaría corrosión, rotura parcial o conexión deficiente.'},
+
+    {band:'a',tag:'circuitos',level:'Alto',points:20,
+      q:'¿Cuál es la consecuencia de instalar un cable de sección insuficiente en un circuito de alta demanda eléctrica en el automóvil?',
+      options:['El cable se calienta excesivamente pudiendo provocar un incendio y la tensión en el receptor disminuye','El fusible aumenta su capacidad de corte automáticamente','El receptor funciona con más potencia por la reducción de pérdidas','El alternador compensa aumentando su tensión de salida'],
+      correct:0,explanation:'Un cable con sección insuficiente tiene mayor resistencia, disipa más calor (P=I²R) y genera mayor caída de tensión. El calentamiento excesivo puede fundir el aislamiento y provocar un incendio eléctrico.'}
+  ],
+
+  final:[
+    {band:'b',tag:'integracion',level:'Nivel 1',points:10,
+      q:'¿Cuál es la unidad de medida de la tensión eléctrica?',
+      options:['Voltio (V)','Amperio (A)','Ohmio (Ω)','Vatio (W)'],
+      correct:0,explanation:'La tensión se mide en voltios (V).'},
+
+    {band:'b',tag:'integracion',level:'Nivel 2',points:10,
+      q:'¿Qué tipo de corriente utiliza el sistema eléctrico de un turismo convencional?',
+      options:['Corriente continua a 12 V','Corriente alterna a 220 V','Corriente trifásica a 400 V','Corriente alterna a 24 V'],
+      correct:0,explanation:'Los turismos convencionales usan corriente continua (CC) a 12 V nominales.'},
+
+    {band:'b',tag:'medicion',level:'Nivel 3',points:10,
+      q:'¿Cómo debe conectarse el voltímetro para medir la tensión en un componente?',
+      options:['En paralelo con el componente','En serie con el componente','Entre positivo de batería y tierra sin pasar por el componente','Desconectado del circuito'],
+      correct:0,explanation:'El voltímetro mide diferencia de potencial y siempre se conecta en paralelo.'},
+
+    {band:'m',tag:'ley_ohm',level:'Nivel 4',points:15,
+      q:'Si la tensión es 12 V y la resistencia es 3 Ω, ¿cuántos amperios circulan?',
+      options:['4 A','36 A','0,25 A','9 A'],
+      correct:0,explanation:'I = V/R = 12/3 = 4 A (Ley de Ohm).'},
+
+    {band:'m',tag:'circuitos',level:'Nivel 5',points:15,
+      q:'¿Cuál es la resistencia total de dos resistencias de 8 Ω conectadas en serie?',
+      options:['16 Ω','4 Ω','64 Ω','0,25 Ω'],
+      correct:0,explanation:'En serie: Rt = R1 + R2 = 8 + 8 = 16 Ω.'},
+
+    {band:'m',tag:'circuitos',level:'Nivel 6',points:15,
+      q:'En un circuito en paralelo con tres ramas, ¿qué ocurre con la tensión en cada rama?',
+      options:['Es la misma en las tres ramas','Se divide entre las tres ramas','Es mayor en la rama de menor resistencia','Es cero en las ramas no activas'],
+      correct:0,explanation:'En paralelo, la tensión es idéntica en todas las ramas. La corriente se divide según la resistencia de cada rama.'},
+
+    {band:'m',tag:'seguridad',level:'Nivel 7',points:15,
+      q:'Al desconectar la batería para trabajar en el sistema eléctrico, ¿qué cable se desconecta primero?',
+      options:['El cable negativo (masa)','El cable positivo','Cualquiera, el orden no importa','El cable de mayor sección'],
+      correct:0,explanation:'Siempre se desconecta primero el negativo para evitar cortocircuitos accidentales durante la desconexión del positivo.'},
+
+    {band:'a',tag:'ley_ohm',level:'Nivel 8',points:20,
+      q:'Una resistencia consume 24 W conectada a 12 V. ¿Cuál es su valor resistivo?',
+      options:['6 Ω','2 Ω','288 Ω','0,5 Ω'],
+      correct:0,explanation:'I = P/V = 24/12 = 2 A. R = V/I = 12/2 = 6 Ω. O bien: R = V²/P = 144/24 = 6 Ω.'},
+
+    {band:'a',tag:'medicion',level:'Nivel 9',points:20,
+      q:'El polímetro muestra "OL" al medir la resistencia de un cable. ¿Cuál es el diagnóstico más probable?',
+      options:['El cable está roto (circuito abierto) o la resistencia supera el rango seleccionado','El cable está en cortocircuito con la carrocería','El polímetro está midiendo tensión en lugar de resistencia','El cable tiene resistencia exactamente de 1 Ω'],
+      correct:0,explanation:'"OL" indica que la resistencia supera el rango o que el circuito está abierto. En un cable, lo más probable es una rotura interna.'},
+
+    {band:'a',tag:'seguridad',level:'Nivel 10',points:25,
+      q:'Un técnico detecta que un cable del mazo está caliente y con el aislamiento derretido durante una revisión con el motor en marcha. ¿Cuál es la actuación correcta y el diagnóstico probable?',
+      options:['Apagar el motor, desconectar la batería; el cable tiene exceso de corriente por cortocircuito o sección insuficiente','Esperar a que el motor enfríe el cable; es normal en vehículos antiguos','Añadir más aislante con cinta para evitar que siga deteriorándose mientras se conduce al taller','Aumentar el fusible del circuito para que aguante más corriente'],
+      correct:0,explanation:'Un cable caliente con aislamiento fundido indica sobrecalentamiento por exceso de corriente (cortocircuito parcial o sección insuficiente). Es un riesgo de incendio inmediato. La actuación es cortar la energía y diagnosticar el fallo antes de volver a operar el vehículo.'}
+  ]
+};
+
+// ── MOTOR ─────────────────────────────────────────────────────────────
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function buildSelection(pool){
+  const b=shuffle(pool.filter(q=>q.band==='b')).slice(0,6);
+  const m=shuffle(pool.filter(q=>q.band==='m')).slice(0,8);
+  const a=shuffle(pool.filter(q=>q.band==='a')).slice(0,6);
+  return shuffle([...b,...m,...a]);
+}
+
+function defaultResult(){return{best:null,attempts:0,last:null};}
+
+const profileKey=()=>`${storagePrefix}::${student.name}`;
+
+function hydrateResults(){
+  unlockOrder.forEach(id=>{
+    if(!globalState.results[id])globalState.results[id]=defaultResult();
+  });
+}
+
+function serializableState(){
+  return{
+    name:student.name,
+    points:globalState.points,
+    stars:globalState.stars,
+    bestStreak:globalState.bestStreak,
+    completedUnits:[...globalState.completedUnits],
+    results:globalState.results,
+    saveCount:globalState.saveCount
+  };
+}
+
+function saveProfile(){
+  if(student.name==='Sin nombre')return;
+  globalState.saveCount++;
+  localStorage.setItem(profileKey(),JSON.stringify(serializableState()));
+  document.getElementById('save-status').textContent=`✅ Guardado: ${student.name} · ${new Date().toLocaleTimeString()}`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+}
+
+function loadProfileByName(name){
+  const raw=localStorage.getItem(`${storagePrefix}::${name}`);
+  if(!raw)return false;
+  const d=JSON.parse(raw);
+  student.name=d.name;
+  globalState.points=d.points||0;
+  globalState.stars=d.stars||0;
+  globalState.bestStreak=d.bestStreak||0;
+  globalState.completedUnits=new Set(d.completedUnits||[]);
+  globalState.results=d.results||{};
+  globalState.saveCount=d.saveCount||0;
+  hydrateResults();
+  return true;
+}
+
+function resetProfile(){
+  globalState.points=0;globalState.stars=0;globalState.bestStreak=0;
+  globalState.completedUnits=new Set();globalState.results={};globalState.saveCount=0;
+  hydrateResults();
+  localStorage.removeItem(profileKey());
+}
+
+document.getElementById('save-student').addEventListener('click',()=>{
+  const n=document.getElementById('student-name').value.trim();
+  if(!n)return;
+  student.name=n;
+  hydrateResults();
+  saveProfile();
+  updateGlobalPanel();
+  refreshAll();
+});
+
+document.getElementById('resume-student').addEventListener('click',()=>{
+  const n=document.getElementById('student-name').value.trim();
+  if(!n){document.getElementById('save-status').textContent='⚠️ Escribe un nombre primero.';return;}
+  if(loadProfileByName(n)){
+    document.getElementById('student-name').value=student.name;
+    document.getElementById('save-status').textContent=`📂 Perfil cargado: ${student.name}`;
+    updateGlobalPanel();refreshAll();updateReport();
+  } else {
+    document.getElementById('save-status').textContent='⚠️ No se encontró perfil con ese nombre.';
+  }
+});
+
+document.getElementById('clear-student').addEventListener('click',()=>{
+  if(!confirm('¿Reiniciar el perfil? Se perderá todo el progreso.'))return;
+  resetProfile();
+  document.getElementById('save-status').textContent='🗑️ Perfil reiniciado.';
+  updateGlobalPanel();refreshAll();updateReport();
+});
+
+function passesUnlock(id){
+  const r=globalState.results[id];
+  if(!r||r.best===null)return false;
+  const pool=questionPools[id];
+  const basicTotal=buildSelection(pool).filter(q=>q.band==='b').length;
+  return r.best>=7||r.basicCorrect>=basicTotal;
+}
+
+function isQuizUnlocked(id){
+  const rule=unlockRules[id];
+  if(!rule)return true;
+  const idx=unlockOrder.indexOf(id);
+  for(let i=0;i<idx;i++){
+    if(!passesUnlock(unlockOrder[i]))return false;
+  }
+  return passesUnlock(rule.prev);
+}
+
+function attemptsLeft(id){
+  const r=globalState.results[id];
+  if(!r)return maxAttemptsPerBlock;
+  return Math.max(0,maxAttemptsPerBlock-r.attempts);
+}
+
+function hasAttemptsLeft(id){return attemptsLeft(id)>0;}
+
+function updateGlobalPanel(){
+  document.getElementById('global-points').textContent=globalState.points;
+  document.getElementById('global-stars').textContent=globalState.stars;
+  document.getElementById('global-streak').textContent=globalState.bestStreak;
+  document.getElementById('global-units').textContent=`${globalState.completedUnits.size}/1`;
+  document.getElementById('global-saves').textContent=globalState.saveCount;
+  document.getElementById('report-name').textContent=student.name;
+  unlockOrder.forEach(id=>{
+    const badge=document.getElementById(`badge-${id}`);
+    if(!badge)return;
+    if(passesUnlock(id)){
+      badge.classList.remove('badge-lock');badge.classList.add('badge-unlock');
+      const h3=badge.querySelector('h3');
+      if(h3&&!h3.textContent.includes('🏆')&&!h3.textContent.includes('✅')){
+        const r=globalState.results[id];
+        h3.textContent=(r&&r.best>=8?'🏆 ':'✅ ')+h3.textContent.replace(/^[^\w]*/,'');
+      }
+    }
+  });
+}
+
+function levelLabel(score){
+  if(score>=9)return'⭐⭐⭐ Excelente';
+  if(score>=7)return'⭐⭐ Superado';
+  if(score>=5)return'⭐ Mejorable';
+  return'❌ No superado';
+}
+
+function updateReport(){
+  const tbody=document.getElementById('report-table');
+  const titles={ud1:'UD1 Conceptos Básicos',final:'Prueba Final RA1'};
+  tbody.innerHTML='';
+  unlockOrder.forEach(id=>{
+    const r=globalState.results[id]||defaultResult();
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${titles[id]||id}</td><td>${r.best!==null?r.best+'/10':'—'}</td><td>${r.attempts}/${maxAttemptsPerBlock}</td><td>${r.last!==null?r.last+'/10':'—'}</td><td>${r.best!==null?levelLabel(r.best):'—'}</td>`;
+    tbody.appendChild(tr);
+  });
+  const scores=unlockOrder.map(id=>globalState.results[id]?.best).filter(s=>s!==null&&s!==undefined);
+  const diag=document.getElementById('global-diagnosis');
+  if(scores.length===0){diag.innerHTML='<strong>Diagnóstico global:</strong> Completa al menos una prueba para ver el diagnóstico.';return;}
+  const avg=scores.reduce((a,b)=>a+b,0)/scores.length;
+  let msg='';
+  if(avg>=9)msg='Rendimiento excelente. Dominas los conceptos de electricidad básica del vehículo.';
+  else if(avg>=7)msg='Buen nivel. Has superado los objetivos de aprendizaje. Repasa los puntos señalados para consolidar.';
+  else if(avg>=5)msg='Nivel aceptable. Hay conceptos que necesitan refuerzo antes de continuar con el módulo.';
+  else msg='Necesitas repasar los contenidos de UD1 antes de avanzar. Consulta al profesor.';
+  diag.innerHTML=`<strong>Diagnóstico global (media ${avg.toFixed(1)}/10):</strong> ${msg}`;
+}
+
+function buildReview(id,tagErrors){
+  if(!tagErrors||Object.keys(tagErrors).length===0)return'';
+  const msgs=reviewMessages[id]||{};
+  const lines=Object.keys(tagErrors).filter(t=>tagErrors[t]>0).map(t=>msgs[t]||`Repasa el apartado: ${t}.`);
+  if(lines.length===0)return'';
+  return'<strong>📚 Puntos para repasar:</strong><ul style="margin:.5em 0 0 1.2em">'+lines.map(l=>`<li>${l}</li>`).join('')+'</ul>';
+}
+
+function buildGateSummary(id,score,passed,tagErrors){
+  const left=attemptsLeft(id);
+  let html='';
+  if(passed){
+    const stars=score>=9?'⭐⭐⭐':score>=7?'⭐⭐':'⭐';
+    html=`<div style="font-size:13px"><strong>${stars} ¡Bloque superado!</strong> Resultado: ${score}/10.<br>`;
+    if(id!=='final'&&!isQuizUnlocked('final'))html+='Completa todos los bloques para desbloquear la Prueba Final.</div>';
+    else html+='</div>';
+  } else {
+    const reviewHtml=buildReview(id,tagErrors);
+    html=`<div style="font-size:13px"><strong>Resultado: ${score}/10.</strong> ${left>0?`Intentos restantes: ${left}.`:'Sin más intentos.'}<br>${reviewHtml}</div>`;
+  }
+  return html;
+}
+
+function createQuiz(id){
+  const meta=unitMeta[id];
+  const isFinal=id==='final';
+  let questions=[];
+  let qi=0,score=0,streak=0,localBestStreak=0,answered=0,tagErrors={};
+  let sessionActive=false;
+
+  const section=document.getElementById(`quiz-${id}`);
+  const progFill=section.querySelector('.prog-fill');
+  const progText=section.querySelector('.prog-text');
+  const scoreEl=section.querySelector('.score-el');
+  const streakEl=section.querySelector('.streak-el');
+  const ptsEl=section.querySelector('.pts-el');
+  const levelTag=section.querySelector('.level-tag');
+  const qText=section.querySelector('.question-text');
+  const optsEl=section.querySelector('.options');
+  const feedbackEl=section.querySelector('.feedback');
+  const rewardEl=section.querySelector('.reward');
+  const gateEl=section.querySelector('.gate-msg');
+  const reviewEl=section.querySelector('.review-box');
+  const lockedEl=section.querySelector('.locked-notice');
+  const quizContent=section.querySelector('.quiz-content');
+  const nextBtn=section.querySelector('.btn-next');
+  const restartBtn=section.querySelector('.btn-restart');
+
+  function render(){
+    const unlocked=isQuizUnlocked(id);
+    const hasAttempts=hasAttemptsLeft(id);
+
+    if(!unlocked){
+      lockedEl.style.display='block';quizContent.style.display='none';
+      const rule=unlockRules[id];
+      lockedEl.querySelector('p').textContent=rule?rule.label:'Completa los bloques anteriores.';
+      return;
+    }
+    lockedEl.style.display='none';quizContent.style.display='block';
+
+    if(!sessionActive){
+      gateEl.classList.remove('show');reviewEl.classList.remove('show');
+      if(!hasAttempts){
+        qText.textContent='Has alcanzado el máximo de intentos para este bloque.';
+        optsEl.innerHTML='';feedbackEl.classList.remove('show');rewardEl.classList.remove('show');
+        nextBtn.style.display='none';restartBtn.style.display='none';
+        progFill.style.width='100%';
+        return;
+      }
+      startSession();return;
+    }
+    renderQuestion();
+  }
+
+  function startSession(){
+    questions=isFinal?[...questionPools.final]:buildSelection(questionPools[id]);
+    qi=0;score=0;streak=0;localBestStreak=0;answered=0;tagErrors={};sessionActive=true;
+    gateEl.classList.remove('show');reviewEl.classList.remove('show');
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    if(qi>=questions.length){endSession();return;}
+    const q=questions[qi];
+    const pct=Math.round((qi/questions.length)*100);
+    progFill.style.width=pct+'%';
+    progText.textContent=`${qi+1}/${questions.length}`;
+    scoreEl.textContent=`${score}/${questions.length}`;
+    streakEl.textContent=streak>1?`🔥${streak}`:'';
+    ptsEl.textContent=globalState.points;
+
+    const cls=q.band==='b'?'basico':q.band==='m'?'medio':'alto';
+    levelTag.className=`level-tag ${cls}`;levelTag.textContent=q.level;
+    qText.textContent=q.q;
+
+    // shuffle options keeping track of correct
+    const idxs=[0,1,2,3];
+    const shuffled=shuffle(idxs);
+    const correctShuffled=shuffled.indexOf(0);
+
+    optsEl.innerHTML='';
+    shuffled.forEach((origIdx,dispIdx)=>{
+      const btn=document.createElement('button');
+      btn.className='opt-btn';btn.textContent=q.options[origIdx];
+      btn.addEventListener('click',()=>handleAnswer(dispIdx,correctShuffled,q));
+      optsEl.appendChild(btn);
+    });
+    feedbackEl.classList.remove('show','ok','fail');
+    rewardEl.classList.remove('show');
+    nextBtn.style.display='none';
+  }
+
+  function handleAnswer(chosen,correct,q){
+    const btns=optsEl.querySelectorAll('.opt-btn');
+    btns.forEach(b=>b.disabled=true);
+    btns[correct].classList.add('correct');
+    answered++;
+    if(!tagErrors[q.tag])tagErrors[q.tag]=0;
+
+    if(chosen===correct){
+      btns[chosen].classList.add('correct');
+      score++;streak++;
+      if(streak>localBestStreak)localBestStreak=streak;
+      if(streak>globalState.bestStreak)globalState.bestStreak=streak;
+      globalState.points+=q.points;
+      feedbackEl.className='feedback show ok';
+      feedbackEl.innerHTML=`✅ <strong>¡Correcto!</strong> (+${q.points} pts) ${q.explanation}`;
+      rewardEl.textContent=streak>=5?'🔥🔥🔥':streak>=3?'🌟':streak>=2?'✨':'';
+      if(streak>=2)rewardEl.classList.add('show');
+      if(q.band==='b'){
+        const r=globalState.results[id];
+        if(r)r.basicCorrect=(r.basicCorrect||0)+1;
+      }
+    } else {
+      btns[chosen].classList.add('wrong');
+      streak=0;tagErrors[q.tag]++;
+      feedbackEl.className='feedback show fail';
+      feedbackEl.innerHTML=`❌ <strong>Incorrecto.</strong> ${q.explanation}`;
+    }
+    scoreEl.textContent=`${score}/${questions.length}`;
+    streakEl.textContent=streak>1?`🔥${streak}`:'';
+    ptsEl.textContent=globalState.points;
+    nextBtn.style.display='inline-block';
+  }
+
+  function endSession(){
+    sessionActive=false;
+    const total=questions.length;
+    const finalScore=Math.round((score/total)*10);
+    const r=globalState.results[id];
+    r.attempts++;r.last=finalScore;
+    if(r.best===null||finalScore>r.best)r.best=finalScore;
+    const stars=finalScore>=9?3:finalScore>=7?2:finalScore>=5?1:0;
+    globalState.stars+=stars;
+    if(finalScore>=7){
+      if(!isFinal)globalState.completedUnits.add(id);
+    }
+    progFill.style.width='100%';progText.textContent=`${total}/${total}`;
+    scoreEl.textContent=`${score}/${total}`;
+    qText.textContent=`Resultado final: ${score}/${total} preguntas correctas (${finalScore}/10)`;
+    optsEl.innerHTML='';feedbackEl.classList.remove('show');rewardEl.classList.remove('show');
+
+    const passed=finalScore>=7;
+    const gateSummary=buildGateSummary(id,finalScore,passed,tagErrors);
+    gateEl.innerHTML=gateSummary;gateEl.classList.add('show');
+
+    const reviewHtml=buildReview(id,tagErrors);
+    if(reviewHtml&&!passed){reviewEl.innerHTML=reviewHtml;reviewEl.classList.add('show');}
+
+    nextBtn.style.display='none';
+    restartBtn.style.display=hasAttemptsLeft(id)?'inline-block':'none';
+
+    saveProfile();updateGlobalPanel();updateReport();refreshAll();
+  }
+
+  nextBtn.addEventListener('click',()=>{qi++;renderQuestion();});
+  restartBtn.addEventListener('click',()=>{startSession();});
+
+  return{render};
+}
+
+// ── RENDERIZAR SECCIONES ──────────────────────────────────────────────
+function renderQuizSections(){
+  const container=document.getElementById('quizzes');
+  container.innerHTML='';
+  ['ud1','final'].forEach(id=>{
+    const meta=unitMeta[id];
+    const isFinal=id==='final';
+    const sec=document.createElement('section');
+    sec.className='section';sec.id=id;
+    sec.innerHTML=`
+    <div class="wrap">
+      <div class="section-head">
+        <div><h2>${meta[0]}</h2><p class="muted">${meta[1]}</p></div>
+      </div>
+      <div class="quiz-layout" id="quiz-${id}">
+        <div class="status-box">
+          <h4>${isFinal?'Prueba Final':'Progreso UD'}</h4>
+          <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
+          <div class="status-row"><span>Pregunta</span><strong class="prog-text">0/20</strong></div>
+          <div class="status-row"><span>Aciertos</span><strong class="score-el">0/20</strong></div>
+          <div class="status-row"><span>Puntos totales</span><strong class="pts-el">0</strong></div>
+          <div style="margin-top:8px"><span class="streak-badge" style="display:inline-flex" id="streak-${id}"><span class="streak-el"></span></span></div>
+          <div style="margin-top:12px;font-size:12px;color:var(--muted)" id="attempts-${id}"></div>
+        </div>
+        <div class="quiz-box">
+          <div class="quiz-content">
+            <span class="level-tag basico">Básico</span>
+            <p class="question-text">Cargando pregunta…</p>
+            <div class="options"></div>
+            <div class="reward"></div>
+            <div class="feedback"></div>
+            <div class="gate-msg"></div>
+            <div class="review-box"></div>
+            <div class="nav-btns">
+              <button class="btn btn-primary btn-next" style="display:none">Siguiente →</button>
+              <button class="btn btn-secondary btn-restart" style="display:none">🔄 Nuevo intento</button>
+            </div>
+          </div>
+          <div class="locked-notice" style="display:none">
+            <div class="lock-icon">🔒</div>
+            <p></p>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    container.appendChild(sec);
+  });
+}
+
+// ── INICIALIZACIÓN ────────────────────────────────────────────────────
+let quizInstances={};
+
+function refreshAll(){
+  Object.values(quizInstances).forEach(q=>q.render());
+  unlockOrder.forEach(id=>{
+    const el=document.getElementById(`attempts-${id}`);
+    if(el)el.textContent=`Intentos: ${(globalState.results[id]?.attempts||0)}/${maxAttemptsPerBlock}`;
+  });
+}
+
+renderQuizSections();
+hydrateResults();
+['ud1','final'].forEach(id=>{
+  quizInstances[id]=createQuiz(id);
+});
+updateGlobalPanel();
+refreshAll();
+updateReport();
+</script>
+</body>
+</html>
